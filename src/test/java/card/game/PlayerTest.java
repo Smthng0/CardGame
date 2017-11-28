@@ -17,7 +17,6 @@ public class PlayerTest {
 
         assertTrue(player.getNumberOfCards() == 3);
         assertTrue(player.getBoard().getNumberOfMinions() == 0);
-        assertTrue(player.getDeck().getRemainingCards() == 27);
     }
 
     @Test
@@ -46,7 +45,6 @@ public class PlayerTest {
         assertTrue(player.getHealth() == 23);
         assertTrue(minion.getHealth() == 5);
         assertTrue(player.hasWeapon());
-        assertTrue(player.getBoard().getGraveyard().size() == 0);
 
         player.setRemainingAttacks(player.getMaxAttacks());
         player.attack(minion);
@@ -54,7 +52,6 @@ public class PlayerTest {
         assertTrue(player.getHealth() == 16);
         assertTrue(minion.getHealth() == -4);
         assertFalse(player.hasWeapon());
-        assertTrue(player.getBoard().getGraveyard().size() == 1);
     }
     @Test
     public void twoBoard_test_OK() {

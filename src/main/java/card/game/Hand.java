@@ -50,7 +50,6 @@ public class Hand {
         if (hasCards()
                 &&backingHand.remove(card)){
             numberOfCards--;
-            board.addToGraveyard(card);
         } else {
             System.out.println("Doesn't have that card!");
         }
@@ -59,7 +58,7 @@ public class Hand {
     public void discardCard(int index) {
         if (hasCards()){
             numberOfCards--;
-            board.addToGraveyard(backingHand.remove(index));
+            backingHand.remove(index);
         } else {
             System.out.println("No more cards!");
         }

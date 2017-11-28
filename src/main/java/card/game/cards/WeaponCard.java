@@ -59,13 +59,6 @@ public class WeaponCard implements HearthstoneCard {
     }
 
     @Override
-    public void goToGraveyard() {
-
-
-        Engine.getFriendlyPlayer().goToGraveyard(this);
-    }
-
-    @Override
     public boolean hasAbility() {
         return abilities.size() > 0;
     }

@@ -43,7 +43,6 @@ public class Player implements Attackable {
                     weapon.setDurability(weapon.getDurability()-1);
 
                     if (weapon.getDurability() == 0) {
-                        board.addToGraveyard(weapon);
                         weapon = null;
                         remainingAttacks = 0;
                         System.out.println("Weapon used up!");
@@ -82,17 +81,9 @@ public class Player implements Attackable {
         }
     }
 
-    public void goToGraveyard(HearthstoneCard card){
-        board.addToGraveyard(card);
-        if (card instanceof MinionCard) {
-            board.removeMinion(card.getTitle());
-        }
-    }
-
     public void goToGraveyard(int index){
         if ((index < board.getNumberOfMinions())
                 && (index >= 0)) {
-            board.addToGraveyard(board.getMinion(index));
             board.removeMinion(index);
         }
     }
@@ -253,20 +244,12 @@ public class Player implements Attackable {
         return hand.getLimit();
     }
 
-    public Board getBoard() {
-        return this.board;
-    }
-
-    public MinionCard getMinion(String title){
-        return board.getMinion(title);
-    }
-
     public MinionCard getMinion(int index){
         return board.getMinion(index);
     }
 
     public void viewBoard() {
-        board.viewBoard();
+        board.printBoard();
     }
 
 }
