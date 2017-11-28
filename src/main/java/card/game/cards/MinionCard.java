@@ -36,15 +36,15 @@ public class MinionCard implements HearthstoneCard, Attackable {
 
     @Override
     public void play() {
-        maxAttacks = 1;
-        remainingAttacks = 0;
+        this.maxAttacks = 1;
+        this.remainingAttacks = 0;
 
         if (getAbility("Windfury") != null){
-            maxAttacks = 2;
+            this.maxAttacks = 2;
         }
 
         if (getAbility("Charge") != null){
-            remainingAttacks = maxAttacks;
+            this.remainingAttacks = this.maxAttacks;
         }
     }
 
@@ -53,11 +53,11 @@ public class MinionCard implements HearthstoneCard, Attackable {
         if (target == null) {
             System.out.println("No target!");
         } else {
-            while (remainingAttacks > 0) {
+            if (remainingAttacks > 0) {
                 target.defend(this);
 
                 if (target instanceof MinionCard) {
-                    this.takeDamage(target.getAttack());
+                    this.defend(target);
                 }
 
                 this.remainingAttacks--;

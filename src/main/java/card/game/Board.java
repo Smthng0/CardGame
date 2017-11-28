@@ -1,9 +1,12 @@
 package card.game;
 
+import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Board {
@@ -71,21 +74,32 @@ public class Board {
         if  (isEmpty()) {
             System.out.println("Board empty!");
         } else {
-            for (MinionCard minion : getAllMinions()) {
-                System.out.println(backingBoard.indexOf(minion) + ". "
+            for (int index = 0; index < getAllMinions().size(); index++) {
+                sortByRemainingAttack();
+                MinionCard minion = backingBoard.get(index);
+                System.out.print(index + ". "
                         + minion.getTitle()
                         + ", Attack: " + minion.getAttack()
-                        + ", Health: " + minion.getHealth()
-                        + ", Remaining attacks: " + minion.getRemainingAttacks());
-
+                        + ", Health: " + minion.getHealth());
+                if (minion.hasAbility()) {
+                    printAbilities(minion.getAbilities());
+                }
+                System.out.println(", Remaining attacks: "
+                        + minion.getRemainingAttacks());
             }
             System.out.println();
         }
     }
 
-    public void returnToHand(HearthstoneCard card){
-        Engine.getFriendlyPlayer().addCard(card);
-        card = null;
+    private void printAbilities(List<Ability> list) {
+        for (Ability ability : list) {
+            System.out.print(", " + ability.getAbilityType());
+        }
+    }
+
+    private void sortByRemainingAttack() {
+        backingBoard.sort(Comparator.comparing(MinionCard::getRemainingAttacks));
+        Collections.reverse(backingBoard);
     }
 
     private boolean isFull() {

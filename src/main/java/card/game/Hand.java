@@ -1,10 +1,12 @@
 package card.game;
 
+import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 import card.game.cards.SpellCard;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Hand {
@@ -82,9 +84,16 @@ public class Hand {
 
     public int playCard(int index) {
         if (backingHand.size() > index){
-            int mana = backingHand.get(index).getManaCost();
-            playCard(backingHand.get(index));
-            return mana;
+            HearthstoneCard card = backingHand.get(index);
+            card.play();
+            backingHand.remove(index);
+            numberOfCards--;
+
+            if (card instanceof MinionCard){
+                board.summonMinion((MinionCard)card);
+            }
+
+            return card.getManaCost();
         }
 
         return -1;
@@ -118,13 +127,18 @@ public class Hand {
     }
 
     public void viewHand() {
-        for (HearthstoneCard card : backingHand) {
-            System.out.print(backingHand.indexOf(card) + ". " + card.getTitle()
+        for (int index = 0; index < backingHand.size(); index++) {
+            sortByManaCost();
+            HearthstoneCard card = backingHand.get(index);
+            System.out.print(index + ". " + card.getTitle()
                     + ", Mana cost: " + card.getManaCost());
 
             if (card instanceof MinionCard) {
                 System.out.print(", Attack: " + ((MinionCard) card).getAttack()
                         + ", Health: " + ((MinionCard) card).getHealth());
+                if (card.hasAbility()) {
+                    printAbilities(((MinionCard)card).getAbilities());
+                }
             }
 
             if (card.getTitle().equalsIgnoreCase("The Coin")){
@@ -135,6 +149,16 @@ public class Hand {
         }
 
         System.out.println();
+    }
+
+    private void printAbilities(List<Ability> list) {
+        for (Ability ability : list) {
+            System.out.print(", " + ability.getAbilityType());
+        }
+    }
+
+    private void sortByManaCost() {
+        backingHand.sort(Comparator.comparing(HearthstoneCard::getManaCost));
     }
 
     public boolean hasCards(){

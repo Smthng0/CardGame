@@ -2,6 +2,8 @@ package card.game;
 
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
+import card.game.io.GenericMinionReader;
+import card.game.io.MinionsWithAbilities;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,6 +20,25 @@ public class DeckTest {
         Deck deck = createDeck();
 
         assertTrue(deck.getRemainingCards() == 30);
+    }
+
+    @Test
+    public void createDeck_fromCSV_OK() {
+        GenericMinionReader reader = new GenericMinionReader();
+        List<MinionCard> readerList = (reader.createMinionListFromCSV());
+
+                reader.createMinionListFromCSV();
+        List<HearthstoneCard> minionList = new ArrayList<>();
+        minionList.addAll(readerList);
+        minionList.addAll(readerList);
+
+        MinionsWithAbilities minionsWithAbilities = new MinionsWithAbilities();
+        List<MinionCard> abilityList = minionsWithAbilities.createMinions();
+        minionList.addAll(abilityList);
+        minionList.addAll(abilityList);
+
+        printList(minionList);
+        System.out.println("Number of minions: " + minionList.size());
     }
 
     @Test
@@ -95,5 +116,19 @@ public class DeckTest {
         Deck deck = new Deck (arrayDeck);
         return deck;
     }
+
+    public static void printList(List<HearthstoneCard> list) {
+        for (HearthstoneCard card: list) {
+            System.out.print(card.getTitle()
+                    + ", " + card.getManaCost());
+            if (card instanceof MinionCard) {
+                System.out.print(", " + ((MinionCard)card).getAttack()
+                        + ", " + ((MinionCard)card).getHealth());
+            }
+            System.out.println();
+        }
+    }
+
+
 
 }
