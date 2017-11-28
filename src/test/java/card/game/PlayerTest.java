@@ -2,6 +2,7 @@ package card.game;
 
 import card.game.cards.MinionCard;
 import card.game.cards.WeaponCard;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -55,6 +56,34 @@ public class PlayerTest {
         assertFalse(player.hasWeapon());
         assertTrue(player.getBoard().getGraveyard().size() == 1);
     }
+    @Test
+    public void twoBoard_test_OK() {
+        Player attacker = new Player("fuckyou", null, false);
+        Player defer = new Player("fuckyou2", null, false);
+
+        MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
+        attacker.getBoard().summonMinion(minionCard);
+
+        minionCard = new MinionCard("frane", 0, 3, 4);
+        attacker.getBoard().summonMinion(minionCard);
+
+        minionCard = new MinionCard("frane", 0, 3, 4);
+        defer.getBoard().summonMinion(minionCard);
+
+        MinionCard attackDog = attacker.getMinion(0);
+
+        MinionCard shouldBeDead = defer.getMinion(0);
+        attackDog.resetAttacks();
+
+        attackDog.attack(shouldBeDead);
+
+        Assert.assertEquals(1, attackDog.getHealth());
+        Assert.assertTrue(shouldBeDead.isDead());
+        Assert.assertFalse(attacker.getMinion(1).isDead());
+        Assert.assertTrue(defer.getMinion(0).isDead());
+
+    }
+
 
     @Test
     public void getRemainingMana() {

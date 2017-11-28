@@ -1,6 +1,5 @@
 package card.game;
 
-import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 import card.game.cards.SpellCard;
@@ -20,7 +19,12 @@ public class Hand {
         backingHand = new ArrayList<>();
         this.deck = deck;
         this.board = board;
+        if(deck != null) {
+            startup(deck, playsFirst);
+        }
+    }
 
+    private void startup(Deck deck, boolean playsFirst) {
         for (int i = 0; i < 3; i++) {
             this.drawCard();
         }
@@ -28,7 +32,6 @@ public class Hand {
         if (!playsFirst){
             this.addCard(new SpellCard("The Coin", 0, null));
         }
-
     }
 
     public HearthstoneCard drawCard() {
@@ -127,8 +130,8 @@ public class Hand {
     }
 
     public void viewHand() {
+        sortByManaCost();
         for (int index = 0; index < backingHand.size(); index++) {
-            sortByManaCost();
             HearthstoneCard card = backingHand.get(index);
             System.out.print(index + ". " + card.getTitle()
                     + ", Mana cost: " + card.getManaCost());
@@ -136,9 +139,6 @@ public class Hand {
             if (card instanceof MinionCard) {
                 System.out.print(", Attack: " + ((MinionCard) card).getAttack()
                         + ", Health: " + ((MinionCard) card).getHealth());
-                if (card.hasAbility()) {
-                    printAbilities(((MinionCard)card).getAbilities());
-                }
             }
 
             if (card.getTitle().equalsIgnoreCase("The Coin")){

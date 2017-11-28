@@ -1,8 +1,6 @@
 package card.game.cards;
 
-import card.game.abilities.Ability;
-import card.game.abilities.keywords.Battlecry;
-import card.game.abilities.keywords.Windfury;
+import card.game.Ability;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ public class SpellCardTest {
     @Test
     public void create_spell_OK() {
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(new Windfury());
+        abilities.add(Ability.WINDFURY);
         SpellCard spellCard1 = new SpellCard("The Coin", 0, null);
         SpellCard spellCard2 = new SpellCard("The Coin", 1, abilities);
 
@@ -29,17 +27,12 @@ public class SpellCardTest {
     }
 
     @Test
-    public void play_NYI() {
-        //gona test when engine is done
-    }
-
-    @Test
     public void addAbility_OK() {
         SpellCard spellCard = new SpellCard("The Coin", 0, null);
 
         assertFalse(spellCard.hasAbility());
 
-        spellCard.addAbility(new Battlecry());
+        spellCard.addAbility(Ability.WINDFURY);
 
         assertTrue(spellCard.hasAbility());
 

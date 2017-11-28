@@ -1,10 +1,6 @@
 package card.game.cards;
 
-import card.game.abilities.Ability;
-import card.game.abilities.keywords.Charge;
-import card.game.abilities.keywords.Deathrattle;
-import card.game.abilities.keywords.DivineShield;
-import card.game.abilities.keywords.Windfury;
+import card.game.Ability;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,7 +14,7 @@ public class MinionCardTest {
     @Test
     public void create_minion_OK() {
         List<Ability> ability = new ArrayList<>();
-        ability.add(new Deathrattle());
+        ability.add(Ability.CHARGE);
         MinionCard minion = new MinionCard("Minion1", 8, 17, 4);
         MinionCard minionWithAbility = new MinionCard("Minion1", 8, 5, 8, ability);
 
@@ -26,7 +22,7 @@ public class MinionCardTest {
                 &&(minion.getManaCost() == 8)
                 &&(minion.getAttack() == 17)
                 &&(minion.getHealth() == 4)
-                &&(minion.getAbilities().size() == 0));
+                &&(!minion.hasAbility());
         assertTrue((minionWithAbility.getHealth() == 8)
                 &&(minionWithAbility.hasAbility()));
     }
@@ -35,10 +31,7 @@ public class MinionCardTest {
     public void attack_sequence_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 2, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 4, 3);
-        minion1.play();
-        minion2.play();
-        minion1.setRemainingAttacks(minion1.getMaxAttacks());
-
+        minion1.resetAttacks();
         minion1.attack(minion2);
 
         assertTrue(minion1.getHealth() == 2);
@@ -49,10 +42,7 @@ public class MinionCardTest {
     public void Charge_addAbility_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
-        minion1.addAbility(new Charge());
-        minion1.play();
-        minion2.play();
-
+        minion1.addAbility(Ability.CHARGE);
         minion1.attack(minion2);
 
         assertTrue(minion1.getHealth() == 3);
@@ -60,28 +50,23 @@ public class MinionCardTest {
     }
 
     @Test
-    public void getAbility_Card_Title_OK() {
+    public void checkForAbility_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
-        minion1.addAbility(new Charge());
-        minion2.addAbility(new Deathrattle());
-        minion1.play();
-        minion2.play();
+        minion1.addAbility(Ability.CHARGE);
+        minion2.addAbility(Ability.WINDFURY);
 
-        assertTrue(minion1.getAbility(new Charge()) != null);
-        assertTrue(minion2.getAbility("Deathrattle") != null);
-        assertFalse(minion2.getAbility("DivineShield") != null);
+        assertTrue(minion2.checkForAbility(Ability.DIVINE_SHIELD));
+        assertFalse(minion2.checkForAbility(Ability.WINDFURY));
     }
 
     @Test
     public void Windfury_Charge_sortAbility_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 2, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 2, 3);
-        minion1.addAbility(new Windfury());
-        minion1.addAbility(new Charge());
-        minion1.play();
-        minion2.play();
-
+        minion1.addAbility(Ability.WINDFURY);
+        minion1.addAbility(Ability.CHARGE);
+        minion1.attack(minion2);
         minion1.attack(minion2);
 
         assertTrue(minion1.getHealth() == 2);
@@ -93,11 +78,8 @@ public class MinionCardTest {
     public void Charge_DivineShield_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
-        minion1.addAbility(new Charge());
-        minion2.addAbility(new DivineShield());
-        minion1.play();
-        minion2.play();
-
+        minion1.addAbility(Ability.CHARGE);
+        minion2.addAbility(Ability.DIVINE_SHIELD);
         minion1.attack(minion2);
 
         assertTrue(minion1.getHealth() == 3);
@@ -108,12 +90,10 @@ public class MinionCardTest {
     public void Charge_Windfury_DivineShield_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 2, 4);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
-        minion1.addAbility(new Charge());
-        minion1.addAbility(new Windfury());
-        minion2.addAbility(new DivineShield());
-        minion1.play();
-        minion2.play();
-
+        minion1.addAbility(Ability.CHARGE);
+        minion1.addAbility(Ability.WINDFURY);
+        minion2.addAbility(Ability.DIVINE_SHIELD);
+        minion1.attack(minion2);
         minion1.attack(minion2);
 
         assertTrue(minion1.getHealth() == -2);

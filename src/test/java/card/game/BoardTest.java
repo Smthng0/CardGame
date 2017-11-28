@@ -1,6 +1,7 @@
 package card.game;
 
 import card.game.cards.MinionCard;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -70,6 +71,33 @@ public class BoardTest {
         board.summonMinion(card);
 
         assertTrue(board.getNumberOfMinions() == 2);
+    }
+
+    @Test
+    public void twoBoard_test_OK() {
+        Board attackingBoard = new Board();
+        Board defendingBoard = new Board();
+        MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
+        attackingBoard.summonMinion(minionCard);
+
+        minionCard = new MinionCard("frane", 0, 3, 4);
+        defendingBoard.summonMinion(minionCard);
+
+        minionCard = new MinionCard("frane", 0, 3, 4);
+        defendingBoard.summonMinion(minionCard);
+
+        MinionCard attackDog = attackingBoard.getMinion(0);
+
+        MinionCard shouldBeDead = defendingBoard.getMinion(0);
+        attackDog.resetAttacks();
+
+        attackDog.attack(shouldBeDead);
+
+        Assert.assertEquals(1, attackDog.getHealth());
+        Assert.assertTrue(shouldBeDead.isDead());
+        Assert.assertFalse(defendingBoard.getMinion(1).isDead());
+        Assert.assertTrue(defendingBoard.getMinion(0).isDead());
+
     }
 
 }

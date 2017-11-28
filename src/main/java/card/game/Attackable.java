@@ -9,6 +9,4 @@ public interface Attackable {
     boolean isDead();
 
     void attack(Attackable target);
-
-    void defend(Attackable target);
 }

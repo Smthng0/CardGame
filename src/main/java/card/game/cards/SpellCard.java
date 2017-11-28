@@ -1,7 +1,7 @@
 package card.game.cards;
 
 import card.game.Engine;
-import card.game.abilities.Ability;
+import card.game.Ability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,28 +11,21 @@ public class SpellCard implements HearthstoneCard {
     private int manaCost;
     private List<Ability> abilities;
 
-    public SpellCard(String title, int manaCost, List<Ability> abilities){
-        super();
+    public SpellCard(String title, int manaCost) {
         this.title = title;
         this.manaCost = manaCost;
         this.abilities = new ArrayList<>();
+    }
+
+    public SpellCard(String title, int manaCost, List<Ability> abilities) {
+        this(title, manaCost);
+
         if (abilities != null){
-            this.abilities.addAll(abilities);
+            this.abilities = abilities;
         }
     }
 
-    @Override
-    public void play() {
-        for (Ability ability : abilities) {
-            ability.effect();
-        }
-
-        this.goToGraveyard();
-    }
-
-    @Override
-    public void goToGraveyard() {
-        Engine.getFriendlyPlayer().goToGraveyard(this);
+    public void effect(Engine engine) {
     }
 
     @Override
@@ -59,7 +52,5 @@ public class SpellCard implements HearthstoneCard {
         return manaCost;
     }
 
-    public void setManaCost(int manaCost) {
-        this.manaCost = manaCost;
-    }
 }
+

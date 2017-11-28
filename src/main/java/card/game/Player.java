@@ -1,6 +1,5 @@
 package card.game;
 
-import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 import card.game.cards.WeaponCard;
@@ -33,8 +32,8 @@ public class Player implements Attackable {
             if (target == null) {
                 System.out.println("No target!");
             } else {
-                while (remainingAttacks > 0) {
-                    target.defend(this);
+                if (remainingAttacks > 0) {
+                    target.takeDamage(this.attack);
 
                     if (target instanceof MinionCard) {
                         this.takeDamage(target.getAttack());
@@ -43,8 +42,8 @@ public class Player implements Attackable {
                     remainingAttacks--;
                     weapon.setDurability(weapon.getDurability()-1);
 
-                    if (weapon.getDurability() == 0){
-                        goToGraveyard(weapon);
+                    if (weapon.getDurability() == 0) {
+                        board.addToGraveyard(weapon);
                         weapon = null;
                         remainingAttacks = 0;
                         System.out.println("Weapon used up!");
@@ -57,8 +56,14 @@ public class Player implements Attackable {
     }
 
     @Override
-    public void defend(Attackable target) {
-        this.takeDamage(target.getAttack());
+    public void takeDamage(int damage){
+        if (this.armor < damage) {
+            damage -= this.armor;
+            this.armor = 0;
+            this.health -= damage;
+        } else if (this.armor >= damage){
+            this.armor -= damage;
+        }
 
         if (this.isDead()){
             System.out.println("");
@@ -77,21 +82,18 @@ public class Player implements Attackable {
         }
     }
 
-    @Override
-    public void takeDamage(int damage){
-        if (this.armor < damage) {
-            damage -= this.armor;
-            this.armor = 0;
-            this.health -= damage;
-        } else if (this.armor >= damage){
-            this.armor -= damage;
-        }
-    }
-
     public void goToGraveyard(HearthstoneCard card){
         board.addToGraveyard(card);
         if (card instanceof MinionCard) {
             board.removeMinion(card.getTitle());
+        }
+    }
+
+    public void goToGraveyard(int index){
+        if ((index < board.getNumberOfMinions())
+                && (index >= 0)) {
+            board.addToGraveyard(board.getMinion(index));
+            board.removeMinion(index);
         }
     }
 

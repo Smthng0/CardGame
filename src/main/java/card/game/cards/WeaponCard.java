@@ -2,7 +2,7 @@ package card.game.cards;
 
 import card.game.Engine;
 import card.game.Player;
-import card.game.abilities.Ability;
+import card.game.Ability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +60,7 @@ public class WeaponCard implements HearthstoneCard {
 
     @Override
     public void goToGraveyard() {
-        if (this.getAbility("Deathrattle") != null) {
-            this.getAbility("Deathrattle").effect();
-        }
+
 
         Engine.getFriendlyPlayer().goToGraveyard(this);
     }

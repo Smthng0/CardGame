@@ -1,8 +1,8 @@
 package card.game.cards;
 
-import card.game.abilities.Ability;
-import card.game.abilities.keywords.DivineShield;
-import card.game.abilities.keywords.Windfury;
+import card.game.Ability;
+import card.game.abilities.DivineShield;
+import card.game.abilities.Windfury;
 import org.junit.Test;
 
 import java.util.ArrayList;

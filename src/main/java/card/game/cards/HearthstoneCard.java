@@ -1,23 +1,15 @@
 package card.game.cards;
 
-import card.game.abilities.Ability;
+import card.game.Ability;
 
 public interface HearthstoneCard {
 
-    void play();
-
-    void goToGraveyard();
-
-    boolean hasAbility();
+    String getTitle();
 
     int getManaCost();
 
+    boolean hasAbility();
+
     void addAbility(Ability ability);
-
-    default void removeFromPlay() {
-        this.goToGraveyard();
-    };
-
-    String getTitle();
 
 }

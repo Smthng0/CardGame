@@ -1,6 +1,5 @@
 package card.game;
 
-import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 
@@ -62,6 +61,13 @@ public class Board {
         }
     }
 
+    public void removeMinion(int index) {
+        if (backingBoard.get(index) != null) {
+            backingBoard.remove(index);
+            numberOfMinions = backingBoard.size();
+        }
+    }
+
     public List<MinionCard> getAllMinions() {
         if (isEmpty()){
             return null;
@@ -74,26 +80,18 @@ public class Board {
         if  (isEmpty()) {
             System.out.println("Board empty!");
         } else {
+            sortByRemainingAttack();
             for (int index = 0; index < getAllMinions().size(); index++) {
-                sortByRemainingAttack();
                 MinionCard minion = backingBoard.get(index);
                 System.out.print(index + ". "
                         + minion.getTitle()
                         + ", Attack: " + minion.getAttack()
                         + ", Health: " + minion.getHealth());
-                if (minion.hasAbility()) {
-                    printAbilities(minion.getAbilities());
-                }
+
                 System.out.println(", Remaining attacks: "
                         + minion.getRemainingAttacks());
             }
             System.out.println();
-        }
-    }
-
-    private void printAbilities(List<Ability> list) {
-        for (Ability ability : list) {
-            System.out.print(", " + ability.getAbilityType());
         }
     }
 

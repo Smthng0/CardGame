@@ -1,6 +1,5 @@
 package card.game;
 
-import card.game.abilities.Ability;
 import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 import card.game.io.GenericMinionReader;
@@ -12,53 +11,37 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Engine {
-    private static Player activePlayer;
-    private static Player passivePlayer;
-    private static Player player1;
-    private static Player player2;
-    private static Scanner scanner = new Scanner(System.in);
-    private static String command;
-    private static int turnCounter;
+    private Player activePlayer;
+    private Player passivePlayer;
+    private Scanner scanner = new Scanner(System.in);
+    private String command;
+    private int turnCounter;
 
-    public static void main(String[] args) {
-        createPlayers();
-        do {
-            startOfTurn();
-            checkStatus();
-            chooseAction();
-        } while ((!command.equalsIgnoreCase("Exit game"))
-                && (!command.equalsIgnoreCase("Exit"))
-                && (!command.equalsIgnoreCase("x")));
-    }
-
-    private static void createPlayers() {
+    private void createPlayers() {
         System.out.println("Enter first player name: ");
         command = scanner.nextLine();
-        //System.out.println("Enter first players minion names: ");
         Deck deck1 = createConstructedDeck();
-        player1 = new Player(command, deck1, true);
-
+        activePlayer = new Player(command, deck1, true);
         System.out.println("Enter second player name: ");
         command = scanner.nextLine();
-        //System.out.println("Enter second players minion names: ");
         Deck deck2 = createConstructedDeck();
-        player2 = new Player(command, deck2, false);
-        activePlayer = player1;
-        passivePlayer = player2;
+        passivePlayer = new Player(command, deck2, false);
+
         System.out.println();
         System.out.println("****************************************");
-        System.out.println("\\\\**..  " + player1.getPlayerName() + "  vs  " + player2.getPlayerName() + "  ..**//");
+        System.out.println("\\\\**..  " + activePlayer.getPlayerName()
+                + "  vs  " + passivePlayer.getPlayerName() + "  ..**//");
         separator();
         turnCounter = 2;
     }
 
-    private static void startOfTurn() {
+    private void startOfTurn() {
         System.out.println("It's " + activePlayer.getPlayerName() + "'s turn!");
         System.out.println("Turn number: " + (int)Math.ceil(turnCounter/2));
         startTurn();
     }
 
-    private static void availableActions(){
+    private void availableActions(){
         System.out.println("Available actions: ");
         separator();
         System.out.print("(P)lay card");
@@ -75,7 +58,7 @@ public class Engine {
         separator();
     }
 
-    private static void chooseAction() {
+    private void chooseAction() {
         do {
             availableActions();
 
@@ -117,7 +100,7 @@ public class Engine {
         endTurn();
     }
 
-    private static void playCard() {
+    private void playCard() {
         System.out.println();
         System.out.println("Available cards:  ");
         activePlayer.viewHand();
@@ -158,7 +141,7 @@ public class Engine {
         separator();
     }
 
-    private static void attack() {
+    private void attack() {
         if (activePlayer.getBoard().getAllMinions() == null) {
             System.out.println();
             System.out.println("No minions! ");
@@ -181,6 +164,7 @@ public class Engine {
                     && (index >= 0)) {
                 if (activePlayer.getMinion(index).getRemainingAttacks() > 0) {
                     MinionCard attackingMinion = activePlayer.getMinion(index);
+                    int attackingIndex = index;
 
                     System.out.println("Available targets for "
                             + activePlayer.getPlayerName() + "'s "
@@ -252,11 +236,11 @@ public class Engine {
                                 + attackingMinion.getHealth());
 
                         if (defendingMinion.isDead()){
-                            passivePlayer.goToGraveyard(defendingMinion);
+                            passivePlayer.goToGraveyard(index);
                         }
 
                         if (attackingMinion.isDead()){
-                            activePlayer.goToGraveyard(attackingMinion);
+                            activePlayer.goToGraveyard(attackingIndex);
                         }
                     }
 
@@ -275,7 +259,7 @@ public class Engine {
         }
     }
 
-    private static void checkStatus() {
+    private void checkStatus() {
         System.out.println("Player " + activePlayer.getPlayerName() + "'s status: ");
         separator();
         System.out.print("Your health: ");
@@ -299,7 +283,7 @@ public class Engine {
         separator();
     }
 
-    private static void viewBoard() {
+    private void viewBoard() {
         System.out.println("My board: ");
         System.out.println();
         activePlayer.viewBoard();
@@ -310,7 +294,7 @@ public class Engine {
         System.out.println();
     }
 
-    private static void startTurn() {
+    private void startTurn() {
         activePlayer.setManaPool(activePlayer.getManaPool()+1);
         activePlayer.setRemainingMana(activePlayer.getManaPool());
         activePlayer.setRemainingAttacks(activePlayer.getMaxAttacks());
@@ -325,20 +309,17 @@ public class Engine {
         if (card instanceof MinionCard) {
             System.out.print(", Attack: " + ((MinionCard) card).getAttack()
                     + ", Health: " + ((MinionCard) card).getHealth());
-            if (card.hasAbility()) {
-                printAbilities(((MinionCard)card).getAbilities());
-            }
         }
         System.out.println();
 
         if (activePlayer.getBoard().getAllMinions() != null) {
             for (MinionCard minion : activePlayer.getBoard().getAllMinions()) {
-                minion.setRemainingAttacks(minion.getMaxAttacks());
+                minion.resetAttacks();
             }
         }
     }
 
-    private static void endTurn() {
+    private void endTurn() {
         if (activePlayer.fullHand()) {
             while (activePlayer.getNumberOfCards()
                     > activePlayer.getCardLimit()) {
@@ -352,9 +333,9 @@ public class Engine {
         turnCounter++;
     }
 
-    public static Attackable getEnemyMinion(String title) {
+    public Attackable getEnemyMinion(String title) {
         for (MinionCard minion : passivePlayer.getBoard().getAllMinions()) {
-            if (minion.getAbility("Taunt") != null) {
+            if (minion.checkForAbility("Taunt")) {
                 return minion;
             }
         }
@@ -362,19 +343,19 @@ public class Engine {
         return passivePlayer.getBoard().getMinion(title);
     }
 
-    public static Attackable getFriendlyMinion(String title) {
+    public Attackable getFriendlyMinion(String title) {
         return activePlayer.getBoard().getMinion(title);
     }
 
-    public static Player getFriendlyPlayer() {
+    public Player getFriendlyPlayer() {
         return activePlayer;
     }
 
-    public static Player getEnemyPlayer() {
+    public Player getEnemyPlayer() {
         return passivePlayer;
     }
 
-    public static void clearConsole() {
+    public void clearConsole() {
         try {
             final String os = System.getProperty("os.name");
 
@@ -388,14 +369,15 @@ public class Engine {
         }
     }
 
-    private static void separator() {
+    private void separator() {
         System.out.println("----------------------------------------");
         System.out.println();
     }
 
-    public static Deck generateDeck() {
+    public Deck generateDeck() {
         List<HearthstoneCard> arrayDeck = new ArrayList<>();
         Random random = new Random ();
+        System.out.println("Enter first players minion names: ");
         String minionName = scanner.nextLine();
 
         for (int i = 0; i < 30; i++) {
@@ -413,7 +395,7 @@ public class Engine {
         return new Deck (arrayDeck);
     }
 
-    private static Deck createConstructedDeck() {
+    private Deck createConstructedDeck() {
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(new GenericMinionReader().createMinionListFromCSV());
         minionList.addAll(new GenericMinionReader().createMinionListFromCSV());
@@ -423,9 +405,9 @@ public class Engine {
         return new Deck(minionList);
     }
 
-    private static void printAbilities(List<Ability> list) {
+    private void printAbilities(List<Ability> list) {
         for (Ability ability : list) {
-            System.out.print(", " + ability.getAbilityType());
+            System.out.print(", " + ability.toString());
         }
     }
 
