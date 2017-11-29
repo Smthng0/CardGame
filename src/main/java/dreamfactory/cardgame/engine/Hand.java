@@ -1,9 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.HearthstoneCard;
-import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.cards.SpellCard;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,77 +8,57 @@ import java.util.List;
 
 public class Hand {
     private List<HearthstoneCard> backingHand;
+    private static final int CARD_LIMIT = 10;
 
-    public Hand (boolean playsFirst){
+    public Hand (){
         backingHand = new ArrayList<>();
-
-        if (!playsFirst){
-            List<Ability> list = new ArrayList<>();
-            list.add(Ability.ADD_MANA);
-            this.addCard(new SpellCard("The Coin", 0, list));
-        }
     }
 
     public void addCard(HearthstoneCard card) {
         backingHand.add(card);
     }
 
+    public HearthstoneCard playCard(int index, int availableMana) {
+        if (checkMana(index, availableMana)){
+            HearthstoneCard card = getCard(index);
+            removeCard(index);
+            return card;
+        }
+
+        return null;
+    }
+
     public void removeCard(int index) {
-        if (hasCards()){
+        if (validIndex(index)){
             backingHand.remove(index);
         } else {
-            System.out.println("No more cards!");
+            System.out.println("No more cards or card does not exist!");
         }
     }
 
     public HearthstoneCard getCard(int index) {
-        if (backingHand.size() > index) {
+        if (validIndex(index)) {
             return backingHand.get(index);
         }
 
         return null;
     }
 
-    public boolean checkMana(int index, int availableMana) {
-        if ((backingHand.size() > index)
-            && (backingHand.get(index).getManaCost() <= availableMana)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public void viewHand() {
+    public void viewAllCards() {
         sortByManaCost();
-        for (int index = 0; index < backingHand.size(); index++) {
-            HearthstoneCard card = backingHand.get(index);
-            System.out.print(index + ". " + card.getTitle()
-                    + ", Mana cost: " + card.getManaCost());
-
-            if (card instanceof MinionCard) {
-                System.out.print(", Attack: " + ((MinionCard) card).getAttack()
-                        + ", Health: " + ((MinionCard) card).getHealth());
-            }
-
-            if (card.hasAbility()) {
-                System.out.print(", Ability: ");
-                printAbilities(card.getAbilities());
-            }
-
-            if (card.getTitle().equalsIgnoreCase("The Coin")){
-                System.out.print(", Ability: Add 1 temporary mana");
-            }
-
-            System.out.println();
-        }
-
-        System.out.println();
+        //print card
+        //minioncard printer -> minion card ga treba imat
+        //ability printer -> isto minion/spell card ga treba imat...
+        //vidit da to sve se vraca kao string
     }
 
-    private void printAbilities(List<Ability> list) {
-        for (Ability ability : list) {
-            System.out.print(", " + ability);
-        }
+    public void viewPlayableCards(int availableMana) {
+        sortByManaCost();
+    }
+
+    public boolean checkMana(int index, int availableMana) {
+        return (validIndex(index)
+                && (backingHand.get(index).getManaCost() <= availableMana));
     }
 
     private void sortByManaCost() {
@@ -89,7 +66,7 @@ public class Hand {
     }
 
     public boolean hasCards(){
-        return getNumberOfCards() > 0;
+        return !backingHand.isEmpty();
     }
 
     public int getNumberOfCards() {
@@ -97,6 +74,10 @@ public class Hand {
     }
 
     public int getLimit() {
-        return 10;
+        return CARD_LIMIT;
+    }
+
+    private boolean validIndex(int index) {
+        return ((index >= 0) && (index < getNumberOfCards()));
     }
 }

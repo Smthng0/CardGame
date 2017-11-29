@@ -19,22 +19,21 @@ public class SpellCardTest {
 
         assertTrue((spellCard1.getTitle().equals("The Coin"))
                 &&(spellCard1.getManaCost() == 0)
-                &&(spellCard1.getAbilities().size() == 0)
-                &&(!spellCard1.hasAbility()));
+                &&(!spellCard1.hasAbilities()));
         assertTrue((spellCard2.getManaCost() == 1)
-                &&(spellCard2.hasAbility()));
+                &&(spellCard2.hasAbilities()));
     }
 
     @Test
     public void addAbility_OK() {
         SpellCard spellCard = new SpellCard("The Coin", 0, null);
 
-        assertFalse(spellCard.hasAbility());
+        assertFalse(spellCard.hasAbilities());
 
         spellCard.addAbility(Ability.WINDFURY);
 
-        assertTrue(spellCard.hasAbility());
-        assertTrue(spellCard.getAbilities().contains(Ability.WINDFURY));
+        assertTrue(spellCard.hasAbilities());
+        assertTrue(spellCard.hasAbility(Ability.WINDFURY));
 
     }
 

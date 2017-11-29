@@ -7,7 +7,6 @@ import dreamfactory.cardgame.cards.WeaponCard;
 public class Player implements Attackable {
     private String playerName;
     private int attack = 0;
-    private int armor = 0;
     private int maxAttacks = 0;
     private int remainingAttacks = 0;
     private int health = 30;
@@ -18,16 +17,16 @@ public class Player implements Attackable {
     private Hand hand;
     private Board board;
 
-    public Player(String name, Deck deck, boolean playsFirst) {
+    public Player(String name, Deck deck) {
         this.playerName = name;
         this.deck = deck;
         this.board = new Board();
-        this.hand = new Hand(playsFirst);
+        this.hand = new Hand();
     }
 
     @Override
     public void attack(Attackable target) {
-        if (this.hasWeapon()){
+        if (hasWeapon()){
             if (target == null) {
                 System.out.println("No target!");
             } else {
@@ -55,28 +54,7 @@ public class Player implements Attackable {
 
     @Override
     public void takeDamage(int damage){
-        if (this.armor < damage) {
-            damage -= this.armor;
-            this.armor = 0;
-            this.health -= damage;
-        } else if (this.armor >= damage){
-            this.armor -= damage;
-        }
-
-        if (this.isDead()){
-            System.out.println("");
-            System.out.println("I won!!! <3");
-            System.out.println("Wooohooo");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("     /(|");
-            System.out.println("    (  :");
-            System.out.println("   __\\  \\  _____");
-            System.out.println(" (____)  `|");
-            System.out.println("(____)|   |");
-            System.out.println(" (____).__|");
-            System.out.println("  (___)__.|_____");
-        }
+        health -= damage;
     }
 
     @Override
@@ -160,7 +138,7 @@ public class Player implements Attackable {
     }
 
     public void viewHand() {
-        hand.viewHand();
+        //mozda dobit string i njega printat... pa nazvat printhand
     }
 
     public void removeCard(int index) {
@@ -192,9 +170,8 @@ public class Player implements Attackable {
     }
 
     public void viewBoard() {
-        board.printBoard();
+        //isto ko za view hand
     }
-
 
     public void resetAttacks() {
         board.resetAttacks();

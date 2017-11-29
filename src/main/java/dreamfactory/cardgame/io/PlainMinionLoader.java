@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.io;
 
+import com.univocity.parsers.annotations.Parsed;
 import dreamfactory.cardgame.cards.MinionCard;
 
 import java.io.*;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlainMinionLoader {
-    public  List<MinionCard> createMinionListFromCSV() {
+    public  List<MinionCard> loadMinionsFromCSV() {
         List<MinionCard> minionList = new ArrayList<>();
         ClassLoader classLoader = getClass().getClassLoader();
         String pathToFile = classLoader.getResource(
@@ -36,6 +37,13 @@ public class PlainMinionLoader {
                     )
             );
         }
+    }
+
+    public List<MinionCard> loadMinionsParser() {
+        class MinionCard {
+
+        }
+        return null;
     }
 
 }

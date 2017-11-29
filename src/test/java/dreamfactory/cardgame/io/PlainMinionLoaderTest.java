@@ -5,21 +5,20 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertTrue;
+
 
 public class PlainMinionLoaderTest {
     @Test
     public void createMinionListFromCSV_OK() {
-        PlainMinionLoader reader = new PlainMinionLoader();
-        List<MinionCard> cardList = reader.createMinionListFromCSV();
+        List<MinionCard> cardList = new PlainMinionLoader().loadMinionsFromCSV();
 
-        for (MinionCard card: cardList) {
-            System.out.println(card.getTitle()
-                    + ", " + card.getManaCost()
-                    + ", " + card.getAttack()
-                    + ", " + card.getHealth());
-        }
-
-        System.out.println("Number of minions: " + cardList.size());
+        assertTrue(cardList.size() == 10);
+        assertTrue(cardList.get(0).getTitle().equals("Bug"));
+        assertTrue(cardList.get(2).getTitle().equals("Wolf"));
+        assertTrue(cardList.get(4).getTitle().equals("Bigger Wolf"));
+        assertTrue(cardList.get(7).getTitle().equals("Monkey"));
+        assertTrue(cardList.get(9).getTitle().equals("Scary Stuff"));
     }
 
 }

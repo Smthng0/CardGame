@@ -22,11 +22,11 @@ public class Engine {
         System.out.println("Enter first player name: ");
         command = scanner.nextLine();
         Deck deck1 = createConstructedDeck();
-        activePlayer = new Player(command, deck1, true);
+        activePlayer = new Player(command, deck1);
         System.out.println("Enter second player name: ");
         command = scanner.nextLine();
         Deck deck2 = createConstructedDeck();
-        passivePlayer = new Player(command, deck2, false);
+        passivePlayer = new Player(command, deck2);
 
         System.out.println();
         System.out.println("****************************************");
@@ -388,8 +388,8 @@ public class Engine {
 
     private Deck createConstructedDeck() {
         List<HearthstoneCard> minionList = new ArrayList<>();
-        minionList.addAll(new PlainMinionLoader().createMinionListFromCSV());
-        minionList.addAll(new PlainMinionLoader().createMinionListFromCSV());
+        minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
+        minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new AbilityMinionGenerator().createMinions());
         minionList.addAll(new AbilityMinionGenerator().createMinions());
 
@@ -400,6 +400,21 @@ public class Engine {
         for (Ability ability : list) {
             System.out.print(", " + ability.toString());
         }
+    }
+
+    private void playerDeadPrint() {
+        System.out.println("");
+        System.out.println("I won!!! <3");
+        System.out.println("Wooohooo");
+        System.out.println("");
+        System.out.println("");
+        System.out.println("     /(|");
+        System.out.println("    (  :");
+        System.out.println("   __\\  \\  _____");
+        System.out.println(" (____)  `|");
+        System.out.println("(____)|   |");
+        System.out.println(" (____).__|");
+        System.out.println("  (___)__.|_____");
     }
 
 

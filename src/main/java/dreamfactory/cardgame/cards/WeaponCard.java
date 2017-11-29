@@ -20,14 +20,17 @@ public class WeaponCard implements HearthstoneCard {
 
     public WeaponCard(String title, int manaCost, int attack, int durability, List<Ability> abilities){
         this(title, manaCost, attack, durability);
-        if (abilities != null){
-            this.abilities = abilities;
-        }
+        if (abilities != null) this.abilities.addAll(abilities);
     }
 
     @Override
-    public boolean hasAbility() {
-        return abilities.size() > 0;
+    public boolean hasAbilities() {
+        return !abilities.isEmpty();
+    }
+
+    @Override
+    public boolean hasAbility(Ability ability) {
+        return abilities.contains(ability);
     }
 
     @Override
@@ -57,9 +60,5 @@ public class WeaponCard implements HearthstoneCard {
         this.durability = durability;
     }
 
-    @Override
-    public List<Ability> getAbilities() {
-        return abilities;
-    }
 
 }

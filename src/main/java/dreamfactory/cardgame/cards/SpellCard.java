@@ -18,18 +18,20 @@ public class SpellCard implements HearthstoneCard {
 
     public SpellCard(String title, int manaCost, List<Ability> abilities) {
         this(title, manaCost);
-
-        if (abilities != null){
-            this.abilities = abilities;
-        }
+        if (abilities != null) this.abilities.addAll(abilities);
     }
 
     public void effect(Engine engine) {
     }
 
     @Override
-    public boolean hasAbility() {
-        return abilities.size() > 0;
+    public boolean hasAbilities() {
+        return !abilities.isEmpty();
+    }
+
+    @Override
+    public boolean hasAbility(Ability ability) {
+        return abilities.contains(ability);
     }
 
     @Override
@@ -40,11 +42,6 @@ public class SpellCard implements HearthstoneCard {
     @Override
     public String getTitle() {
         return title;
-    }
-
-    @Override
-    public List<Ability> getAbilities() {
-        return abilities;
     }
 
     @Override

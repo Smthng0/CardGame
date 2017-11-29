@@ -13,8 +13,8 @@ public class CardListPrinter {
                     + ", " + card.getAttack()
                     + ", " + card.getHealth());
 
-            if (card.hasAbility()){
-                printAbilities(card.getAbilities());
+            if (card.hasAbilities()){
+                //call print from minioncard
             }
 
             System.out.println();

@@ -13,7 +13,7 @@ public class PlayerTest {
     @Test
     public void cratePlayer_OK() {
         Deck deck = new DeckTest().createDeck();
-        Player player = new Player("Frane", deck, true);
+        Player player = new Player("Frane", deck);
 
         assertTrue(player.getNumberOfCards() == 0);
         assertTrue(player.getNumberOfMinions() == 0);
@@ -22,7 +22,7 @@ public class PlayerTest {
     @Test
     public void takeDamage() {
         Deck deck = new DeckTest().createDeck();
-        Player player = new Player("Frane", deck, true);
+        Player player = new Player("Frane", deck);
         player.takeDamage(17);
 
         assertTrue(player.getHealth() == 13);
@@ -31,7 +31,7 @@ public class PlayerTest {
     @Test
     public void attack_sequence_getWeapon_goToGraveyard_OK() {
         Deck deck = new DeckTest().createDeck();
-        Player player = new Player("Frane", deck, true);
+        Player player = new Player("Frane", deck);
         MinionCard minion = new MinionCard("Vice", 0, 7, 14);
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 2);
 
@@ -55,8 +55,8 @@ public class PlayerTest {
     }
     @Test
     public void twoBoard_test_OK() {
-        Player attacker = new Player("fuckyou", null, false);
-        Player defer = new Player("fuckyou2", null, false);
+        Player attacker = new Player("fuckyou", null);
+        Player defer = new Player("fuckyou2", null);
 
         MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
         attacker.summonMinion(minionCard);

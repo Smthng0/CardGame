@@ -23,7 +23,7 @@ public class DeckTest {
 
     @Test
     public void createDeck_fromCSV_OK() {
-        List<MinionCard> readerList = (new PlainMinionLoader().createMinionListFromCSV());
+        List<MinionCard> readerList = (new PlainMinionLoader().loadMinionsFromCSV());
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(readerList);
         minionList.addAll(readerList);

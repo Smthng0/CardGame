@@ -11,7 +11,7 @@ public class CardListPrinterTest {
     @Test
     public void printMinionList_OK() throws Exception {
         List<MinionCard> minionList = new AbilityMinionGenerator().createMinions();
-        minionList.addAll(new PlainMinionLoader().createMinionListFromCSV());
+        minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         new CardListPrinter().printMinionList(minionList);
 
         assertTrue(minionList.size() == 15);

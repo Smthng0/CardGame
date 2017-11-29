@@ -1,16 +1,13 @@
 package dreamfactory.cardgame.cards;
 
-import java.util.List;
-
 public interface HearthstoneCard {
-
     String getTitle();
 
     int getManaCost();
 
-    boolean hasAbility();
+    boolean hasAbilities();
 
-    List<Ability> getAbilities();
+    boolean hasAbility(Ability ability);
 
     void addAbility(Ability ability);
 

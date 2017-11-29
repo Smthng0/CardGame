@@ -20,10 +20,9 @@ public class WeaponCardTest {
                 &&(weapon1.getManaCost() == 6)
                 &&(weapon1.getAttack() == 9)
                 &&(weapon1.getDurability() == 4)
-                &&(weapon1.getAbilities().size() == 0)
-                &&(!weapon1.hasAbility()));
+                &&(!weapon1.hasAbilities()));
         assertTrue((weapon2.getDurability() == 8)
-                &&(weapon2.hasAbility()));
+                &&(weapon2.hasAbilities()));
     }
 
     @Test
@@ -31,8 +30,8 @@ public class WeaponCardTest {
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
         weapon.addAbility(Ability.DIVINE_SHIELD);
 
-        assertTrue(weapon.hasAbility());
-        assertTrue(weapon.getAbilities().contains(Ability.DIVINE_SHIELD));
+        assertTrue(weapon.hasAbilities());
+        assertTrue(weapon.hasAbility(Ability.DIVINE_SHIELD));
     }
 
 
