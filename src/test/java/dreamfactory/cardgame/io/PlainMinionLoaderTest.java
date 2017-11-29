@@ -6,10 +6,10 @@ import org.junit.Test;
 import java.util.List;
 
 
-public class GenericMinionReaderTest {
+public class PlainMinionLoaderTest {
     @Test
     public void createMinionListFromCSV_OK() {
-        GenericMinionReader reader = new GenericMinionReader();
+        PlainMinionLoader reader = new PlainMinionLoader();
         List<MinionCard> cardList = reader.createMinionListFromCSV();
 
         for (MinionCard card: cardList) {

@@ -60,20 +60,6 @@ public class MinionCardTest {
     }
 
     @Test
-    public void Windfury_Charge_sortAbility_OK() {
-        MinionCard minion1 = new MinionCard("Minion1", 2, 2, 6);
-        MinionCard minion2 = new MinionCard("Minion2", 3, 2, 3);
-        minion1.addAbility(Ability.WINDFURY);
-        minion1.addAbility(Ability.CHARGE);
-        minion1.attack(minion2);
-        minion1.attack(minion2);
-
-        assertTrue(minion1.getHealth() == 2);
-        assertTrue(minion2.getHealth() == -1);
-
-    }
-
-    @Test
     public void Charge_DivineShield_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);

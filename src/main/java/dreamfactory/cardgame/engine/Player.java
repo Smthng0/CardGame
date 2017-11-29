@@ -3,10 +3,6 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.cards.WeaponCard;
-import dreamfactory.cardgame.engine.Attackable;
-import dreamfactory.cardgame.engine.Board;
-import dreamfactory.cardgame.engine.Deck;
-import dreamfactory.cardgame.engine.Hand;
 
 public class Player implements Attackable {
     private String playerName;

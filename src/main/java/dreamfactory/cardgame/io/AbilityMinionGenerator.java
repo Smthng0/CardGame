@@ -6,7 +6,7 @@ import dreamfactory.cardgame.cards.MinionCard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinionsWithAbilities {
+public class AbilityMinionGenerator {
     public List<MinionCard> createMinions() {
         List<MinionCard> minionList = new ArrayList<>();
 

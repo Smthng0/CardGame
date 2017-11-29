@@ -3,10 +3,8 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.engine.Deck;
-import dreamfactory.cardgame.engine.Player;
-import dreamfactory.cardgame.io.GenericMinionReader;
-import dreamfactory.cardgame.io.MinionsWithAbilities;
+import dreamfactory.cardgame.io.PlainMinionLoader;
+import dreamfactory.cardgame.io.AbilityMinionGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -390,10 +388,10 @@ public class Engine {
 
     private Deck createConstructedDeck() {
         List<HearthstoneCard> minionList = new ArrayList<>();
-        minionList.addAll(new GenericMinionReader().createMinionListFromCSV());
-        minionList.addAll(new GenericMinionReader().createMinionListFromCSV());
-        minionList.addAll(new MinionsWithAbilities().createMinions());
-        minionList.addAll(new MinionsWithAbilities().createMinions());
+        minionList.addAll(new PlainMinionLoader().createMinionListFromCSV());
+        minionList.addAll(new PlainMinionLoader().createMinionListFromCSV());
+        minionList.addAll(new AbilityMinionGenerator().createMinions());
+        minionList.addAll(new AbilityMinionGenerator().createMinions());
 
         return new Deck(minionList);
     }

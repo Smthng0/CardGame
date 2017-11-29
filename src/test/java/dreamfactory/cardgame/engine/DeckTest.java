@@ -2,9 +2,8 @@ package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.engine.Deck;
-import dreamfactory.cardgame.io.GenericMinionReader;
-import dreamfactory.cardgame.io.MinionsWithAbilities;
+import dreamfactory.cardgame.io.PlainMinionLoader;
+import dreamfactory.cardgame.io.AbilityMinionGenerator;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -24,12 +23,12 @@ public class DeckTest {
 
     @Test
     public void createDeck_fromCSV_OK() {
-        List<MinionCard> readerList = (new GenericMinionReader().createMinionListFromCSV());
+        List<MinionCard> readerList = (new PlainMinionLoader().createMinionListFromCSV());
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(readerList);
         minionList.addAll(readerList);
 
-        List<MinionCard> abilityList = new MinionsWithAbilities().createMinions();
+        List<MinionCard> abilityList = new AbilityMinionGenerator().createMinions();
         minionList.addAll(abilityList);
         minionList.addAll(abilityList);
 

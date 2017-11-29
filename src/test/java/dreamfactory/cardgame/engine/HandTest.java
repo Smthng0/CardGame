@@ -2,7 +2,6 @@ package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.SpellCard;
 import dreamfactory.cardgame.cards.WeaponCard;
-import dreamfactory.cardgame.engine.Hand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
