@@ -2,13 +2,13 @@
 
 Work in progress :D
 
-###Description:
+### Description:
 A unnamed Card Game, originally based on Hearthstone™...  
 For now, there are 2 players with their own decks made of minion cards.  
 The players summon minions and attack each other.  
 The winner is the first one to lower the other players health to 0.  
 
-###Tutorial
+### Tutorial
 The main method is in the GameStarter class, so you start if from there...  
 For now, it's console based, so you enter your commands thru the console.  
 You start by entering both players names.  
