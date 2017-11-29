@@ -12,16 +12,16 @@ public class PlayerTest {
 
     @Test
     public void cratePlayer_OK() {
-        Deck deck = DeckTest.createDeck();
+        Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck, true);
 
         assertTrue(player.getNumberOfCards() == 3);
-        assertTrue(player.getBoard().getNumberOfMinions() == 0);
+        assertTrue(player.getNumberOfMinions() == 0);
     }
 
     @Test
     public void takeDamage() {
-        Deck deck = DeckTest.createDeck();
+        Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck, true);
         player.takeDamage(17);
 
@@ -30,7 +30,7 @@ public class PlayerTest {
 
     @Test
     public void attack_sequence_getWeapon_goToGraveyard_OK() {
-        Deck deck = DeckTest.createDeck();
+        Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck, true);
         MinionCard minion = new MinionCard("Vice", 0, 7, 14);
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 2);
@@ -59,13 +59,13 @@ public class PlayerTest {
         Player defer = new Player("fuckyou2", null, false);
 
         MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
-        attacker.getBoard().summonMinion(minionCard);
+        attacker.summonMinion(minionCard);
 
         minionCard = new MinionCard("frane", 0, 3, 4);
-        attacker.getBoard().summonMinion(minionCard);
+        attacker.summonMinion(minionCard);
 
         minionCard = new MinionCard("frane", 0, 3, 4);
-        defer.getBoard().summonMinion(minionCard);
+        defer.summonMinion(minionCard);
 
         MinionCard attackDog = attacker.getMinion(0);
 

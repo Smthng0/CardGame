@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DeckTest {
@@ -19,21 +18,17 @@ public class DeckTest {
     public void create_deck_OK() {
         Deck deck = createDeck();
 
-        assertTrue(deck.getRemainingCards() == 30);
+        assertTrue(deck.getDmgCounter() == 0);
     }
 
     @Test
     public void createDeck_fromCSV_OK() {
-        GenericMinionReader reader = new GenericMinionReader();
-        List<MinionCard> readerList = (reader.createMinionListFromCSV());
-
-                reader.createMinionListFromCSV();
+        List<MinionCard> readerList = (new GenericMinionReader().createMinionListFromCSV());
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(readerList);
         minionList.addAll(readerList);
 
-        MinionsWithAbilities minionsWithAbilities = new MinionsWithAbilities();
-        List<MinionCard> abilityList = minionsWithAbilities.createMinions();
+        List<MinionCard> abilityList = new MinionsWithAbilities().createMinions();
         minionList.addAll(abilityList);
         minionList.addAll(abilityList);
 
@@ -45,61 +40,19 @@ public class DeckTest {
     public void drawCard_OK() {
         Deck deck = createDeck();
 
-        deck.drawCard();
-        assertTrue(deck.getRemainingCards() == 29);
-        deck.drawCard();
-        assertTrue(deck.getRemainingCards() == 28);
-
         for (int i = 0; i < 30; i++) {
             deck.drawCard();
         }
 
-        assertTrue(deck.getRemainingCards() == 0);
+        assertTrue(deck.getDmgCounter() == 0);
+
+        deck.drawCard();
+        deck.drawCard();
+
         assertTrue(deck.getDmgCounter() == 2);
     }
 
-    @Test
-    public void searchCard_byTitle_OK() {
-        Deck deck = createDeck();
-
-        assertTrue(deck.searchCard("Minion29"));
-        assertFalse(deck.searchCard("Minion31"));
-        assertTrue(deck.searchCard("Minion14"));
-
-    }
-
-    @Test
-    public void addCard_searchCard_byCard_OK() {
-        Deck deck = createDeck();
-        MinionCard minion = new MinionCard("Vice", 2, 9, 4);
-        deck.addCard(minion);
-
-        assertTrue(deck.getRemainingCards() == 31);
-        assertTrue(deck.searchCard(minion));
-    }
-
-    @Test
-    public void removeCard_OK () {
-        Deck deck = createDeck();
-        MinionCard minion = new MinionCard("Vice", 2, 9, 4);
-        deck.addCard(minion);
-
-        assertTrue(deck.searchCard(minion));
-        assertTrue(deck.getRemainingCards() == 31);
-        assertTrue(deck.removeTargetCard(minion));
-        assertFalse(deck.searchCard(minion));
-        assertTrue(deck.removeFirstCard());
-        assertTrue(deck.getRemainingCards() == 29);
-
-        for (int i = 0; i < 29; i++) {
-            deck.removeFirstCard();
-        }
-
-        assertFalse(deck.removeTargetCard(minion));
-        assertFalse(deck.removeFirstCard());
-    }
-
-    public static Deck createDeck(){
+    public Deck createDeck(){
         List<HearthstoneCard> arrayDeck = new ArrayList<>();
         Random random = new Random ();
 
@@ -117,8 +70,8 @@ public class DeckTest {
         return deck;
     }
 
-    public static void printList(List<HearthstoneCard> list) {
-        for (HearthstoneCard card: list) {
+    public void printList(List<HearthstoneCard> list) {
+        for (HearthstoneCard card : list) {
             System.out.print(card.getTitle()
                     + ", " + card.getManaCost());
             if (card instanceof MinionCard) {

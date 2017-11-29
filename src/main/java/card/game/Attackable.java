@@ -6,6 +6,8 @@ public interface Attackable {
 
     int getAttack();
 
+    int getHealth();
+
     boolean isDead();
 
     void attack(Attackable target);

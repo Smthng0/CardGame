@@ -20,10 +20,10 @@ public class MirrorImage extends SpellCard {
         List<Ability> taunt = new ArrayList<>();
         taunt.add(Ability.TAUNT);
 
-        engine.getFriendlyPlayer().playCard(
+        engine.getFriendlyPlayer().summonMinion(
                 (new MinionCard("Mirror Image", 0, 0, 2, taunt)));
 
-        engine.getFriendlyPlayer().playCard(
+        engine.getFriendlyPlayer().summonMinion(
                 (new MinionCard("Mirror Image", 0, 0, 2, taunt)));
 
     }

@@ -69,4 +69,10 @@ public class Board {
         return ((index < getNumberOfMinions()
                 && (index >= 0)));
     }
+
+    public void resetAttacks() {
+        for (MinionCard minion : backingBoard) {
+            minion.resetAttacks();
+        }
+    }
 }

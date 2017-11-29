@@ -12,12 +12,12 @@ public class Deck {
 
 
     public Deck (List<HearthstoneCard> deck) {
-        if (deck.size() != 30){
-            System.out.println("Must have 30 cards!");
+        if (!acceptableSize(deck.size())){
+            System.out.println("Deck must have 15 - 30 cards!");
+        } else {
+            backingDeck.addAll(deck);
+            shuffleDeck();
         }
-
-        backingDeck.addAll(deck);
-        shuffleDeck();
     }
 
     public HearthstoneCard drawCard() {
@@ -30,7 +30,7 @@ public class Deck {
     }
 
     private boolean acceptableSize(int size) {
-        return ((15 < size) < 31);
+        return ((size < 31) && (size > 14));
     }
 
     private boolean isEmpty() {
@@ -39,10 +39,6 @@ public class Deck {
 
     private void shuffleDeck() {
         Collections.shuffle(backingDeck);
-    }
-
-    public int getRemainingCards() {
-        return backingDeck.size();
     }
 
     public int getDmgCounter() {

@@ -1,7 +1,5 @@
 package card.game.cards;
 
-import card.game.Engine;
-import card.game.Player;
 import card.game.Ability;
 
 import java.util.ArrayList;
@@ -23,39 +21,10 @@ public class WeaponCard implements HearthstoneCard {
     }
 
     public WeaponCard(String title, int manaCost, int attack, int durability, List<Ability> abilities){
-        this.title = title;
-        this.manaCost = manaCost;
-        this.attack = attack;
-        this.durability = durability;
-        this.abilities = new ArrayList<>();
+        this(title, manaCost, attack, durability);
         if (abilities != null){
-            this.abilities.addAll(abilities);
+            this.abilities = abilities;
         }
-    }
-
-    @Override
-    public void play() {
-        Player player = Engine.getFriendlyPlayer();
-        player.setWeapon(this);
-        player.setAttack(this.attack);
-        player.setMaxAttacks(1);
-
-        if (getAbility("Windfury") != null){
-            player.setMaxAttacks(2);
-        }
-
-        player.setRemainingAttacks(player.getMaxAttacks());
-    }
-
-    public Ability getAbility(String ability) {
-        for (Ability abilityIterator : abilities) {
-            if (abilityIterator.getAbilityType()
-                    .equals(ability)) {
-                return abilityIterator;
-            }
-        }
-
-        return null;
     }
 
     @Override
@@ -78,16 +47,8 @@ public class WeaponCard implements HearthstoneCard {
         return manaCost;
     }
 
-    public void setManaCost(int manaCost) {
-        this.manaCost = manaCost;
-    }
-
     public int getAttack() {
         return attack;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
     }
 
     public int getDurability() {
@@ -98,6 +59,7 @@ public class WeaponCard implements HearthstoneCard {
         this.durability = durability;
     }
 
+    @Override
     public List<Ability> getAbilities() {
         return abilities;
     }

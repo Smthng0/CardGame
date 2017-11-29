@@ -35,6 +35,7 @@ public class SpellCardTest {
         spellCard.addAbility(Ability.WINDFURY);
 
         assertTrue(spellCard.hasAbility());
+        assertTrue(spellCard.getAbilities().contains(Ability.WINDFURY));
 
     }
 

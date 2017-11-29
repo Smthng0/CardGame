@@ -17,7 +17,7 @@ public class Engine {
     private String command;
     private int turnCounter;
 
-    private void createPlayers() {
+    public void createPlayers() {
         System.out.println("Enter first player name: ");
         command = scanner.nextLine();
         Deck deck1 = createConstructedDeck();
@@ -35,10 +35,12 @@ public class Engine {
         turnCounter = 2;
     }
 
-    private void startOfTurn() {
+    public void startOfTurn() {
         System.out.println("It's " + activePlayer.getPlayerName() + "'s turn!");
         System.out.println("Turn number: " + (int)Math.ceil(turnCounter/2));
         startTurn();
+        checkStatus();
+        chooseAction();
     }
 
     private void availableActions(){
@@ -58,7 +60,7 @@ public class Engine {
         separator();
     }
 
-    private void chooseAction() {
+    public void chooseAction() {
         do {
             availableActions();
 
@@ -90,14 +92,16 @@ public class Engine {
                 viewBoard();
             }
 
-        } while ((!command.equalsIgnoreCase("End turn"))
-                && (!command.equalsIgnoreCase("End"))
-                && (!command.equalsIgnoreCase("e"))
-                && (!command.equalsIgnoreCase("Exit"))
+            if ((command.equalsIgnoreCase("End Turn"))
+                    || (command.equalsIgnoreCase("End"))
+                    || (command.equalsIgnoreCase("e"))) {
+                endTurn();
+            }
+
+        } while ((!command.equalsIgnoreCase("Exit"))
                 && (!command.equalsIgnoreCase("x"))
                 && (!command.equalsIgnoreCase("Exit game")));
 
-        endTurn();
     }
 
     private void playCard() {
@@ -118,7 +122,7 @@ public class Engine {
         if (index < activePlayer.getNumberOfCards()
                 && (index >= 0)) {
             command = activePlayer.getCard(index).getTitle();
-            int mana = activePlayer.playCard(index);
+            int mana = activePlayer.getCard(index).getManaCost();
 
             if (mana == -1) {
                 System.out.println("Card not played! (no such card or not enough mana) ");
@@ -142,7 +146,7 @@ public class Engine {
     }
 
     private void attack() {
-        if (activePlayer.getBoard().getAllMinions() == null) {
+        if (activePlayer.getMinion(0) == null) {
             System.out.println();
             System.out.println("No minions! ");
             separator();
@@ -160,7 +164,7 @@ public class Engine {
                 return;
             }
 
-            if ((activePlayer.getBoard().getNumberOfMinions() > index)
+            if ((activePlayer.getNumberOfMinions() > index)
                     && (index >= 0)) {
                 if (activePlayer.getMinion(index).getRemainingAttacks() > 0) {
                     MinionCard attackingMinion = activePlayer.getMinion(index);
@@ -177,13 +181,13 @@ public class Engine {
 
                     separator();
 
-                    if (passivePlayer.getBoard().getNumberOfMinions() > 0){
+                    if (passivePlayer.getNumberOfMinions() > 0){
                         System.out.println("Minions: ");
                         passivePlayer.viewBoard();
                     }
 
                     System.out.println("Player: ");
-                    System.out.println((passivePlayer.getBoard().getNumberOfMinions())
+                    System.out.println((passivePlayer.getNumberOfMinions())
                             + ".  " + passivePlayer.getPlayerName());
 
                     command = scanner.nextLine();
@@ -195,7 +199,7 @@ public class Engine {
                         return;
                     }
 
-                    if (index == (passivePlayer.getBoard().getNumberOfMinions())) {
+                    if (index == (passivePlayer.getNumberOfMinions())) {
                         System.out.println(attackingMinion.getTitle() + " did "
                                 + attackingMinion.getAttack() + " damage to "
                                 + passivePlayer.getPlayerName() + "!");
@@ -236,11 +240,11 @@ public class Engine {
                                 + attackingMinion.getHealth());
 
                         if (defendingMinion.isDead()){
-                            passivePlayer.goToGraveyard(index);
+                            passivePlayer.killMinion(index);
                         }
 
                         if (attackingMinion.isDead()){
-                            activePlayer.goToGraveyard(attackingIndex);
+                            activePlayer.killMinion(attackingIndex);
                         }
                     }
 
@@ -271,7 +275,7 @@ public class Engine {
         System.out.print("  |  Your hand size: ");
         System.out.print(activePlayer.getNumberOfCards());
         System.out.print("  |  Number of active minions: ");
-        System.out.println(activePlayer.getBoard().getNumberOfMinions());
+        System.out.println(activePlayer.getNumberOfMinions());
         System.out.print("Enemy health: ");
         System.out.print(passivePlayer.getHealth());
         System.out.print("  |  Enemy mana pool: ");
@@ -279,7 +283,7 @@ public class Engine {
         System.out.print("  |  Enemy hand size: ");
         System.out.print(passivePlayer.getNumberOfCards());
         System.out.print("  |  Number of active enemy minions: ");
-        System.out.println(passivePlayer.getBoard().getNumberOfMinions());
+        System.out.println(passivePlayer.getNumberOfMinions());
         separator();
     }
 
@@ -312,10 +316,8 @@ public class Engine {
         }
         System.out.println();
 
-        if (activePlayer.getBoard().getAllMinions() != null) {
-            for (MinionCard minion : activePlayer.getBoard().getAllMinions()) {
-                minion.resetAttacks();
-            }
+        if (activePlayer.hasMinions()) {
+            activePlayer.resetAttacks();
         }
     }
 
@@ -323,7 +325,7 @@ public class Engine {
         if (activePlayer.fullHand()) {
             while (activePlayer.getNumberOfCards()
                     > activePlayer.getCardLimit()) {
-                activePlayer.discardCard(0);
+                activePlayer.removeCard(0);
             }
         }
 
@@ -331,21 +333,9 @@ public class Engine {
         activePlayer = passivePlayer;
         passivePlayer = tempPlayer;
         turnCounter++;
+        startOfTurn();
     }
 
-    public Attackable getEnemyMinion(String title) {
-        for (MinionCard minion : passivePlayer.getBoard().getAllMinions()) {
-            if (minion.checkForAbility("Taunt")) {
-                return minion;
-            }
-        }
-
-        return passivePlayer.getBoard().getMinion(title);
-    }
-
-    public Attackable getFriendlyMinion(String title) {
-        return activePlayer.getBoard().getMinion(title);
-    }
 
     public Player getFriendlyPlayer() {
         return activePlayer;

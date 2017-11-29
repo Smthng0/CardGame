@@ -1,12 +1,10 @@
 package card.game.io;
 
-import card.game.cards.HearthstoneCard;
 import card.game.cards.MinionCard;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 
 public class GenericMinionReaderTest {
     @Test

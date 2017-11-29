@@ -22,7 +22,7 @@ public class MinionCardTest {
                 &&(minion.getManaCost() == 8)
                 &&(minion.getAttack() == 17)
                 &&(minion.getHealth() == 4)
-                &&(!minion.hasAbility());
+                &&(!minion.hasAbility()));
         assertTrue((minionWithAbility.getHealth() == 8)
                 &&(minionWithAbility.hasAbility()));
     }
@@ -56,8 +56,8 @@ public class MinionCardTest {
         minion1.addAbility(Ability.CHARGE);
         minion2.addAbility(Ability.WINDFURY);
 
-        assertTrue(minion2.checkForAbility(Ability.DIVINE_SHIELD));
-        assertFalse(minion2.checkForAbility(Ability.WINDFURY));
+        assertFalse(minion2.checkForAbility(Ability.DIVINE_SHIELD));
+        assertTrue(minion2.checkForAbility(Ability.WINDFURY));
     }
 
     @Test

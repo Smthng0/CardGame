@@ -9,96 +9,28 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Hand {
-    private int numberOfCards = 0;
-    private int limit = 10;
     private List<HearthstoneCard> backingHand;
-    private Deck deck = null;
-    private Board board = null;
 
-    public Hand (Deck deck, boolean playsFirst, Board board){
+    public Hand (boolean playsFirst){
         backingHand = new ArrayList<>();
-        this.deck = deck;
-        this.board = board;
-        if(deck != null) {
-            startup(deck, playsFirst);
-        }
-    }
-
-    private void startup(Deck deck, boolean playsFirst) {
-        for (int i = 0; i < 3; i++) {
-            this.drawCard();
-        }
 
         if (!playsFirst){
-            this.addCard(new SpellCard("The Coin", 0, null));
+            List<Ability> list = new ArrayList<>();
+            list.add(Ability.ADD_MANA);
+            this.addCard(new SpellCard("The Coin", 0, list));
         }
-    }
-
-    public HearthstoneCard drawCard() {
-        numberOfCards++;
-        HearthstoneCard card = deck.drawCard();
-        backingHand.add(card);
-        return card;
     }
 
     public void addCard(HearthstoneCard card) {
         backingHand.add(card);
-        numberOfCards++;
     }
 
-    public void discardCard(HearthstoneCard card) {
-        if (hasCards()
-                &&backingHand.remove(card)){
-            numberOfCards--;
-        } else {
-            System.out.println("Doesn't have that card!");
-        }
-    }
-
-    public void discardCard(int index) {
+    public void removeCard(int index) {
         if (hasCards()){
-            numberOfCards--;
             backingHand.remove(index);
         } else {
             System.out.println("No more cards!");
         }
-    }
-
-    public void playCard(HearthstoneCard card) {
-        if (card instanceof MinionCard){
-            board.summonMinion((MinionCard)card);
-        }
-
-        card.play();
-        backingHand.remove(card);
-        numberOfCards--;
-    }
-
-    public int playCard(String title) {
-        for (HearthstoneCard card : backingHand) {
-            if (card.getTitle().equalsIgnoreCase(title)) {
-                playCard(card);
-                return card.getManaCost();
-            }
-        }
-        return -1;
-    }
-
-    public int playCard(int index) {
-        if (backingHand.size() > index){
-            HearthstoneCard card = backingHand.get(index);
-            card.play();
-            backingHand.remove(index);
-            numberOfCards--;
-
-            if (card instanceof MinionCard){
-                board.summonMinion((MinionCard)card);
-            }
-
-            return card.getManaCost();
-        }
-
-        return -1;
     }
 
     public HearthstoneCard getCard(int index) {
@@ -107,16 +39,6 @@ public class Hand {
         }
 
         return null;
-    }
-
-    public boolean checkMana(String title, int availableMana) {
-        for (HearthstoneCard card : backingHand) {
-            if ((card.getTitle().equalsIgnoreCase(title))
-                    && (card.getManaCost() <= availableMana)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public boolean checkMana(int index, int availableMana) {
@@ -140,6 +62,11 @@ public class Hand {
                         + ", Health: " + ((MinionCard) card).getHealth());
             }
 
+            if (card.hasAbility()) {
+                System.out.print(", Ability: ");
+                printAbilities(card.getAbilities());
+            }
+
             if (card.getTitle().equalsIgnoreCase("The Coin")){
                 System.out.print(", Ability: Add 1 temporary mana");
             }
@@ -152,7 +79,7 @@ public class Hand {
 
     private void printAbilities(List<Ability> list) {
         for (Ability ability : list) {
-            System.out.print(", " + ability.getAbilityType());
+            System.out.print(", " + ability);
         }
     }
 
@@ -161,14 +88,14 @@ public class Hand {
     }
 
     public boolean hasCards(){
-        return this.numberOfCards > 0;
+        return getNumberOfCards() > 0;
     }
 
     public int getNumberOfCards() {
-        return numberOfCards;
+        return backingHand.size();
     }
 
     public int getLimit() {
-        return limit;
+        return 10;
     }
 }

@@ -67,6 +67,7 @@ public class MinionCard implements HearthstoneCard, Attackable {
         return abilities.contains(ability);
     }
 
+    @Override
     public List<Ability> getAbilities() {
         return abilities;
     }
@@ -108,6 +109,7 @@ public class MinionCard implements HearthstoneCard, Attackable {
         return manaCost;
     }
 
+    @Override
     public int getHealth() {
         return health;
     }

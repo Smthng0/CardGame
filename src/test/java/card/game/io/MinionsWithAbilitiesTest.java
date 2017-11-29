@@ -27,7 +27,7 @@ public class MinionsWithAbilitiesTest {
 
     public void printAbilities(List<Ability> list) {
         for (Ability ability : list) {
-            System.out.print(ability.getAbilityType() + " ");
+            System.out.print(ability + " ");
         }
     }
 

@@ -1,8 +1,6 @@
 package card.game.cards;
 
 import card.game.Ability;
-import card.game.abilities.DivineShield;
-import card.game.abilities.Windfury;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ public class WeaponCardTest {
     @Test
     public void create_weapon_OK() {
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(new Windfury());
+        abilities.add(Ability.WINDFURY);
         WeaponCard weapon1 = new WeaponCard("Sledgehammer", 6, 9, 4);
         WeaponCard weapon2 = new WeaponCard("Needle", 6, 2, 8, abilities);
 
@@ -30,17 +28,12 @@ public class WeaponCardTest {
     }
 
     @Test
-    public void play_NYI() {
-        //need to wait for the engine with "friendly player"
-    }
-
-    @Test
     public void addAbility_OK() {
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
-        weapon.addAbility(new DivineShield());
+        weapon.addAbility(Ability.DIVINE_SHIELD);
 
         assertTrue(weapon.hasAbility());
-        assertTrue(weapon.getAbility("DivineShield") != null);
+        assertTrue(weapon.getAbilities().contains(Ability.DIVINE_SHIELD));
     }
 
 

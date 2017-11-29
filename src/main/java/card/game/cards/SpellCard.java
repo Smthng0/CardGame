@@ -43,6 +43,7 @@ public class SpellCard implements HearthstoneCard {
         return title;
     }
 
+    @Override
     public List<Ability> getAbilities() {
         return abilities;
     }

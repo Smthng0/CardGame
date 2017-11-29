@@ -13,7 +13,6 @@ public class Player implements Attackable {
     private int health = 30;
     private int manaPool = 0;
     private int remainingMana = 0;
-    private Ability classAbility = null;
     private WeaponCard weapon = null;
     private Deck deck;
     private Hand hand;
@@ -23,7 +22,7 @@ public class Player implements Attackable {
         this.playerName = name;
         this.deck = deck;
         this.board = new Board();
-        this.hand = new Hand(deck, playsFirst, this.board);
+        this.hand = new Hand(playsFirst);
     }
 
     @Override
@@ -68,7 +67,6 @@ public class Player implements Attackable {
             System.out.println("");
             System.out.println("I won!!! <3");
             System.out.println("Wooohooo");
-            System.out.println(Engine.getFriendlyPlayer().getPlayerName() + " is th3 b3st!!! 3vah!!!!");
             System.out.println("");
             System.out.println("");
             System.out.println("     /(|");
@@ -78,13 +76,6 @@ public class Player implements Attackable {
             System.out.println("(____)|   |");
             System.out.println(" (____).__|");
             System.out.println("  (___)__.|_____");
-        }
-    }
-
-    public void goToGraveyard(int index){
-        if ((index < board.getNumberOfMinions())
-                && (index >= 0)) {
-            board.removeMinion(index);
         }
     }
 
@@ -106,22 +97,6 @@ public class Player implements Attackable {
         return playerName;
     }
 
-    public Deck getDeck() {
-        return deck;
-    }
-
-    public void setAttack(int attack) {
-        this.attack = attack;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
     public int getMaxAttacks() {
         return maxAttacks;
     }
@@ -138,12 +113,9 @@ public class Player implements Attackable {
         this.remainingAttacks = remainingAttacks;
     }
 
+    @Override
     public int getHealth() {
         return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public int getManaPool() {
@@ -162,14 +134,6 @@ public class Player implements Attackable {
         this.remainingMana = remainingMana;
     }
 
-    public Ability getClassAbility() {
-        return classAbility;
-    }
-
-    public void setClassAbility(Ability classAbility) {
-        this.classAbility = classAbility;
-    }
-
     public WeaponCard getWeapon() {
         return weapon;
     }
@@ -182,43 +146,10 @@ public class Player implements Attackable {
         return (hand.getNumberOfCards() >= hand.getLimit());
     }
 
-    public void addCard(HearthstoneCard card) {
-        hand.addCard(card);
-    }
-
-    public void discardCard(HearthstoneCard card) {
-        hand.discardCard(card);
-    }
-
     public HearthstoneCard drawCard() {
-        return hand.drawCard();
-    }
-
-    public boolean playCard(HearthstoneCard card) {
-        if (card.getManaCost() > remainingMana){
-            return false;
-        }
-
-        remainingMana -= card.getManaCost();
-        hand.playCard(card);
-
-        return true;
-    }
-
-    public int playCard(String title) {
-        if (hand.checkMana(title, remainingMana)) {
-            return hand.playCard(title);
-        }
-
-        return -1;
-    }
-
-    public int playCard(int index) {
-        if (hand.checkMana(index, remainingMana)) {
-            return hand.playCard(index);
-        }
-
-        return -1;
+        HearthstoneCard card = deck.drawCard();
+        hand.addCard(card);
+        return card;
     }
 
     public HearthstoneCard getCard(int index) {
@@ -232,8 +163,20 @@ public class Player implements Attackable {
         hand.viewHand();
     }
 
-    public void discardCard(int index) {
-        hand.discardCard(index);
+    public void removeCard(int index) {
+        hand.removeCard(index);
+    }
+
+    public void killMinion(int index) {
+        board.removeMinion(index);
+    }
+
+    public int getNumberOfMinions() {
+        return board.getNumberOfMinions();
+    }
+
+    public boolean hasMinions() {
+        return !board.isEmpty();
     }
 
     public int getNumberOfCards () {
@@ -252,4 +195,17 @@ public class Player implements Attackable {
         board.printBoard();
     }
 
+
+    public void resetAttacks() {
+        board.resetAttacks();
+        remainingAttacks = maxAttacks;
+    }
+
+    public void summonMinion(MinionCard mirror_image) {
+        board.summonMinion(mirror_image);
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
 }
