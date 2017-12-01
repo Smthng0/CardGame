@@ -23,22 +23,20 @@ public class PlayerTest {
     public void takeDamage() {
         Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck);
+        int playerHealth = player.getHealth();
         player.takeDamage(17);
 
-        assertTrue(player.getHealth() == 13);
+        assertTrue(player.getHealth() == (playerHealth - 17));
     }
 
     @Test
-    public void attack_sequence_getWeapon_goToGraveyard_OK() {
+    public void equipWeapon_attack_sequence_OK() {
         Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck);
         MinionCard minion = new MinionCard("Vice", 0, 7, 14);
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 2);
 
-        player.setWeapon(weapon);
-        player.setAttack(weapon.getAttack());
-        player.setMaxAttacks(1);
-        player.setRemainingAttacks(player.getMaxAttacks());
+        player.equipWeapon(weapon);
 
         player.attack(minion);
 
@@ -46,7 +44,7 @@ public class PlayerTest {
         assertTrue(minion.getHealth() == 5);
         assertTrue(player.hasWeapon());
 
-        player.setRemainingAttacks(player.getMaxAttacks());
+        player.resetAttacks();
         player.attack(minion);
 
         assertTrue(player.getHealth() == 16);

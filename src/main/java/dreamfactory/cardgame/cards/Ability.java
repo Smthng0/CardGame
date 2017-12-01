@@ -1,7 +1,7 @@
 package dreamfactory.cardgame.cards;
 
 public enum Ability {
-    CHARGE,
+    HASTE,
     DIVINE_SHIELD,
     SUMMON, TAUNT,
     WINDFURY,

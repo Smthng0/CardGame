@@ -11,7 +11,7 @@ public class AbilityMinionGenerator {
         List<MinionCard> minionList = new ArrayList<>();
 
         MinionCard minion = new MinionCard("Puddle Jumper",1,2,1);
-        minion.addAbility(Ability.CHARGE);
+        minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 
         minion = new MinionCard("Mini Mantis",3,2,4);
@@ -23,12 +23,12 @@ public class AbilityMinionGenerator {
         minionList.add(minion);
 
         minion = new MinionCard("Mantis",5,3,4);
-        minion.addAbility(Ability.CHARGE);
+        minion.addAbility(Ability.HASTE);
         minion.addAbility(Ability.WINDFURY);
         minionList.add(minion);
 
         minion = new MinionCard("Puddle Jumpitron",6,7,3);
-        minion.addAbility(Ability.CHARGE);
+        minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 
         return minionList;

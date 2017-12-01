@@ -23,19 +23,15 @@ public class MinionCard extends Attackable implements HearthstoneCard {
         if (abilities != null) {
             this.abilities.addAll(abilities);
 
-            if (abilities.contains(Ability.WINDFURY)) {
-                this.maxAttacks = 2;
-            }
-
-            if (abilities.contains(Ability.CHARGE)) {
-                this.remainingAttacks = this.maxAttacks;
+            if (abilities.contains(Ability.HASTE)) {
+                resetAttacks();
             }
         }
     }
 
     @Override
     public void takeDamage(int damage){
-        if (abilities.contains(Ability.DIVINE_SHIELD)){
+        if (hasAbility(Ability.DIVINE_SHIELD)){
             abilities.remove(Ability.DIVINE_SHIELD);
         } else {
             takeDamage(damage);
@@ -43,25 +39,17 @@ public class MinionCard extends Attackable implements HearthstoneCard {
     }
 
     @Override
+    public boolean hasWindfury() {
+        return hasAbility(Ability.WINDFURY);
+    }
+
+    @Override
     public void addAbility(Ability ability) {
         abilities.add(ability);
 
-        switch (ability) {
-            case WINDFURY: maxAttacks = 2;
-            break;
-            case CHARGE: remainingAttacks = maxAttacks;
-            break;
+        if (ability == Ability.HASTE){
+            resetAttacks();
         }
-    }
-
-    @Override
-    public boolean hasAbilities() {
-        return !abilities.isEmpty();
-    }
-
-    @Override
-    public boolean hasAbility(Ability ability) {
-        return abilities.contains(ability);
     }
 
     @Override
@@ -74,5 +62,14 @@ public class MinionCard extends Attackable implements HearthstoneCard {
         return manaCost;
     }
 
+    @Override
+    public boolean hasAbilities() {
+        return !abilities.isEmpty();
+    }
+
+    @Override
+    public boolean hasAbility(Ability ability) {
+        return abilities.contains(ability);
+    }
 
 }

@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.cards.WeaponCard;
@@ -16,7 +17,6 @@ public class Player extends Attackable {
     public Player(String name, Deck deck) {
         this.playerName = name;
         this.deck = deck;
-        this.maxAttacks = 0;
         this.board = new Board();
         this.hand = new Hand();
     }
@@ -48,17 +48,30 @@ public class Player extends Attackable {
     public void equipWeapon(WeaponCard weapon) {
         this.weapon = weapon;
         this.attack = weapon.getAttack();
-        this.maxAttacks = weapon.getDurability();
+        this.resetAttacks();
     }
 
-    public boolean isHandFull() {
-        return (hand.isFull());
+    public void destroyWeapon() {
+        if (hasWeapon()) {
+            this.weapon = null;
+            this.attack = 0;
+            this.remainingAttacks = 0;
+        }
+    }
+
+    @Override
+    public boolean hasWindfury() {
+        return weapon.hasAbility(Ability.WINDFURY);
     }
 
     public HearthstoneCard drawCard() {
         HearthstoneCard card = deck.drawCard();
         hand.addCard(card);
         return card;
+    }
+
+    public void playCard(HearthstoneCard card){
+
     }
 
     public HearthstoneCard getCard(int index) {
@@ -68,12 +81,32 @@ public class Player extends Attackable {
         return null;
     }
 
+    public void removeCard(int index) {
+        hand.removeCard(index);
+    }
+
+    public int getNumberOfCards () {
+        return hand.getNumberOfCards();
+    }
+
+    public boolean isHandFull() {
+        return (hand.isFull());
+    }
+
     public void viewHand() {
         // TODO: mozda dobit string i njega printat... pa nazvat printhand
     }
 
-    public void removeCard(int index) {
-        hand.removeCard(index);
+    public void viewBoard() {
+        //isto ko za view hand
+    }
+
+    public void summonMinion(MinionCard mirror_image) {
+        board.summonMinion(mirror_image);
+    }
+
+    public MinionCard getMinion(int index){
+        return board.getMinion(index);
     }
 
     public void killMinion(int index) {
@@ -88,19 +121,4 @@ public class Player extends Attackable {
         return !board.isEmpty();
     }
 
-    public int getNumberOfCards () {
-        return hand.getNumberOfCards();
-    }
-
-    public MinionCard getMinion(int index){
-        return board.getMinion(index);
-    }
-
-    public void viewBoard() {
-        //isto ko za view hand
-    }
-
-    public void summonMinion(MinionCard mirror_image) {
-        board.summonMinion(mirror_image);
-    }
 }

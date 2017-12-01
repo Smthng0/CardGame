@@ -4,8 +4,7 @@ import dreamfactory.cardgame.cards.MinionCard;
 
 public abstract class Attackable {
     protected int attack = 0;
-    protected int health = 20;
-    protected int maxAttacks = 1;
+    protected int health = 20;  //default player health, minion gets his on creation
     protected int remainingAttacks = 0;
 
     public void attack(Attackable target){
@@ -32,15 +31,17 @@ public abstract class Attackable {
         return health;
     }
 
-    public int getMaxAttacks() {
-        return maxAttacks;
-    }
-
     public int getRemainingAttacks() {
         return remainingAttacks;
     }
 
+    abstract public boolean hasWindfury();
+
     public void resetAttacks() {
-        remainingAttacks = maxAttacks;
+        remainingAttacks = 1;
+
+        if (hasWindfury()){
+            remainingAttacks = 2;
+        }
     }
 }
