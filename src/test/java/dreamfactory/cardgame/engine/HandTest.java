@@ -4,7 +4,6 @@ import dreamfactory.cardgame.cards.SpellCard;
 import dreamfactory.cardgame.cards.WeaponCard;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HandTest {
@@ -14,7 +13,7 @@ public class HandTest {
         Hand hand = new Hand();
 
         assertTrue(hand.getNumberOfCards() == 0);
-        assertFalse(hand.hasCards());
+        assertTrue(hand.isEmpty());
     }
 
     @Test

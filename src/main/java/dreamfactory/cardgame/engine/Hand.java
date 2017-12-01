@@ -46,17 +46,16 @@ public class Hand {
 
     public void viewAllCards() {
         sortByManaCost();
-        //print card
-        //minioncard printer -> minion card ga treba imat
-        //ability printer -> isto minion/spell card ga treba imat...
-        //vidit da to sve se vraca kao string
+        //TODO: vratit string i pokrenut print ability (dodat u taj string)
     }
 
     public void viewPlayableCards(int availableMana) {
         sortByManaCost();
+        //TODO: viewallcard sa filterom mana cost <= available mana
     }
 
     public boolean checkMana(int index, int availableMana) {
+        //TODO: ovo bacit u engine
         return (validIndex(index)
                 && (backingHand.get(index).getManaCost() <= availableMana));
     }
@@ -65,16 +64,16 @@ public class Hand {
         backingHand.sort(Comparator.comparing(HearthstoneCard::getManaCost));
     }
 
-    public boolean hasCards(){
-        return !backingHand.isEmpty();
+    public boolean isEmpty(){
+        return backingHand.isEmpty();
     }
 
     public int getNumberOfCards() {
         return backingHand.size();
     }
 
-    public int getLimit() {
-        return CARD_LIMIT;
+    public boolean isFull() {
+        return getNumberOfCards() < CARD_LIMIT;
     }
 
     private boolean validIndex(int index) {

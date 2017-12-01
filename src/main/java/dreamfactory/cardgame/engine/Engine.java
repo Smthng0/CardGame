@@ -302,7 +302,7 @@ public class Engine {
     private void startTurn() {
         activePlayer.setManaPool(activePlayer.getManaPool()+1);
         activePlayer.setRemainingMana(activePlayer.getManaPool());
-        activePlayer.setRemainingAttacks(activePlayer.getMaxAttacks());
+        activePlayer.resetAttacks();
         HearthstoneCard card = activePlayer.drawCard();
         separator();
 
@@ -323,11 +323,8 @@ public class Engine {
     }
 
     private void endTurn() {
-        if (activePlayer.fullHand()) {
-            while (activePlayer.getNumberOfCards()
-                    > activePlayer.getCardLimit()) {
-                activePlayer.removeCard(0);
-            }
+        while (activePlayer.isHandFull()) {
+            activePlayer.removeCard(0);
         }
 
         Player tempPlayer = activePlayer;

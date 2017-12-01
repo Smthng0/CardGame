@@ -41,6 +41,8 @@ public class PlainMinionLoader {
 
     public List<MinionCard> loadMinionsParser() {
         class MinionCard {
+            @Parsed
+            private String title;
 
         }
         return null;
