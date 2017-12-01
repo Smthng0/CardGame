@@ -18,16 +18,6 @@ public class Hand {
         backingHand.add(card);
     }
 
-    public HearthstoneCard playCard(int index, int availableMana) {
-        if (checkMana(index, availableMana)){
-            HearthstoneCard card = getCard(index);
-            removeCard(index);
-            return card;
-        }
-
-        return null;
-    }
-
     public void removeCard(int index) {
         if (validIndex(index)){
             backingHand.remove(index);
@@ -52,12 +42,6 @@ public class Hand {
     public void viewPlayableCards(int availableMana) {
         sortByManaCost();
         //TODO: viewallcard sa filterom mana cost <= available mana
-    }
-
-    public boolean checkMana(int index, int availableMana) {
-        //TODO: ovo bacit u engine
-        return (validIndex(index)
-                && (backingHand.get(index).getManaCost() <= availableMana));
     }
 
     private void sortByManaCost() {

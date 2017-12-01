@@ -34,7 +34,7 @@ public class MinionCard extends Attackable implements HearthstoneCard {
         if (hasAbility(Ability.DIVINE_SHIELD)){
             abilities.remove(Ability.DIVINE_SHIELD);
         } else {
-            takeDamage(damage);
+            health -= damage;
         }
     }
 

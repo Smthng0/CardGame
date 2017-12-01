@@ -37,17 +37,18 @@ public class PlayerTest {
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 2);
 
         player.equipWeapon(weapon);
+        int playerHealth = player.getHealth();
 
         player.attack(minion);
 
-        assertTrue(player.getHealth() == 23);
+        assertTrue(player.getHealth() == (playerHealth - 7));
         assertTrue(minion.getHealth() == 5);
         assertTrue(player.hasWeapon());
 
         player.resetAttacks();
         player.attack(minion);
 
-        assertTrue(player.getHealth() == 16);
+        assertTrue(player.getHealth() == (playerHealth - 14));
         assertTrue(minion.getHealth() == -4);
         assertFalse(player.hasWeapon());
     }
@@ -58,15 +59,12 @@ public class PlayerTest {
 
         MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
         attacker.summonMinion(minionCard);
-
         minionCard = new MinionCard("frane", 0, 3, 4);
         attacker.summonMinion(minionCard);
-
         minionCard = new MinionCard("frane", 0, 3, 4);
         defer.summonMinion(minionCard);
 
         MinionCard attackDog = attacker.getMinion(0);
-
         MinionCard shouldBeDead = defer.getMinion(0);
         attackDog.resetAttacks();
 
@@ -77,35 +75,6 @@ public class PlayerTest {
         Assert.assertFalse(attacker.getMinion(1).isDead());
         Assert.assertTrue(defer.getMinion(0).isDead());
 
-    }
-
-
-    @Test
-    public void getRemainingMana() {
-    }
-
-    @Test
-    public void setRemainingMana() {
-    }
-
-    @Test
-    public void fullHand() {
-    }
-
-    @Test
-    public void addCard() {
-    }
-
-    @Test
-    public void discardCard() {
-    }
-
-    @Test
-    public void drawCard() {
-    }
-
-    @Test
-    public void playCard() {
     }
 
 }

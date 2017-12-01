@@ -1,9 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.cards.Ability;
-import dreamfactory.cardgame.cards.HearthstoneCard;
-import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.cards.WeaponCard;
+import dreamfactory.cardgame.cards.*;
 
 public class Player extends Attackable {
     private String playerName;
@@ -19,30 +16,6 @@ public class Player extends Attackable {
         this.deck = deck;
         this.board = new Board();
         this.hand = new Hand();
-    }
-
-    public boolean hasWeapon() {
-        return weapon != null;
-    }
-
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public int getManaPool() {
-        return manaPool;
-    }
-
-    public void setManaPool(int manaPool) {
-        this.manaPool = manaPool;
-    }
-
-    public int getRemainingMana() {
-        return remainingMana;
-    }
-
-    public void setRemainingMana(int remainingMana) {
-        this.remainingMana = remainingMana;
     }
 
     public void equipWeapon(WeaponCard weapon) {
@@ -64,14 +37,50 @@ public class Player extends Attackable {
         return weapon.hasAbility(Ability.WINDFURY);
     }
 
+    public boolean hasWeapon() {
+        return weapon != null;
+    }
+
+    public int getManaPool() {
+        return manaPool;
+    }
+
+    public void setManaPool(int manaPool) {
+        this.manaPool = manaPool;
+    }
+
+    public int getRemainingMana() {
+        return remainingMana;
+    }
+
+    public void setRemainingMana(int remainingMana) {
+        this.remainingMana = remainingMana;
+    }
+
+    public boolean checkMana(HearthstoneCard card) {
+        return (card.getManaCost() <= getRemainingMana());
+    }
+
     public HearthstoneCard drawCard() {
         HearthstoneCard card = deck.drawCard();
         hand.addCard(card);
         return card;
     }
 
-    public void playCard(HearthstoneCard card){
+    public void playCard(int index){
+        HearthstoneCard card = hand.getCard(index);
+        if (checkMana(card)){
+            hand.removeCard(index);
 
+            String instance = card.getClass().toString();
+
+            if (card instanceof MinionCard){
+                board.summonMinion((MinionCard)card);
+            } else if (card instanceof WeaponCard){
+                equipWeapon((WeaponCard)card);
+            }
+            //TODO: something with spellcard
+        }
     }
 
     public HearthstoneCard getCard(int index) {
@@ -119,6 +128,10 @@ public class Player extends Attackable {
 
     public boolean hasMinions() {
         return !board.isEmpty();
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 
 }

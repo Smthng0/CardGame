@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.cards;
 
 public interface HearthstoneCard {
+
     String getTitle();
 
     int getManaCost();
