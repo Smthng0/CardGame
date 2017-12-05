@@ -57,7 +57,7 @@ public class Hand {
     }
 
     public boolean isFull() {
-        return getNumberOfCards() < CARD_LIMIT;
+        return getNumberOfCards() > CARD_LIMIT;
     }
 
     private boolean validIndex(int index) {

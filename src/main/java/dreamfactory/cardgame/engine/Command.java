@@ -36,7 +36,7 @@ public class Command {
         startTurn();
     }
 
-    public void chooseAction() {
+    private void chooseAction() {
         do {
             printer(commandStrings.availableActions());
             scanNextCommand();
@@ -86,6 +86,7 @@ public class Command {
         }
 
         printer(commandStrings.getSeparator());
+        chooseAction();
     }
 
     private void attack() {

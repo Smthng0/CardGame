@@ -24,9 +24,9 @@ public class CommandStrings {
 
     public String playerDraws(Player player, HearthstoneCard card) {
         return  (player.getPlayerName())
-                + (" drew a")
+                + (" drew a ")
                 + (card.getClass().getSimpleName())
-                + (":     ")
+                + (" :    ")
                 + cardToString(card);
     }
 
@@ -109,7 +109,7 @@ public class CommandStrings {
                 .append(SPLITTER).append("Enemy hand size: ")
                 .append(player2.getNumberOfCards())
                 .append(SPLITTER).append("Number of enemy summoned minions: ")
-                .append(SPLITTER).append(player2.getNumberOfMinions())
+                .append(player2.getNumberOfMinions())
                 .append(SEPARATOR);
 
         return builder.toString();
