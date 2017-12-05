@@ -24,11 +24,21 @@ public class Player extends Attackable {
         this.resetAttacks();
     }
 
-    public void destroyWeapon() {
+    private void destroyWeapon() {
         if (hasWeapon()) {
             this.weapon = null;
             this.attack = 0;
             this.remainingAttacks = 0;
+        }
+    }
+
+    @Override
+    public void attack(Attackable target) {
+        super.attack(target);
+        weapon.setDurability(weapon.getDurability()-1);
+
+        if (weapon.getDurability() == 0) {
+            destroyWeapon();
         }
     }
 
@@ -57,7 +67,7 @@ public class Player extends Attackable {
         this.remainingMana = remainingMana;
     }
 
-    public boolean checkMana(HearthstoneCard card) {
+    private boolean checkMana(HearthstoneCard card) {
         return (card.getManaCost() <= getRemainingMana());
     }
 
@@ -67,20 +77,22 @@ public class Player extends Attackable {
         return card;
     }
 
-    public void playCard(int index){
+    public boolean playCard(int index){
         HearthstoneCard card = hand.getCard(index);
-        if (checkMana(card)){
-            hand.removeCard(index);
 
-            String instance = card.getClass().toString();
-
-            if (card instanceof MinionCard){
-                board.summonMinion((MinionCard)card);
-            } else if (card instanceof WeaponCard){
-                equipWeapon((WeaponCard)card);
-            }
-            //TODO: something with spellcard
+        if (!checkMana(card)){
+           return false;
         }
+
+        hand.removeCard(index);
+
+        if (card instanceof MinionCard){
+            board.summonMinion((MinionCard)card);
+        } else if (card instanceof WeaponCard){
+            equipWeapon((WeaponCard)card);
+        }
+        //TODO: something with spellcard
+        return true;
     }
 
     public HearthstoneCard getCard(int index) {

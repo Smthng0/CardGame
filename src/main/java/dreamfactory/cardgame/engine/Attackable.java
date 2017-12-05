@@ -9,6 +9,7 @@ public abstract class Attackable {
 
     public void attack(Attackable target){
         target.takeDamage(attack);
+        remainingAttacks--;
 
         if (target instanceof MinionCard) {
             takeDamage(target.getAttack());

@@ -52,6 +52,18 @@ public class PlayerTest {
         assertTrue(minion.getHealth() == -4);
         assertFalse(player.hasWeapon());
     }
+
+    @Test
+    public void drawCard_playCard_OK() {
+        Deck deck = new DeckTest().createDeck();
+        Player player = new Player("Frane", deck);
+        player.drawCard();
+        player.setRemainingMana(10);
+        player.playCard(0);
+
+        assertTrue(player.hasMinions());
+    }
+
     @Test
     public void twoBoard_test_OK() {
         Player attacker = new Player("fuckyou", null);
