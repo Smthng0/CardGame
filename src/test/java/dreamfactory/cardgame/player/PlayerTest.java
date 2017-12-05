@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.cards.WeaponCard;
@@ -15,7 +15,7 @@ public class PlayerTest {
         Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck);
 
-        assertTrue(player.getNumberOfCards() == 0);
+        assertTrue(player.getNumberOfCards() == 3);
         assertTrue(player.getNumberOfMinions() == 0);
     }
 
@@ -66,8 +66,9 @@ public class PlayerTest {
 
     @Test
     public void twoBoard_test_OK() {
-        Player attacker = new Player("fuckyou", null);
-        Player defer = new Player("fuckyou2", null);
+        Deck deck = new DeckTest().createDeck();
+        Player attacker = new Player("fuckyou", deck);
+        Player defer = new Player("fuckyou2", deck);
 
         MinionCard minionCard = new MinionCard("frane", 0, 4, 4);
         attacker.summonMinion(minionCard);

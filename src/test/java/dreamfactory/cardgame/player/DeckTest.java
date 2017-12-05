@@ -1,9 +1,10 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
+import dreamfactory.cardgame.player.Deck;
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.*;
 
@@ -16,6 +16,10 @@ public class Player extends Attackable {
         this.deck = deck;
         this.board = new Board();
         this.hand = new Hand();
+
+        for (int i = 0; i < 3; i++) {
+            this.drawCard();
+        }
     }
 
     public void equipWeapon(WeaponCard weapon) {
@@ -45,6 +49,11 @@ public class Player extends Attackable {
     @Override
     public boolean hasWindfury() {
         return weapon.hasAbility(Ability.WINDFURY);
+    }
+
+    @Override
+    public String getName() {
+        return getPlayerName();
     }
 
     public boolean hasWeapon() {
@@ -85,11 +94,15 @@ public class Player extends Attackable {
         }
 
         hand.removeCard(index);
+        remainingMana -= card.getManaCost();
 
         if (card instanceof MinionCard){
             board.summonMinion((MinionCard)card);
         } else if (card instanceof WeaponCard){
             equipWeapon((WeaponCard)card);
+        } else if (card.getTitle()
+                .equalsIgnoreCase("The Coin")){
+            remainingMana++;
         }
         //TODO: something with spellcard
         return true;
@@ -114,16 +127,22 @@ public class Player extends Attackable {
         return (hand.isFull());
     }
 
-    public void viewHand() {
+    public String viewHand() {
         // TODO: mozda dobit string i njega printat... pa nazvat printhand
+        return null;
     }
 
-    public void viewBoard() {
+    public String viewBoard() {
         //isto ko za view hand
+        return null;
     }
 
     public void summonMinion(MinionCard mirror_image) {
         board.summonMinion(mirror_image);
+    }
+
+    public void resetMinionAttacks() {
+        board.resetAttacks();
     }
 
     public MinionCard getMinion(int index){

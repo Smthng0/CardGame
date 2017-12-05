@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.MinionCard;
 
@@ -37,6 +37,8 @@ public abstract class Attackable {
     }
 
     abstract public boolean hasWindfury();
+
+    abstract public String getName();
 
     public void resetAttacks() {
         remainingAttacks = 1;

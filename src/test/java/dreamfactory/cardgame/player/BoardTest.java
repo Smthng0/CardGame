@@ -1,6 +1,7 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.MinionCard;
+import dreamfactory.cardgame.player.Board;
 import org.junit.Assert;
 import org.junit.Test;
 

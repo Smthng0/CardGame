@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.cards;
 
-import dreamfactory.cardgame.engine.Attackable;
+import dreamfactory.cardgame.player.Attackable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,11 @@ public class MinionCard extends Attackable implements HearthstoneCard {
     @Override
     public boolean hasWindfury() {
         return hasAbility(Ability.WINDFURY);
+    }
+
+    @Override
+    public String getName() {
+        return getTitle();
     }
 
     @Override

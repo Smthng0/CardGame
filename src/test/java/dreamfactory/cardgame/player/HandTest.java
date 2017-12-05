@@ -1,7 +1,8 @@
-package dreamfactory.cardgame.engine;
+package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.SpellCard;
 import dreamfactory.cardgame.cards.WeaponCard;
+import dreamfactory.cardgame.player.Hand;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
