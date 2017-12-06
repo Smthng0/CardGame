@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -97,13 +98,15 @@ public class MinionCardTest {
     }
 
     @Test
-    public void asString_OK() {
+    public void asString_boardString_OK() {
         MinionCard minion = new MinionCard("Minion", 2, 2, 4);
         minion.addAbility(Ability.HASTE);
         minion.addAbility(Ability.TAUNT);
 
-        assertTrue(minion.asString().equals("Minion, Mana Cost: 2, Attack: 2, " +
-                "Health: 4, Remaining Attacks: 1, Abilities: HASTE, TAUNT\n"));
+        assertEquals("Minion, Mana Cost: 2, Attack: 2, " +
+                "Health: 4, Abilities: HASTE, TAUNT\n", minion.asString());
+        assertEquals("Minion, Mana Cost: 2, Attack: 2, " +
+                "Health: 4, Remaining Attacks: 1, Abilities: HASTE, TAUNT\n", minion.boardString());
     }
 
 

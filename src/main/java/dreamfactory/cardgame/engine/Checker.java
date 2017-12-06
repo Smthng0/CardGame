@@ -1,5 +1,7 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.player.Attackable;
+
 public class Checker {
 
     public boolean checkIfPlay(String command) {
@@ -21,11 +23,11 @@ public class Checker {
                 || (command.equalsIgnoreCase("Check")));
     }
 
-    public boolean checkIfViewBoard (String command) {
-        return ((command.equalsIgnoreCase("View board"))
+    public boolean checkIfViewBoards(String command) {
+        return ((command.equalsIgnoreCase("View boards"))
                 || (command.equalsIgnoreCase("View"))
                 || (command.equalsIgnoreCase("V"))
-                || (command.equalsIgnoreCase("Board")));
+                || (command.equalsIgnoreCase("Boards")));
     }
 
     public boolean checkIfEndTurn (String command) {
@@ -40,6 +42,25 @@ public class Checker {
                 || (command.equalsIgnoreCase("Exit"))
                 || (command.equalsIgnoreCase("Game"))
                 || (command.equalsIgnoreCase("X")));
+    }
+
+    private boolean checkIfBack (String command) {
+        return ((command.equalsIgnoreCase("Back"))
+                || (command.equalsIgnoreCase("B")));
+    }
+
+    public boolean checkIfReturn (String command) {
+        return (checkIfBack(command)
+                || checkIfEndTurn(command)
+                || checkIfExitGame(command));
+    }
+
+    public boolean validAttacker (Attackable attacker) {
+        return (attacker != null && attacker.canAttack());
+    }
+
+    public boolean validAttackableIndex(int index) {
+        return index != -1;
     }
 
 }

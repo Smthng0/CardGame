@@ -22,10 +22,14 @@ public class Player extends Attackable {
         }
     }
 
-    public void equipWeapon(WeaponCard weapon) {
+    public boolean equipWeapon(WeaponCard weapon) {
+        if (hasWeapon()){
+            return false;
+        }
         this.weapon = weapon;
         this.attack = weapon.getAttack();
         this.resetAttacks();
+        return true;
     }
 
     private void destroyWeapon() {
@@ -78,6 +82,7 @@ public class Player extends Attackable {
         }
 
         super.resetAttacks();
+
         if (hasWindfury() && weapon.getDurability() == 1) {
             remainingAttacks = 1;
         }
@@ -113,39 +118,47 @@ public class Player extends Attackable {
         return card;
     }
 
-    public boolean playCard(int index){
+    public HearthstoneCard playCard(int index){
         HearthstoneCard card = hand.getCard(index);
 
-        if (!checkMana(card)){
-           return false;
-        }
-
-        hand.removeCard(index);
-        remainingMana -= card.getManaCost();
-
-        if (card instanceof MinionCard){
-            board.summonMinion((MinionCard)card);
-        } else if (card instanceof WeaponCard){
-            equipWeapon((WeaponCard)card);
-        }
+        if (!playableCard(card)) return null;
 
         if (card.hasAbility(Ability.ADD_MANA)){
             remainingMana++;
         }
 
+        remainingMana -= card.getManaCost();
+        hand.removeCard(index);
+
         //TODO: something with spellcard
+        return card;
+    }
+
+    private boolean playableCard(HearthstoneCard card) {
+        if (card == null) return false;
+        if (!checkMana(card)) return false;
+
+        if (card instanceof MinionCard){
+            if (!board.summonMinion((MinionCard)card)){
+                return false;
+            }
+        } else if (card instanceof WeaponCard){
+            if (!equipWeapon((WeaponCard)card)){
+                return false;
+            }
+        }
+
         return true;
     }
 
-    public HearthstoneCard getCard(int index) {
-        if (hand.getNumberOfCards() > index){
-            return hand.getCard(index);
+    public void removeCard(int index) {
+        if (validIndex(index)){
+            hand.removeCard(index);
         }
-        return null;
     }
 
-    public void removeCard(int index) {
-        hand.removeCard(index);
+    public boolean validIndex(int index) {
+        return ((index >= 0) && (index < hand.getNumberOfCards()));
     }
 
     public int getNumberOfCards () {
@@ -157,17 +170,15 @@ public class Player extends Attackable {
     }
 
     public String viewHand() {
-        // TODO: mozda dobit string i njega printat... pa nazvat printhand
-        return null;
+        return hand.asString();
     }
 
     public String viewBoard() {
-        //isto ko za view hand
-        return null;
+        return board.asString();
     }
 
-    public void summonMinion(MinionCard mirror_image) {
-        board.summonMinion(mirror_image);
+    public void summonMinion(MinionCard card) {
+        board.summonMinion(card);
     }
 
     public void resetMinionAttacks() {

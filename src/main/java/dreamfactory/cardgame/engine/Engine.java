@@ -3,7 +3,7 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.player.Player;
 
 public class Engine {
-    Command command = new Command();
+    private Command command = new Command();
 
     public void initializeGame() {
         command.createPlayers();

@@ -42,11 +42,15 @@ public class Command {
             scanNextCommand();
 
             if (checker.checkIfPlay(command)) {
-                playCard();
+                do {
+                    playCard();
+                } while (!checker.checkIfReturn(command));
             }
 
             if (checker.checkIfAttack(command)) {
-                attack();
+                do {
+                    attack();
+                } while (!checker.checkIfReturn(command));
             }
 
             if (checker.checkIfCheckStatus(command)) {
@@ -54,8 +58,8 @@ public class Command {
                         activePlayer,passivePlayer));
             }
 
-            if (checker.checkIfViewBoard(command)) {
-                printer(commandStrings.viewBoard(
+            if (checker.checkIfViewBoards(command)) {
+                printer(commandStrings.viewBoards(
                         activePlayer, passivePlayer));
             }
 
@@ -64,7 +68,6 @@ public class Command {
             }
 
         } while (!checker.checkIfExitGame(command));
-
     }
 
     private void playCard() {
@@ -78,120 +81,116 @@ public class Command {
             return;
         }
 
-        if (activePlayer.playCard(index)) {
-            printer("Card played successfully!\n");
-            printer("Remaining mana: " + activePlayer.getRemainingMana());
-        } else {
-            printer("Card not played! (no such card or not enough mana) ");
-        }
-
-        printer(commandStrings.getSeparator());
-        chooseAction();
+        HearthstoneCard card = activePlayer.playCard(index);
+        //TODO: igrat se malo s optional...
+        printer(commandStrings.cardPlayed(card, activePlayer.getRemainingMana()));
     }
 
     private void attack() {
         if (!activePlayer.hasMinions()) {
             printer("No minions!" + commandStrings.getSeparator());
+            command = "b";
             return;
         }
 
-        printer("Choose who will attack: " + commandStrings.getSeparator());
-        activePlayer.viewBoard(); //TODO: stavit da se vidu samo sa remaining attacks
+        int attackingIndex = chooseAttacker();
+
+        if (!validAttackableIndex(attackingIndex)) {
+            printer(commandStrings.notValidAttackable());
+            return;
+        }
+
+        Attackable attacker = activePlayer.getMinion(attackingIndex); //TODO: uvalit da moze i player, ne smao minion...
+
+        int defendingIndex = chooseTargetFor(attacker);
+        if (!validAttackableIndex(defendingIndex)) {
+            printer(commandStrings.notValidAttackable());
+            return;
+        }
+
+        if (attackingPlayerTarget(attacker, defendingIndex)) return;
+
+        attackingMinionTarget(attackingIndex, defendingIndex);
+    }
+
+    private int chooseAttacker() {
         int index;
+        printer(commandStrings.chooseAttackable(activePlayer));
         scanNextCommand();
 
         try {
             index = Integer.parseInt(command);
         } catch (Exception ex) {
+            return -1;
+        }
+
+        if (!checker.validAttacker(activePlayer.getMinion(index))){
+            return -1;
+        }
+
+        return index;
+    }
+
+    private int chooseTargetFor(Attackable attacker) {
+        int index;
+        printer(commandStrings.availableTargetsFor(attacker));
+        printer(commandStrings.listTargetsOf(passivePlayer));
+
+        scanNextCommand();
+
+        try {
+            index = Integer.parseInt(command);
+        } catch (Exception ex) {
+            return -1;
+        }
+
+        if ((passivePlayer.validIndex(index)) || (index == getPlayerIndex(passivePlayer))) {
+            return index;
+        }
+
+        return -1;
+    }
+
+    private boolean validAttackableIndex (int index) {
+        return index != -1;
+    }
+
+    private boolean attackingPlayerTarget(Attackable attacker, int defendingIndex) {
+        if (defendingIndex == getPlayerIndex(passivePlayer)) {
+            printer(commandStrings.didDamageTo(attacker, passivePlayer));
+            attacker.attack(passivePlayer);
+
+            if (passivePlayer.isDead()) {
+                printer(commandStrings.attackableDead(passivePlayer));
+                command = "exit";
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    private void attackingMinionTarget(int attackingIndex, int defendingIndex) {
+        if (passivePlayer.getMinion(defendingIndex) == null) {
             return;
         }
 
-        if ((activePlayer.getNumberOfMinions() > index)
-                && (index >= 0)) {
-            if (activePlayer.getMinion(index).canAttack()) {
-                Attackable attacker = activePlayer.getMinion(index); //TODO: uvalit da moze i player, ne smao minion...
-                int attackingIndex = index;
+        Attackable attacker = activePlayer.getMinion(attackingIndex);
+        MinionCard defendingMinion = passivePlayer.getMinion(defendingIndex);
+        attacker.attack(defendingMinion);
 
-                printer(commandStrings.availableTargetsFor(attacker));
+        printer(commandStrings.didDamageTo(attacker, defendingMinion));
+        printer(commandStrings.didDamageTo(defendingMinion, attacker));
 
-                if (passivePlayer.hasMinions()){
-                    System.out.println("Minions: ");
-                    passivePlayer.viewBoard();
-                }
-
-                System.out.println("Player: ");
-                System.out.println((passivePlayer.getNumberOfMinions())
-                        + ".  " + passivePlayer.getPlayerName());
-
-                command = scanner.nextLine();
-                System.out.println();
-
-                try {
-                    index = Integer.parseInt(command);
-                } catch (Exception ex) {
-                    return;
-                }
-
-                if (index == (passivePlayer.getNumberOfMinions())) {
-                    System.out.println(attacker.getName() + " did "
-                            + attacker.getAttack() + " damage to "
-                            + passivePlayer.getPlayerName() + "!");
-
-                    attacker.attack(passivePlayer);
-
-                    if (passivePlayer.isDead()) {
-                        System.out.println("");
-                        System.out.println("Press Enter to exit");
-                        scanner.nextLine();
-                        command = "exit";
-                    } else {
-                        System.out.println(passivePlayer.getPlayerName()
-                                + "'s remaining health: " + passivePlayer.getHealth());
-                    }
-                }
-
-                if (passivePlayer.getMinion(index) != null) {
-                    MinionCard defendingMinion = passivePlayer.getMinion(index);
-                    attacker.attack(defendingMinion);
-
-                    System.out.println(activePlayer.getPlayerName() + "'s "
-                            + attacker.getName() + " did "
-                            + attacker.getAttack() + " damage to "
-                            + passivePlayer.getPlayerName() + "'s "
-                            + defendingMinion.getTitle() + "!  |  "
-                            + defendingMinion.getTitle()
-                            + "'s remaining health: "
-                            + defendingMinion.getHealth());
-
-                    System.out.println(passivePlayer.getPlayerName() + "'s "
-                            + defendingMinion.getTitle() + " did "
-                            + defendingMinion.getAttack() + " damage to "
-                            + activePlayer.getPlayerName() + "'s "
-                            + attacker.getName() + "!  |  "
-                            + attacker.getName()
-                            + "'s remaining health: "
-                            + attacker.getHealth());
-
-                    if (defendingMinion.isDead()){
-                        passivePlayer.killMinion(index);
-                    }
-
-                    if (attacker.isDead()){
-                        activePlayer.killMinion(attackingIndex);
-                    }
-                }
-
-            } else {
-                System.out.println("Minion did not attack (no remaining attacks)...");
-            }
-            System.out.println();
-        } else {
-            System.out.println();
-            System.out.println("No such minion!");
-            printer(commandStrings.getSeparator());
+        if (attacker.isDead()) {
+            activePlayer.killMinion(attackingIndex);
+            printer(commandStrings.attackableDead(attacker));
         }
-        System.out.println();
-        printer(commandStrings.getSeparator());
+
+        if (defendingMinion.isDead()) {
+            passivePlayer.killMinion(defendingIndex);
+            printer(commandStrings.attackableDead(defendingMinion));
+        }
     }
 
     private void startTurn() {
@@ -238,6 +237,10 @@ public class Command {
 
     public Player getPassivePlayer() {
         return passivePlayer;
+    }
+
+    private int getPlayerIndex(Player player) {
+        return player.getNumberOfMinions();
     }
 
     private Deck getConstructedDeck() {

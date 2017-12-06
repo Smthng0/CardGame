@@ -4,6 +4,7 @@ import dreamfactory.cardgame.player.Attackable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MinionCard extends Attackable implements HearthstoneCard {
     private String title;
@@ -59,21 +60,42 @@ public class MinionCard extends Attackable implements HearthstoneCard {
 
     @Override
     public String asString() {
-        String result = (title +
+        return basicInfoAsString()
+                + abilitiesAsString()
+                + "\n";
+    }
+
+    public String boardString() {
+        return basicInfoAsString()
+                + attacksAsString()
+                + abilitiesAsString()
+                + "\n";
+    }
+
+    private String basicInfoAsString() {
+        return title +
                 ", Mana Cost: " + manaCost +
                 ", Attack: " + attack +
-                ", Health: " + health);
+                ", Health: " + health;
+    }
+
+    private String attacksAsString() {
         if (canAttack()) {
-            result += ", Remaining Attacks: " + remainingAttacks;
+            return ", Remaining Attacks: " + remainingAttacks;
         }
-        if (hasAbilities()) {
-            result += ", Abilities: " +
-                    abilities.toString()
-                            .replace("[","")
-                            .replace("]","");
+        return "";
+    }
+
+    private String abilitiesAsString() {
+        if (!hasAbilities()) {
+            return "";
         }
-        result += "\n";
-        return result;
+
+        String abilitiesString = abilities.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
+
+        return  ", Abilities: " + abilitiesString;
     }
 
     @Override

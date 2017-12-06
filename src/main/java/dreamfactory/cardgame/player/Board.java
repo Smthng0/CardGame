@@ -9,12 +9,12 @@ public class Board {
     private List<MinionCard> backingBoard = new ArrayList<>();
     private static final int MINION_LIMIT = 7;
 
-    public void summonMinion(MinionCard card) {
+    public boolean summonMinion(MinionCard card) {
         if (isFull()){
-            System.out.println("Board is full");
-        } else {
-            backingBoard.add(card);
+            return false;
         }
+        backingBoard.add(card);
+        return true;
     }
 
     public MinionCard getMinion(int index) {
@@ -37,11 +37,20 @@ public class Board {
         }
     }
 
-    public void printBoard() {
-        for (MinionCard minion : backingBoard) {
-            //return string....
-            //call the "print minion" method from minionCard
+    public String asString() {
+        if (isEmpty()) {
+            return "No Minions!";
         }
+
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (MinionCard minion : backingBoard) {
+            result.append(index)
+                    .append(". ")
+                    .append(minion.boardString());
+            index++;
+        }
+        return result.toString();
     }
 
     private boolean validIndex(int index) {

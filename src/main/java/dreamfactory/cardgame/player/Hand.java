@@ -34,14 +34,17 @@ public class Hand {
         return null;
     }
 
-    public void viewAllCards() {
-        sortByManaCost();
-        //TODO: vratit string i pokrenut print ability (dodat u taj string)
-    }
+    public String asString() {
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (HearthstoneCard card : backingHand) {
+            result.append(index)
+                    .append(". ")
+                    .append(card.asString());
+            index++;
+        }
 
-    public void viewPlayableCards(int availableMana) {
-        sortByManaCost();
-        //TODO: viewallcard sa filterom mana cost <= available mana
+        return result.toString();
     }
 
     private void sortByManaCost() {

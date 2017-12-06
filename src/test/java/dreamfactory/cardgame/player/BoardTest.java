@@ -1,7 +1,6 @@
 package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.player.Board;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,13 +17,14 @@ public class BoardTest {
     }
 
     @Test
-    public void printBoard_OK() {
+    public void asString_OK() {
         Board board = new Board();
         MinionCard card = new MinionCard("Vice", 3, 4, 2);
         board.summonMinion(card);
         board.summonMinion(card);
 
-        board.printBoard();
+        assertTrue(board.asString().equals("0. Vice, Mana Cost: 3, Attack: 4, Health: 2\n" +
+                "1. Vice, Mana Cost: 3, Attack: 4, Health: 2\n"));
     }
 
     @Test

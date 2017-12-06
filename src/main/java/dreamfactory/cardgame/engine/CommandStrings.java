@@ -1,13 +1,14 @@
 package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.HearthstoneCard;
-import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
 
 public class CommandStrings {
     private static final String SPLITTER = "  |  ";
     private static final String SEPARATOR = "\n----------------------------------------\n";
+    private static final String RETURN = "(B)ack" + SPLITTER +
+            "(E)nd Turn" + SPLITTER + "E(x)it Game" + SEPARATOR;
 
     public String intro(Player player1, Player player2) {
         return ("\n" + "****************************************\n"
@@ -27,23 +28,23 @@ public class CommandStrings {
                 + (" drew a ")
                 + (card.getClass().getSimpleName())
                 + (" :    ")
-                + cardToString(card);
+                + card.asString();
     }
 
     public String availableActions(){
         return "Available actions: " +
                 SEPARATOR +
-                "(P)lay card" +
+                "(P)lay Card" +
                 SPLITTER +
                 "(A)ttack" +
                 SPLITTER +
-                "(C)heck status" +
+                "(C)heck Status" +
                 SPLITTER +
-                "(V)iew board" +
+                "(V)iew Boards" +
                 SPLITTER +
-                "(E)nd turn" +
+                "(E)nd Turn" +
                 SPLITTER +
-                "E(x)it game" +
+                "E(x)it Game" +
                 SEPARATOR;
     }
 
@@ -53,38 +54,32 @@ public class CommandStrings {
                 .append(player.viewHand())
                 .append("\nAvailable mana: ")
                 .append(player.getRemainingMana())
-                .append(SEPARATOR);
-
-        return builder.toString();
-    }
-
-    public String cardToString(HearthstoneCard card) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(card.getTitle())
-                .append(", Mana cost: ")
-                .append(card.getManaCost());
-
-        if (card instanceof MinionCard) {
-            builder.append(", Attack: ")
-                    .append(((MinionCard)card).getAttack())
-                    .append(", Health: ")
-                    .append(((MinionCard) card).getHealth());
-        }
-        builder.append("\n");
-        return builder.toString();
-
-        //TODO: prebacit cardToString na same karte... (weapon ce imat svoj string)
-    }
-
-    public String viewBoard(Player friendlyPlayer, Player enemyPlayer) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("My board: \n\n")
-                .append(friendlyPlayer.viewBoard())
                 .append(SEPARATOR)
-                .append("\nEnemy board: \n\n")
-                .append(enemyPlayer.viewBoard());
+                .append(RETURN);
 
         return builder.toString();
+    }
+
+    public String cardPlayed(HearthstoneCard card, int mana) {
+        if (card == null) {
+            return "Card not played! (no such card or not enough mana)";
+        }
+
+        return card.getTitle() + " played successfully!\n" +
+                "Remaining mana: " + mana + SEPARATOR;
+    }
+
+    public String chooseAttackable(Player player) {
+        return "Choose who will attack: " + SEPARATOR +
+                player.viewBoard() + SEPARATOR + RETURN;
+    }
+
+    public String viewBoards(Player friendlyPlayer, Player enemyPlayer) {
+        return "My board: \n\n" +
+                friendlyPlayer.viewBoard() +
+                SEPARATOR +
+                "\nEnemy board: \n\n" +
+                enemyPlayer.viewBoard();
     }
 
     public String checkStatus(Player player1, Player player2) {
@@ -120,19 +115,45 @@ public class CommandStrings {
     }
 
     public String availableTargetsFor (Attackable attacker) {
-        return "\nAvailable targets for " +
-                attacker.getName() +
-                " : \n" +
-                "( Attack: " +
-                attacker.getAttack() +
-                " , Health: " +
-                attacker.getHealth() +
-                " , Remaining attacks: " +
-                attacker.getRemainingAttacks() +
-                " )" + SEPARATOR;
+        return "\nAvailable targets for: \n" +
+                attacker.asString() + SEPARATOR;
     }
 
-    public String playerDead() {
+    public String listTargetsOf(Player defender) {
+        String result = "";
+
+        if (defender.hasMinions()){
+            result += "Minions: \n" + defender.viewBoard();
+        }
+
+        result += "Player: \n" + defender.getNumberOfMinions() +
+                ". " + defender.getPlayerName() + SEPARATOR + RETURN;
+
+        return result;
+    }
+
+    public String notValidAttackable() {
+        return "Not a valid attackeble!" +
+                SEPARATOR;
+    }
+
+    public String didDamageTo(Attackable attacker, Attackable defender){
+        return attacker.getName() + " did" +
+                attacker.getAttack() + "damage to" +
+                defender.getName() + "!" + SPLITTER +
+                defender.getName() + "'s remaining health: " +
+                defender.getHealth();
+    }
+
+    public String attackableDead(Attackable attackable) {
+        if (attackable instanceof Player){
+            return playerDead();
+        }
+
+        return  "{}oo((X))ΞΞΞΞΞΞΞΞΞΞΞΞΞ>  " + attackable.getName() +"  @}~}~~~";
+    }
+
+    private String playerDead() {
         return "\n\nI won!!! <3\n" +
                 "\nWooohooo\n" +
                 "\n     /(|" +
@@ -141,7 +162,9 @@ public class CommandStrings {
                 "\n (____)  `|" +
                 "\n(____)|   |" +
                 "\n (____).__|" +
-                "\n  (___)__.|_____\n";
+                "\n  (___)__.|_____" +
+                "\nPress Enter to exit";
     }
+
 
 }
