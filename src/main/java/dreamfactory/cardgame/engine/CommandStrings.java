@@ -18,7 +18,7 @@ public class CommandStrings {
     }
 
     public String startOfTurn(Player player, int turnCounter){
-        return ("It's " + player.getPlayerName() + "'s turn!\n"
+        return ("\nIt's " + player.getPlayerName() + "'s turn!\n"
                 + "Turn number: " + (int)Math.ceil(turnCounter/2)
                 + SEPARATOR);
     }
@@ -62,7 +62,7 @@ public class CommandStrings {
 
     public String cardPlayedCheck(HearthstoneCard card, int mana) {
         if (card == null) {
-            return "Card not played! (no such card or not enough mana)";
+            return "Card not played! (no such card or not enough mana)\n";
         }
 
         return card.getTitle() + " played successfully!\n" +
@@ -70,7 +70,7 @@ public class CommandStrings {
     }
 
     public String chooseAttackable(Player player) {
-        return "Choose who will attack: " + SEPARATOR +
+        return "\nChoose who will attack: " + SEPARATOR +
                 player.viewBoard() + SEPARATOR + RETURN;
     }
 
@@ -84,7 +84,7 @@ public class CommandStrings {
 
     public String checkStatus(Player player1, Player player2) {
         StringBuilder builder = new StringBuilder();
-        builder.append("\nPlayer ")
+        builder.append("Player ")
                 .append(player1.getPlayerName())
                 .append("'s status: ")
                 .append(SEPARATOR).append("Your health: ")
@@ -115,7 +115,7 @@ public class CommandStrings {
     }
 
     public String availableTargetsFor (Attackable attacker) {
-        return "\nAvailable targets for: \n" +
+        return "\nAvailable targets for: \n--> " +
                 attacker.asString() + SEPARATOR;
     }
 
@@ -123,7 +123,7 @@ public class CommandStrings {
         String result = "";
 
         if (defender.hasMinions()){
-            result += "Minions: \n" + defender.viewBoard();
+            result += "Minions: \n" + defender.viewBoard() +"\n";
         }
 
         result += "Player: \n" + defender.getNumberOfMinions() +
@@ -138,11 +138,11 @@ public class CommandStrings {
     }
 
     public String didDamageTo(Attackable attacker, Attackable defender){
-        return attacker.getName() + " did" +
-                attacker.getAttack() + "damage to" +
+        return attacker.getName() + " did " +
+                attacker.getAttack() + " damage to " +
                 defender.getName() + "!" + SPLITTER +
                 defender.getName() + "'s remaining health: " +
-                defender.getHealth();
+                defender.getHealth() + "\n";
     }
 
     public String attackableDead(Attackable attackable) {

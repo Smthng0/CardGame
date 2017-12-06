@@ -39,7 +39,7 @@ public class Board {
 
     public String asString() {
         if (isEmpty()) {
-            return "No Minions!";
+            return "No Minions!\n";
         }
 
         StringBuilder result = new StringBuilder();

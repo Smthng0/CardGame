@@ -37,6 +37,9 @@ public class Commands {
         printer(commandStrings.availableCards(player));
         HearthstoneCard card = chooseCard(player);
         //TODO: igrat se malo s optional...
+        if (new Checker().checkIfReturn(command)) {
+            return;
+        }
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
@@ -72,9 +75,9 @@ public class Commands {
         attackTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
     }
 
-    private int chooseAttacker(Player activePlayer) {
+    private int chooseAttacker(Player player) {
         int index;
-        printer(commandStrings.chooseAttackable(activePlayer));
+        printer(commandStrings.chooseAttackable(player));
         scanNextCommand();
 
         try {
@@ -83,7 +86,7 @@ public class Commands {
             return -1;
         }
 
-        if (!validAttacker(activePlayer.getMinion(index))){
+        if (!validAttacker(player.getMinion(index))){
             return -1;
         }
 
@@ -110,7 +113,7 @@ public class Commands {
     }
 
     private boolean validAttackableIndex (int index) {
-        if (index != -1) {
+        if (index == -1) {
             printer(commandStrings.invalidIndex());
             return false;
         }
@@ -132,11 +135,12 @@ public class Commands {
     }
 
     private void attackPlayerTarget(Attackable attacker, int defendingIndex, Player defendingPlayer) {
-        printer(commandStrings.didDamageTo(attacker, defendingPlayer));
         attacker.attack(defendingPlayer);
+        printer(commandStrings.didDamageTo(attacker, defendingPlayer));
 
         if (defendingPlayer.isDead()) {
             printer(commandStrings.attackableDead(defendingPlayer));
+            scanner.nextLine();
             command = "exit";
         }
     }
