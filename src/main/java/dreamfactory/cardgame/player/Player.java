@@ -56,6 +56,33 @@ public class Player extends Attackable {
         return getPlayerName();
     }
 
+    @Override
+    public String asString() {
+        String result = (playerName +
+                ", Health: " + health);
+        if (canAttack()) {
+            result += ", Remaining Attacks: " + remainingAttacks;
+        }
+        if (hasWeapon()) {
+            result += ", Weapon Equipped: \n" + weapon.asString();
+        } else {
+            result += "\n";
+        }
+        return result;
+    }
+
+    @Override
+    public void resetAttacks() {
+        if (!hasWeapon()){
+            return;
+        }
+
+        super.resetAttacks();
+        if (hasWindfury() && weapon.getDurability() == 1) {
+            remainingAttacks = 1;
+        }
+    }
+
     public boolean hasWeapon() {
         return weapon != null;
     }
@@ -100,10 +127,12 @@ public class Player extends Attackable {
             board.summonMinion((MinionCard)card);
         } else if (card instanceof WeaponCard){
             equipWeapon((WeaponCard)card);
-        } else if (card.getTitle()
-                .equalsIgnoreCase("The Coin")){
+        }
+
+        if (card.hasAbility(Ability.ADD_MANA)){
             remainingMana++;
         }
+
         //TODO: something with spellcard
         return true;
     }

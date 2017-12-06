@@ -8,6 +8,10 @@ public abstract class Attackable {
     protected int remainingAttacks = 0;
 
     public void attack(Attackable target){
+        if (!canAttack()) {
+            return;
+        }
+
         target.takeDamage(attack);
         remainingAttacks--;
 
@@ -39,6 +43,12 @@ public abstract class Attackable {
     abstract public boolean hasWindfury();
 
     abstract public String getName();
+
+    abstract public String asString();
+
+    public boolean canAttack() {
+        return remainingAttacks > 0;
+    }
 
     public void resetAttacks() {
         remainingAttacks = 1;

@@ -34,5 +34,14 @@ public class WeaponCardTest {
         assertTrue(weapon.hasAbility(Ability.DIVINE_SHIELD));
     }
 
+    @Test
+    public void asString_OK() {
+        WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
+        weapon.addAbility(Ability.DIVINE_SHIELD);
+        weapon.addAbility(Ability.WINDFURY);
+
+        assertTrue(weapon.asString().equals("Sledgehammer, Mana Cost: 6, " +
+                "Attack: 9, Durability: 4, Abilities: DIVINE_SHIELD, WINDFURY\n"));
+    }
 
 }

@@ -33,8 +33,7 @@ public class DeckTest {
         minionList.addAll(abilityList);
         minionList.addAll(abilityList);
 
-        printList(minionList);
-        System.out.println("Number of minions: " + minionList.size());
+        assertTrue(minionList.size() == 30);
     }
 
     @Test
@@ -67,22 +66,7 @@ public class DeckTest {
             );
         }
 
-        Deck deck = new Deck (arrayDeck);
-        return deck;
+        return new Deck (arrayDeck);
     }
-
-    public void printList(List<HearthstoneCard> list) {
-        for (HearthstoneCard card : list) {
-            System.out.print(card.getTitle()
-                    + ", " + card.getManaCost());
-            if (card instanceof MinionCard) {
-                System.out.print(", " + ((MinionCard)card).getAttack()
-                        + ", " + ((MinionCard)card).getHealth());
-            }
-            System.out.println();
-        }
-    }
-
-
 
 }

@@ -58,6 +58,25 @@ public class MinionCard extends Attackable implements HearthstoneCard {
     }
 
     @Override
+    public String asString() {
+        String result = (title +
+                ", Mana Cost: " + manaCost +
+                ", Attack: " + attack +
+                ", Health: " + health);
+        if (canAttack()) {
+            result += ", Remaining Attacks: " + remainingAttacks;
+        }
+        if (hasAbilities()) {
+            result += ", Abilities: " +
+                    abilities.toString()
+                            .replace("[","")
+                            .replace("]","");
+        }
+        result += "\n";
+        return result;
+    }
+
+    @Override
     public String getTitle() {
         return title;
     }

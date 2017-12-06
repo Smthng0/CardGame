@@ -40,6 +40,20 @@ public class SpellCard implements HearthstoneCard {
     }
 
     @Override
+    public String asString() {
+        String result = (title +
+                ", Mana Cost: " + manaCost);
+        if (hasAbilities()) {
+            result += ", Abilities: " +
+                    abilities.toString()
+                            .replace("[","")
+                            .replace("]","");
+        }
+        result += "\n";
+        return result;
+    }
+
+    @Override
     public String getTitle() {
         return title;
     }

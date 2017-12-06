@@ -37,4 +37,12 @@ public class SpellCardTest {
 
     }
 
+    @Test
+    public void asString_OK() {
+        SpellCard spellCard = new SpellCard("The Coin", 0, null);
+        spellCard.addAbility(Ability.ADD_MANA);
+
+        assertTrue(spellCard.asString().equals("The Coin, Mana Cost: 0, Abilities: ADD_MANA\n"));
+    }
+
 }

@@ -123,11 +123,11 @@ public class CommandStrings {
         return "\nAvailable targets for " +
                 attacker.getName() +
                 " : \n" +
-                "( attack: " +
+                "( Attack: " +
                 attacker.getAttack() +
-                " , health: " +
+                " , Health: " +
                 attacker.getHealth() +
-                " , remaining attacks: " +
+                " , Remaining attacks: " +
                 attacker.getRemainingAttacks() +
                 " )" + SEPARATOR;
     }

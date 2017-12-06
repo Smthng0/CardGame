@@ -12,4 +12,6 @@ public interface HearthstoneCard {
 
     void addAbility(Ability ability);
 
+    String asString();
+
 }

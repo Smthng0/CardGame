@@ -108,7 +108,7 @@ public class Command {
 
         if ((activePlayer.getNumberOfMinions() > index)
                 && (index >= 0)) {
-            if (activePlayer.getMinion(index).getRemainingAttacks() > 0) {
+            if (activePlayer.getMinion(index).canAttack()) {
                 Attackable attacker = activePlayer.getMinion(index); //TODO: uvalit da moze i player, ne smao minion...
                 int attackingIndex = index;
 
