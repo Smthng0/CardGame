@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.player.Attackable;
@@ -71,6 +72,10 @@ public class Commands {
 
         int defendingIndex = chooseTarget(attacker, passivePlayer);
         if (!validAttackableIndex(defendingIndex)) return;
+        if (!tauntTarget(passivePlayer, defendingIndex)) {
+            printer(commandStrings.notTauntTarget());
+            return;
+        }
 
         attackTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
     }
@@ -105,11 +110,24 @@ public class Commands {
             return -1;
         }
 
-        if ((defendingPlayer.validIndex(index)) || (index == getPlayerIndex(defendingPlayer))) {
-            return index;
+        if (!((defendingPlayer.validIndex(index)) || (index == getPlayerIndex(defendingPlayer)))) {
+            return -1;
         }
 
-        return -1;
+        return index;
+    }
+
+    private boolean tauntTarget(Player defendingPlayer, int index) {
+        if (!defendingPlayer.hasTauntMinion()) {
+            return true;
+        } else if (index == getPlayerIndex(defendingPlayer)){
+            return false;
+        } else if (!defendingPlayer.getMinion(index).hasAbilities()) {
+            return false;
+        } else if (!defendingPlayer.getMinion(index).hasAbility(Ability.TAUNT)) {
+            return false;
+        }
+        return true;
     }
 
     private boolean validAttackableIndex (int index) {

@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.io;
 
-import com.univocity.parsers.annotations.Parsed;
+import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.MinionCard;
 
 import java.io.*;
@@ -29,23 +29,19 @@ public class PlainMinionLoader {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] minion = line.split(",");
+            MinionCard minionCard = new MinionCard(minion[1],
+                    Integer.parseInt(minion[0]),
+                    Integer.parseInt(minion[2]),
+                    Integer.parseInt(minion[3]));
+            if (minion[1].contains("Turtle")){
+                minionCard.addAbility(Ability.TAUNT);
+            }
+            if (minion[1].contains("Frog")){
+                minionCard.addAbility(Ability.TAUNT);
+            }
 
-            minionList.add(new MinionCard(minion[1],
-                            Integer.parseInt(minion[0]),
-                            Integer.parseInt(minion[2]),
-                            Integer.parseInt(minion[3])
-                    )
-            );
+            minionList.add(minionCard);
         }
-    }
-
-    public List<MinionCard> loadMinionsParser() {
-        class MinionCard {
-            @Parsed
-            private String title;
-
-        }
-        return null;
     }
 
 }

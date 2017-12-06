@@ -137,6 +137,10 @@ public class CommandStrings {
                 SEPARATOR;
     }
 
+    public String notTauntTarget(){
+        return "Must target minion with taunt!\n";
+    }
+
     public String didDamageTo(Attackable attacker, Attackable defender){
         return attacker.getName() + " did " +
                 attacker.getAttack() + " damage to " +

@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.player;
 
+import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.MinionCard;
 
 import java.util.ArrayList;
@@ -56,6 +57,15 @@ public class Board {
     private boolean validIndex(int index) {
         return ((index < getNumberOfMinions()
                 && (index >= 0)));
+    }
+
+    public boolean hasTauntMinion() {
+        for (MinionCard minion : backingBoard) {
+            if (minion.hasAbility(Ability.TAUNT)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getNumberOfMinions() {

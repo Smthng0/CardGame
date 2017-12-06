@@ -201,6 +201,10 @@ public class Player extends Attackable {
         return !board.isEmpty();
     }
 
+    public boolean hasTauntMinion() {
+        return board.hasTauntMinion();
+    }
+
     public String getPlayerName() {
         return playerName;
     }
