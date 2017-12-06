@@ -1,7 +1,5 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.player.Attackable;
-
 public class Checker {
 
     public boolean checkIfPlay(String command) {
@@ -53,14 +51,6 @@ public class Checker {
         return (checkIfBack(command)
                 || checkIfEndTurn(command)
                 || checkIfExitGame(command));
-    }
-
-    public boolean validAttacker (Attackable attacker) {
-        return (attacker != null && attacker.canAttack());
-    }
-
-    public boolean validAttackableIndex(int index) {
-        return index != -1;
     }
 
 }
