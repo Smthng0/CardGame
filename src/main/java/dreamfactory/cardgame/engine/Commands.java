@@ -35,18 +35,22 @@ public class Commands {
 
     public void playCard(Player player) {
         printer(commandStrings.availableCards(player));
+        HearthstoneCard card = chooseCard(player);
+        //TODO: igrat se malo s optional...
+        printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
+    }
+
+    private HearthstoneCard chooseCard(Player player){
         scanNextCommand();
         int index;
 
         try {
             index = Integer.parseInt(command);
         } catch (Exception ex) {
-            return;
+            return null;
         }
 
-        HearthstoneCard card = player.playCard(index);
-        //TODO: igrat se malo s optional...
-        printer(commandStrings.cardPlayed(card, player.getRemainingMana()));
+        return player.playCard(index);
     }
 
     public void attack(Player activePlayer, Player passivePlayer) {
@@ -62,10 +66,10 @@ public class Commands {
         Attackable attacker = activePlayer.getMinion(attackingIndex);
         //TODO: uvalit da moze i player, ne smao minion...
 
-        int defendingIndex = chooseTargetFor(attacker, passivePlayer);
+        int defendingIndex = chooseTarget(attacker, passivePlayer);
         if (!validAttackableIndex(defendingIndex)) return;
-        if (attackingPlayerTarget(attacker, defendingIndex, passivePlayer)) return;
-        attackingMinionTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
+
+        attackTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
     }
 
     private int chooseAttacker(Player activePlayer) {
@@ -79,18 +83,17 @@ public class Commands {
             return -1;
         }
 
-        if (validAttacker(activePlayer.getMinion(index))){
+        if (!validAttacker(activePlayer.getMinion(index))){
             return -1;
         }
 
         return index;
     }
 
-    private int chooseTargetFor(Attackable attacker, Player defendingPlayer) {
+    private int chooseTarget(Attackable attacker, Player defendingPlayer) {
         int index;
         printer(commandStrings.availableTargetsFor(attacker));
         printer(commandStrings.listTargetsOf(defendingPlayer));
-
         scanNextCommand();
 
         try {
@@ -118,11 +121,17 @@ public class Commands {
         return (attacker != null && attacker.canAttack());
     }
 
-    private boolean attackingPlayerTarget(Attackable attacker, int defendingIndex, Player defendingPlayer) {
-        if (defendingIndex == getPlayerIndex(defendingPlayer)) {
-            return false;
-        }
+    private void attackTarget(Player attackingPlayer, Player defendingPlayer,
+                              int attackingIndex, int defendingIndex) {
 
+        if (defendingIndex == getPlayerIndex(defendingPlayer)){
+            attackPlayerTarget(attackingPlayer.getMinion(attackingIndex), defendingIndex, defendingPlayer);
+        } else if (defendingPlayer.getMinion(defendingIndex) != null){
+            attackMinionTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
+        }
+    }
+
+    private void attackPlayerTarget(Attackable attacker, int defendingIndex, Player defendingPlayer) {
         printer(commandStrings.didDamageTo(attacker, defendingPlayer));
         attacker.attack(defendingPlayer);
 
@@ -130,15 +139,10 @@ public class Commands {
             printer(commandStrings.attackableDead(defendingPlayer));
             command = "exit";
         }
-
-        return true;
     }
 
-    private void attackingMinionTarget(Player activePlayer, Player passivePlayer,
-                                       int attackingIndex, int defendingIndex) {
-        if (passivePlayer.getMinion(defendingIndex) == null) {
-            return;
-        }
+    private void attackMinionTarget(Player activePlayer, Player passivePlayer,
+                                    int attackingIndex, int defendingIndex) {
 
         Attackable attacker = activePlayer.getMinion(attackingIndex);
         MinionCard defendingMinion = passivePlayer.getMinion(defendingIndex);

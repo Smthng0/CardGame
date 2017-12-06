@@ -60,7 +60,7 @@ public class CommandStrings {
         return builder.toString();
     }
 
-    public String cardPlayed(HearthstoneCard card, int mana) {
+    public String cardPlayedCheck(HearthstoneCard card, int mana) {
         if (card == null) {
             return "Card not played! (no such card or not enough mana)";
         }
