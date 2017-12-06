@@ -94,22 +94,13 @@ public class Command {
         }
 
         int attackingIndex = chooseAttacker();
-
-        if (!validAttackableIndex(attackingIndex)) {
-            printer(commandStrings.notValidAttackable());
-            return;
-        }
+        if (!validAttackableIndex(attackingIndex)) return;
 
         Attackable attacker = activePlayer.getMinion(attackingIndex); //TODO: uvalit da moze i player, ne smao minion...
 
         int defendingIndex = chooseTargetFor(attacker);
-        if (!validAttackableIndex(defendingIndex)) {
-            printer(commandStrings.notValidAttackable());
-            return;
-        }
-
+        if (!validAttackableIndex(defendingIndex)) return;
         if (attackingPlayerTarget(attacker, defendingIndex)) return;
-
         attackingMinionTarget(attackingIndex, defendingIndex);
     }
 
@@ -152,22 +143,27 @@ public class Command {
     }
 
     private boolean validAttackableIndex (int index) {
-        return index != -1;
+        if (index != -1) {
+            printer(commandStrings.invalidIndex());
+            return false;
+        }
+        return true;
     }
 
     private boolean attackingPlayerTarget(Attackable attacker, int defendingIndex) {
         if (defendingIndex == getPlayerIndex(passivePlayer)) {
-            printer(commandStrings.didDamageTo(attacker, passivePlayer));
-            attacker.attack(passivePlayer);
-
-            if (passivePlayer.isDead()) {
-                printer(commandStrings.attackableDead(passivePlayer));
-                command = "exit";
-            }
-
-            return true;
+            return false;
         }
-        return false;
+
+        printer(commandStrings.didDamageTo(attacker, passivePlayer));
+        attacker.attack(passivePlayer);
+
+        if (passivePlayer.isDead()) {
+            printer(commandStrings.attackableDead(passivePlayer));
+            command = "exit";
+        }
+
+        return true;
     }
 
     private void attackingMinionTarget(int attackingIndex, int defendingIndex) {
@@ -252,6 +248,5 @@ public class Command {
 
         return new Deck(minionList);
     }
-
 
 }

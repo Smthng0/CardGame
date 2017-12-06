@@ -132,8 +132,8 @@ public class CommandStrings {
         return result;
     }
 
-    public String notValidAttackable() {
-        return "Not a valid attackeble!" +
+    public String invalidIndex() {
+        return "Not a valid index for attackable!" +
                 SEPARATOR;
     }
 
