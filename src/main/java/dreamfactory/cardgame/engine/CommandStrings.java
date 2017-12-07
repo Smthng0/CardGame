@@ -10,7 +10,22 @@ public class CommandStrings {
     private static final String RETURN = "(B)ack" + SPLITTER +
             "(E)nd Turn" + SPLITTER + "E(x)it Game" + SEPARATOR;
 
-    public String intro(Player player1, Player player2) {
+    public String intro(String version) {
+        return "\n'Unnamed CardGame'™ by Frane\n"
+                + "Version: " + version
+                + "\nUse at your own risk! :)" + SEPARATOR;
+        //TODO:version info
+    }
+
+    public String chooseGameType(){
+        return "\nChoose game type:" + SEPARATOR
+                + "(H)otSeat" + SPLITTER
+                + "(M)ultiPlayer" + SPLITTER
+                + "E(x)it Game"
+                + SEPARATOR;
+    }
+
+    public String gameStart(Player player1, Player player2) {
         return ("\n" + "****************************************\n"
                 + "\\\\**..  " + player1.getPlayerName()
                 + "  vs  " + player2.getPlayerName() + "  ..**//\n")
@@ -175,15 +190,15 @@ public class CommandStrings {
     }
 
     private String playerDead() {
-        return "\n\nI won!!! <3\n" +
-                "\nWooohooo\n" +
+        return "\n\n    Game over!\n" +
+                "\n    gg, wp\n" +
                 "\n     /(|" +
                 "\n    (  :" +
                 "\n   __\\  \\  _____" +
                 "\n (____)  `|" +
                 "\n(____)|   |" +
                 "\n (____).__|" +
-                "\n  (___)__.|_____" +
+                "\n  (___)__.|_____\n" +
                 "\nPress Enter to exit";
     }
 

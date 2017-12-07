@@ -2,6 +2,24 @@ package dreamfactory.cardgame.engine;
 
 public class Checker {
 
+    public boolean checkIfHotSeat(String command) {
+        return ((command.equalsIgnoreCase("HotSeat"))
+                || (command.equalsIgnoreCase("Hot"))
+                || (command.equalsIgnoreCase("Seat"))
+                || (command.equalsIgnoreCase("H")));
+    }
+
+    public boolean checkIfMultiplayer(String command) {
+        return ((command.equalsIgnoreCase("MultiPlayer"))
+                || (command.equalsIgnoreCase("Multi"))
+                || (command.equalsIgnoreCase("Player"))
+                || (command.equalsIgnoreCase("M")));
+    }
+
+    public boolean checkIfServer(String command) {
+        return command.equals("StarT ServeR");
+    }
+
     public boolean checkIfPlay(String command) {
         return ((command.equalsIgnoreCase("Play card"))
                 || (command.equalsIgnoreCase("Play"))

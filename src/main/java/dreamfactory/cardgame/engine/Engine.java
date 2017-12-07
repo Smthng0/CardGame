@@ -3,6 +3,7 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
 import dreamfactory.cardgame.io.PlainMinionLoader;
+import dreamfactory.cardgame.multiplayer.Server.ServerApplication;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
 
@@ -16,10 +17,36 @@ public class Engine {
     private Commands commands = new Commands();
     private Checker checker = new Checker();
 
-    public void initializeGame() {
+    public void initializeGame() throws Exception {
+        do {
+            commands.chooseGameType();
+            commands.scanNextCommand();
+            if (checker.checkIfHotSeat(commands.getCommand())) {
+                hotSeat();
+            }
+            if (checker.checkIfMultiplayer(commands.getCommand())) {
+                multiPlayer();
+            }
+            if (checker.checkIfServer(commands.getCommand())) {
+                startServer();
+            }
+        } while (!checker.checkIfExitGame(commands.getCommand()));
+    }
+
+    private void hotSeat() {
         createPlayers();
         commands.introPrint(activePlayer, passivePlayer);
         startTurn();
+    }
+
+    private void multiPlayer() {
+        commands.printer("Starting MultiPlayer Session...");
+        System.exit(0);
+    }
+
+    private void startServer() throws Exception{
+        commands.printer("Starting Server...");
+        new ServerApplication().run();
     }
 
     private void createPlayers() {
@@ -29,6 +56,13 @@ public class Engine {
         commands.printer("Enter second player name: ");
         commands.scanNextCommand();
         passivePlayer = new Player(commands.getCommand(), getConstructedDeck());
+        passivePlayer.startsSecond();
+        turnCounter = 2;
+    }
+
+    public void createMultiPlayers(String player1, String player2) {
+        activePlayer = new Player(player1, getConstructedDeck());
+        passivePlayer = new Player(player2, getConstructedDeck());
         passivePlayer.startsSecond();
         turnCounter = 2;
     }
@@ -110,7 +144,7 @@ public class Engine {
         return passivePlayer;
     }
 
-    private Deck getConstructedDeck() {
+    public static Deck getConstructedDeck() {
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());

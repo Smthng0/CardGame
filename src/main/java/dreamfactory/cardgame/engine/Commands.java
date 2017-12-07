@@ -13,8 +13,13 @@ public class Commands {
     private String command;
     private CommandStrings commandStrings = new CommandStrings();
 
+    public void chooseGameType() {
+        printer(commandStrings.intro("1.0 alpha")
+                + commandStrings.chooseGameType());
+    }
+
     public void introPrint(Player activePlayer, Player passivePlayer){
-        printer(commandStrings.intro(activePlayer, passivePlayer));
+        printer(commandStrings.gameStart(activePlayer, passivePlayer));
     }
 
     public void startOfTurnPrint(Player player, int turnCounter, HearthstoneCard card){
