@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.*;
+import dreamfactory.cardgame.cards.spells.TheCoin;
 import dreamfactory.cardgame.engine.Engine;
 
 public class Player extends Attackable {
@@ -21,6 +22,10 @@ public class Player extends Attackable {
         for (int i = 0; i < 3; i++) {
             this.drawCard();
         }
+    }
+
+    public void startsSecond() {
+        hand.addCard(new TheCoin());
     }
 
     public boolean equipWeapon(WeaponCard weapon) {

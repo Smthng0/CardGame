@@ -30,6 +30,7 @@ public class Engine {
         commands.printer("Enter second player name: ");
         commands.scanNextCommand();
         passivePlayer = new Player(commands.getCommand(), deck);
+        passivePlayer.startsSecond();
         turnCounter = 2;
     }
 
