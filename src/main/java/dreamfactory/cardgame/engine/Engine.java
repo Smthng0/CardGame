@@ -62,7 +62,7 @@ public class Engine {
 
             if (checker.checkIfPlay(commands.getCommand())) {
                 do {
-                    commands.playCard(activePlayer);
+                    commands.playCard(activePlayer, this);
                 } while (!checker.checkIfReturn(commands.getCommand()));
             }
 

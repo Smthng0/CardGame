@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.*;
+import dreamfactory.cardgame.engine.Engine;
 
 public class Player extends Attackable {
     private String playerName;
@@ -108,6 +109,10 @@ public class Player extends Attackable {
         this.remainingMana = remainingMana;
     }
 
+    public void incrementRemainingMana() {
+        remainingMana++;
+    }
+
     private boolean checkMana(HearthstoneCard card) {
         return (card.getManaCost() <= getRemainingMana());
     }
@@ -118,14 +123,10 @@ public class Player extends Attackable {
         return card;
     }
 
-    public HearthstoneCard playCard(int index){
+    public HearthstoneCard playCard(int index, Engine engine){
         HearthstoneCard card = hand.getCard(index);
 
-        if (!playableCard(card)) return null;
-
-        if (card.hasAbility(Ability.ADD_MANA)){
-            remainingMana++;
-        }
+        if (!cardPlayed(card, engine)) return null;
 
         remainingMana -= card.getManaCost();
         hand.removeCard(index);
@@ -134,18 +135,20 @@ public class Player extends Attackable {
         return card;
     }
 
-    private boolean playableCard(HearthstoneCard card) {
+    private boolean cardPlayed(HearthstoneCard card, Engine engine) {
         if (card == null) return false;
         if (!checkMana(card)) return false;
 
         if (card instanceof MinionCard){
-            if (!board.summonMinion((MinionCard)card)){
+            if (!board.summonMinion((MinionCard)card)) {
                 return false;
             }
-        } else if (card instanceof WeaponCard){
-            if (!equipWeapon((WeaponCard)card)){
+        } else if (card instanceof WeaponCard) {
+            if (!equipWeapon((WeaponCard)card)) {
                 return false;
             }
+        } else if (card instanceof SpellCard) {
+            ((SpellCard) card).effect(engine);
         }
 
         return true;

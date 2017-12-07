@@ -34,9 +34,9 @@ public class Commands {
         printer(commandStrings.viewBoards(activePlayer, passivePlayer));
     }
 
-    public void playCard(Player player) {
+    public void playCard(Player player, Engine engine) {
         printer(commandStrings.availableCards(player));
-        HearthstoneCard card = chooseCard(player);
+        HearthstoneCard card = chooseCard(player, engine);
         //TODO: igrat se malo s optional...
         if (new Checker().checkIfReturn(command)) {
             return;
@@ -44,7 +44,7 @@ public class Commands {
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
-    private HearthstoneCard chooseCard(Player player){
+    private HearthstoneCard chooseCard(Player player, Engine engine){
         scanNextCommand();
         int index;
 
@@ -54,7 +54,7 @@ public class Commands {
             return null;
         }
 
-        return player.playCard(index);
+        return player.playCard(index, engine);
     }
 
     public void attack(Player activePlayer, Player passivePlayer) {
@@ -146,13 +146,13 @@ public class Commands {
                               int attackingIndex, int defendingIndex) {
 
         if (defendingIndex == getPlayerIndex(defendingPlayer)){
-            attackPlayerTarget(attackingPlayer.getMinion(attackingIndex), defendingIndex, defendingPlayer);
+            attackPlayerTarget(attackingPlayer.getMinion(attackingIndex), defendingPlayer);
         } else if (defendingPlayer.getMinion(defendingIndex) != null){
             attackMinionTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
         }
     }
 
-    private void attackPlayerTarget(Attackable attacker, int defendingIndex, Player defendingPlayer) {
+    private void attackPlayerTarget(Attackable attacker, Player defendingPlayer) {
         attacker.attack(defendingPlayer);
         printer(commandStrings.didDamageTo(attacker, defendingPlayer));
 
