@@ -103,10 +103,10 @@ public class MinionCardTest {
         minion.addAbility(Ability.HASTE);
         minion.addAbility(Ability.TAUNT);
 
-        assertEquals("Minion, Mana Cost: 2, Attack: 2, " +
-                "Health: 4, Abilities: HASTE, TAUNT\n", minion.asString());
-        assertEquals("Minion, Mana Cost: 2, Attack: 2, " +
-                "Health: 4, Remaining Attacks: 1, Abilities: HASTE, TAUNT\n", minion.boardString());
+        assertEquals("         Minion, Mana Cost:  2, " +
+                "Attack:  2, Health:  4, Abilities: HASTE, TAUNT\n", minion.asString());
+        assertEquals("         Minion, Mana Cost:  2, Attack:  2, " +
+                "Health:  4, Remaining Attacks: 1, Abilities: HASTE, TAUNT\n", minion.boardString());
     }
 
 

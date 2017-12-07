@@ -54,6 +54,47 @@ public class Board {
         return result.toString();
     }
 
+    public String asStringCanAttack() {
+        if (isEmpty()) {
+            return "No Minions!\n";
+        }
+
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (MinionCard minion : backingBoard) {
+            if (minion.canAttack()) {
+                result.append(index)
+                        .append(". ")
+                        .append(minion.boardString());
+            }
+            index++;
+        }
+
+        if (result.length() < 10) {
+            return "No Minions that can attack!\n";
+        }
+
+        return result.toString();
+    }
+
+    public String asStringWithTaunt() {
+        if (!hasTauntMinion()) {
+            return "No taunt minion!";
+        }
+
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (MinionCard minion : backingBoard) {
+            if (minion.hasAbility(Ability.TAUNT)) {
+                result.append(index)
+                        .append(". ")
+                        .append(minion.boardString());
+            }
+            index++;
+        }
+        return result.toString();
+    }
+
     private boolean validIndex(int index) {
         return ((index < getNumberOfMinions()
                 && (index >= 0)));

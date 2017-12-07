@@ -36,9 +36,6 @@ public class PlainMinionLoader {
             if (minion[1].contains("Turtle")){
                 minionCard.addAbility(Ability.TAUNT);
             }
-            if (minion[1].contains("Frog")){
-                minionCard.addAbility(Ability.TAUNT);
-            }
 
             minionList.add(minionCard);
         }

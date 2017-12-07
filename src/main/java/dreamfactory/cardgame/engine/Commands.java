@@ -19,6 +19,10 @@ public class Commands {
 
     public void startOfTurnPrint(Player player, int turnCounter, HearthstoneCard card){
         printer(commandStrings.startOfTurn(player, turnCounter));
+        if (card == null) {
+            printer(commandStrings.noMoreCards(player));
+            return;
+        }
         printer(commandStrings.playerDraws(player, card));
     }
 
@@ -110,7 +114,8 @@ public class Commands {
             return -1;
         }
 
-        if (!((defendingPlayer.validIndex(index)) || (index == getPlayerIndex(defendingPlayer)))) {
+        if (!((defendingPlayer.getMinion(index)!= null)
+                || (index == getPlayerIndex(defendingPlayer))) ) {
             return -1;
         }
 

@@ -6,7 +6,7 @@
 
     <groupId>dream.factory.learning</groupId>
     <artifactId>CardGame</artifactId>
-    <version>1.0-Stable</version>
+    <version>1.0-Alpha</version>
 
     <build>
         <plugins>

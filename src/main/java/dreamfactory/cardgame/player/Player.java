@@ -128,6 +128,10 @@ public class Player extends Attackable {
         return card;
     }
 
+    public int getDeckDmgCounter() {
+        return deck.getDmgCounter();
+    }
+
     public HearthstoneCard playCard(int index, Engine engine){
         HearthstoneCard card = hand.getCard(index);
 
@@ -183,6 +187,14 @@ public class Player extends Attackable {
 
     public String viewBoard() {
         return board.asString();
+    }
+
+    public String viewBoardWithTaunt() {
+        return board.asStringWithTaunt();
+    }
+
+    public String viewBoardCanAttack() {
+        return board.asStringCanAttack();
     }
 
     public void summonMinion(MinionCard card) {

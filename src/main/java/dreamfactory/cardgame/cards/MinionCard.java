@@ -73,10 +73,8 @@ public class MinionCard extends Attackable implements HearthstoneCard {
     }
 
     private String basicInfoAsString() {
-        return title +
-                ", Mana Cost: " + manaCost +
-                ", Attack: " + attack +
-                ", Health: " + health;
+        return String.format("%15s, Mana Cost: %2s, Attack: %2s, Health: %2s",
+                title, manaCost, attack, health);
     }
 
     private String attacksAsString() {

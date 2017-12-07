@@ -23,11 +23,11 @@ public class AbilityMinionGenerator {
         minionList.add(minion);
 
         minion = new MinionCard("Mantis",5,3,4);
-        minion.addAbility(Ability.HASTE);
         minion.addAbility(Ability.WINDFURY);
+        minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 
-        minion = new MinionCard("Puddle Jumpitron",6,7,3);
+        minion = new MinionCard("Puddle Jumpitor",6,7,3);
         minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 

@@ -4,6 +4,7 @@ import dreamfactory.cardgame.engine.Engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SpellCard implements HearthstoneCard {
     private String title;
@@ -41,16 +42,26 @@ public class SpellCard implements HearthstoneCard {
 
     @Override
     public String asString() {
-        String result = (title +
-                ", Mana Cost: " + manaCost);
-        if (hasAbilities()) {
-            result += ", Abilities: " +
-                    abilities.toString()
-                            .replace("[","")
-                            .replace("]","");
+        return basicInfoAsString()
+                + abilitiesAsString()
+                + "\n";
+    }
+
+    private String basicInfoAsString() {
+        return String.format("%15s, Mana Cost: %2s",
+                title, manaCost);
+    }
+
+    private String abilitiesAsString() {
+        if (!hasAbilities()) {
+            return "";
         }
-        result += "\n";
-        return result;
+
+        String abilitiesString = abilities.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
+
+        return  ", Abilities: " + abilitiesString;
     }
 
     @Override

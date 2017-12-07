@@ -31,6 +31,16 @@ public class CommandStrings {
                 + card.asString();
     }
 
+    public String noMoreCards(Player player) {
+        return (player.getPlayerName()
+                + "'s deck is empty!\n"
+                + player.getPlayerName() + " took "
+                + player.getDeckDmgCounter()
+                + " damage as a result..." + SPLITTER
+                + player.getPlayerName() + "'s remaining health: "
+                + player.getHealth()) + "\n";
+    }
+
     public String availableActions(){
         return "Available actions: " +
                 SEPARATOR +
@@ -62,7 +72,7 @@ public class CommandStrings {
 
     public String cardPlayedCheck(HearthstoneCard card, int mana) {
         if (card == null) {
-            return "Card not played! (no such card or not enough mana)\n";
+            return "Card not played! (no such card, not enough mana or board full!)\n";
         }
 
         return card.getTitle() + " played successfully!\n" +
@@ -71,7 +81,7 @@ public class CommandStrings {
 
     public String chooseAttackable(Player player) {
         return "\nChoose who will attack: " + SEPARATOR +
-                player.viewBoard() + SEPARATOR + RETURN;
+                player.viewBoardCanAttack() + SEPARATOR + RETURN;
     }
 
     public String viewBoards(Player friendlyPlayer, Player enemyPlayer) {
@@ -97,7 +107,8 @@ public class CommandStrings {
                 .append(player1.getNumberOfCards())
                 .append(SPLITTER).append("Number of summoned minions: ")
                 .append(player1.getNumberOfMinions())
-                .append("\nEnemy player health: ")
+                .append(SEPARATOR)
+                .append("Enemy player health: ")
                 .append(player2.getHealth())
                 .append(SPLITTER).append("Enemy mana pool: ")
                 .append(player2.getManaPool())
@@ -121,6 +132,12 @@ public class CommandStrings {
 
     public String listTargetsOf(Player defender) {
         String result = "";
+
+        if (defender.hasTauntMinion()){
+            result += "Warning, target has minion with Taunt!!!\n\n" +
+                    "Minions with taunt: \n" + defender.viewBoardWithTaunt();
+            return result;
+        }
 
         if (defender.hasMinions()){
             result += "Minions: \n" + defender.viewBoard() +"\n";

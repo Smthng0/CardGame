@@ -23,13 +23,12 @@ public class Engine {
     }
 
     private void createPlayers() {
-        Deck deck = getConstructedDeck();
         commands.printer("Enter first player name: ");
         commands.scanNextCommand();
-        activePlayer = new Player(commands.getCommand(), deck);
+        activePlayer = new Player(commands.getCommand(), getConstructedDeck());
         commands.printer("Enter second player name: ");
         commands.scanNextCommand();
-        passivePlayer = new Player(commands.getCommand(), deck);
+        passivePlayer = new Player(commands.getCommand(), getConstructedDeck());
         passivePlayer.startsSecond();
         turnCounter = 2;
     }
@@ -39,6 +38,9 @@ public class Engine {
         HearthstoneCard card = activePlayer.drawCard();
         commands.startOfTurnPrint(activePlayer, turnCounter, card);
 
+        if (card == null) {
+            activePlayer.takeDamage(activePlayer.getDeckDmgCounter());
+        }
         if (activePlayer.hasMinions()) {
             activePlayer.resetMinionAttacks();
         }
