@@ -198,8 +198,9 @@ public class Commands {
         command = scanner.nextLine();
     }
 
-    public void printer(String input) {
-        System.out.println(input);
+    public String printer(String input) {
+        System.out.println(input)
+        return input;
     }
 
     private int getPlayerIndex(Player player) {
