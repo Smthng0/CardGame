@@ -71,12 +71,12 @@ public class PlayerTest {
         Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck);
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
-        weapon.addAbility(Ability.DIVINE_SHIELD);
-        weapon.addAbility(Ability.WINDFURY);
+        weapon.addAbility(Ability.BLOCK);
+        weapon.addAbility(Ability.EXTRA_ATTACK);
         player.equipWeapon(weapon);
 
         assertTrue(player.asString().equals("Frane, Health: 20, Remaining Attacks: 2, Weapon Equipped: \n" +
-                "Sledgehammer, Mana Cost: 6, Attack: 9, Durability: 4, Abilities: DIVINE_SHIELD, WINDFURY\n"));
+                "Sledgehammer, Mana Cost: 6, Attack: 9, Durability: 4, Abilities: BLOCK, EXTRA_ATTACK\n"));
 
         MinionCard minion = new MinionCard("Dummy", 0, 0, 20);
         player.attack(minion);

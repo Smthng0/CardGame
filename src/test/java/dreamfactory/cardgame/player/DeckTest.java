@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.player;
 
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
@@ -24,7 +24,7 @@ public class DeckTest {
     @Test
     public void createDeck_fromCSV_OK() {
         List<MinionCard> readerList = (new PlainMinionLoader().loadMinionsFromCSV());
-        List<HearthstoneCard> minionList = new ArrayList<>();
+        List<Card> minionList = new ArrayList<>();
         minionList.addAll(readerList);
         minionList.addAll(readerList);
 
@@ -52,7 +52,7 @@ public class DeckTest {
     }
 
     public Deck createDeck(){
-        List<HearthstoneCard> arrayDeck = new ArrayList<>();
+        List<Card> arrayDeck = new ArrayList<>();
         Random random = new Random ();
 
         for (int i = 0; i < 30; i++) {

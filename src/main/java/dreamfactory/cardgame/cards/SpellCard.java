@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SpellCard implements HearthstoneCard {
+public class SpellCard implements Card {
     private String title;
     private int manaCost;
     private List<Ability> abilities;

@@ -14,7 +14,7 @@ public class WeaponCardTest {
     @Test
     public void create_weapon_OK() {
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(Ability.WINDFURY);
+        abilities.add(Ability.EXTRA_ATTACK);
         WeaponCard weapon1 = new WeaponCard("Sledgehammer", 6, 9, 4);
         WeaponCard weapon2 = new WeaponCard("Needle", 6, 2, 8, abilities);
 
@@ -30,20 +30,20 @@ public class WeaponCardTest {
     @Test
     public void addAbility_OK() {
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
-        weapon.addAbility(Ability.DIVINE_SHIELD);
+        weapon.addAbility(Ability.BLOCK);
 
         assertTrue(weapon.hasAbilities());
-        assertTrue(weapon.hasAbility(Ability.DIVINE_SHIELD));
+        assertTrue(weapon.hasAbility(Ability.BLOCK));
     }
 
     @Test
     public void asString_OK() {
         WeaponCard weapon = new WeaponCard("Sledgehammer", 6, 9, 4);
-        weapon.addAbility(Ability.DIVINE_SHIELD);
-        weapon.addAbility(Ability.WINDFURY);
+        weapon.addAbility(Ability.BLOCK);
+        weapon.addAbility(Ability.EXTRA_ATTACK);
 
         assertEquals("Sledgehammer, Mana Cost: 6, Attack: 9, Durability: 4, " +
-                "Abilities: DIVINE_SHIELD, WINDFURY\n", weapon.asString());
+                "Abilities: BLOCK, EXTRA_ATTACK\n", weapon.asString());
     }
 
 }

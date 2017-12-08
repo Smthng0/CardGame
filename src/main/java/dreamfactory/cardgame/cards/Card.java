@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.cards;
 
-public interface HearthstoneCard {
+public interface Card {
 
     String getTitle();
 

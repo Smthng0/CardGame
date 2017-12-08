@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
 
@@ -38,7 +38,7 @@ public class CommandStrings {
                 + SEPARATOR);
     }
 
-    public String playerDraws(Player player, HearthstoneCard card) {
+    public String playerDraws(Player player, Card card) {
         return  (player.getPlayerName())
                 + (" drew a ")
                 + (card.getClass().getSimpleName())
@@ -85,7 +85,7 @@ public class CommandStrings {
         return builder.toString();
     }
 
-    public String cardPlayedCheck(HearthstoneCard card, int mana) {
+    public String cardPlayedCheck(Card card, int mana) {
         if (card == null) {
             return "Card not played! (no such card, not enough mana or board full!)\n";
         }

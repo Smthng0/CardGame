@@ -14,7 +14,7 @@ public class SpellCardTest {
     @Test
     public void create_spell_OK() {
         List<Ability> abilities = new ArrayList<>();
-        abilities.add(Ability.WINDFURY);
+        abilities.add(Ability.EXTRA_ATTACK);
         SpellCard spellCard1 = new SpellCard("The Coin", 0, null);
         SpellCard spellCard2 = new SpellCard("The Coin", 1, abilities);
 
@@ -31,10 +31,10 @@ public class SpellCardTest {
 
         assertFalse(spellCard.hasAbilities());
 
-        spellCard.addAbility(Ability.WINDFURY);
+        spellCard.addAbility(Ability.EXTRA_ATTACK);
 
         assertTrue(spellCard.hasAbilities());
-        assertTrue(spellCard.hasAbility(Ability.WINDFURY));
+        assertTrue(spellCard.hasAbility(Ability.EXTRA_ATTACK));
 
     }
 

@@ -15,15 +15,15 @@ public class AbilityMinionGenerator {
         minionList.add(minion);
 
         minion = new MinionCard("Mini Mantis",3,2,4);
-        minion.addAbility(Ability.WINDFURY);
+        minion.addAbility(Ability.EXTRA_ATTACK);
         minionList.add(minion);
 
         minion = new MinionCard("Porcupine",4,6,2);
-        minion.addAbility(Ability.DIVINE_SHIELD);
+        minion.addAbility(Ability.BLOCK);
         minionList.add(minion);
 
         minion = new MinionCard("Mantis",5,3,4);
-        minion.addAbility(Ability.WINDFURY);
+        minion.addAbility(Ability.EXTRA_ATTACK);
         minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 

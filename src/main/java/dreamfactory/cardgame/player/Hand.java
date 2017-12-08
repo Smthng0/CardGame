@@ -1,20 +1,20 @@
 package dreamfactory.cardgame.player;
 
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class Hand {
-    private List<HearthstoneCard> backingHand;
+    private List<Card> backingHand;
     private static final int CARD_LIMIT = 10;
 
     public Hand (){
         backingHand = new ArrayList<>();
     }
 
-    public void addCard(HearthstoneCard card) {
+    public void addCard(Card card) {
         backingHand.add(card);
     }
 
@@ -26,7 +26,7 @@ public class Hand {
         }
     }
 
-    public HearthstoneCard getCard(int index) {
+    public Card getCard(int index) {
         if (validIndex(index)) {
             return backingHand.get(index);
         }
@@ -37,7 +37,7 @@ public class Hand {
     public String asString() {
         StringBuilder result = new StringBuilder();
         int index = 0;
-        for (HearthstoneCard card : backingHand) {
+        for (Card card : backingHand) {
             result.append(index)
                     .append(". ")
                     .append(card.asString());
@@ -48,7 +48,7 @@ public class Hand {
     }
 
     private void sortByManaCost() {
-        backingHand.sort(Comparator.comparing(HearthstoneCard::getManaCost));
+        backingHand.sort(Comparator.comparing(Card::getManaCost));
     }
 
     public boolean isEmpty(){

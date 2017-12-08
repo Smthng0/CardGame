@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
 import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.multiplayer.Server.ServerApplication;
@@ -69,7 +69,7 @@ public class Engine {
 
     private void startTurn() {
         incrementManaPool();
-        HearthstoneCard card = activePlayer.drawCard();
+        Card card = activePlayer.drawCard();
         commands.startOfTurnPrint(activePlayer, turnCounter, card);
 
         if (card == null) {
@@ -145,7 +145,7 @@ public class Engine {
     }
 
     private static Deck getConstructedDeck() {
-        List<HearthstoneCard> minionList = new ArrayList<>();
+        List<Card> minionList = new ArrayList<>();
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new AbilityMinionGenerator().createMinions());

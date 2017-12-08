@@ -1,7 +1,7 @@
 package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.Ability;
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
@@ -22,7 +22,7 @@ public class Commands {
         printer(commandStrings.gameStart(activePlayer, passivePlayer));
     }
 
-    public void startOfTurnPrint(Player player, int turnCounter, HearthstoneCard card){
+    public void startOfTurnPrint(Player player, int turnCounter, Card card){
         printer(commandStrings.startOfTurn(player, turnCounter));
         if (card == null) {
             printer(commandStrings.noMoreCards(player));
@@ -45,7 +45,7 @@ public class Commands {
 
     public void playCard(Player player, Engine engine) {
         printer(commandStrings.availableCards(player));
-        HearthstoneCard card = chooseCard(player, engine);
+        Card card = chooseCard(player, engine);
         //TODO: igrat se malo s optional...
         if (new Checker().checkIfReturn(command)) {
             return;
@@ -53,7 +53,7 @@ public class Commands {
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
-    private HearthstoneCard chooseCard(Player player, Engine engine){
+    private Card chooseCard(Player player, Engine engine){
         scanNextCommand();
         int index;
 

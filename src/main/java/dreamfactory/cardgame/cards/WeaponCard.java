@@ -3,7 +3,7 @@ package dreamfactory.cardgame.cards;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeaponCard implements HearthstoneCard {
+public class WeaponCard implements Card {
     private String title;
     private int manaCost;
     private int attack;

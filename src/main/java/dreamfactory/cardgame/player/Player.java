@@ -58,7 +58,7 @@ public class Player extends Attackable {
 
     @Override
     public boolean hasWindfury() {
-        return weapon.hasAbility(Ability.WINDFURY);
+        return weapon.hasAbility(Ability.EXTRA_ATTACK);
     }
 
     @Override
@@ -118,12 +118,12 @@ public class Player extends Attackable {
         remainingMana++;
     }
 
-    private boolean checkMana(HearthstoneCard card) {
+    private boolean checkMana(Card card) {
         return (card.getManaCost() <= getRemainingMana());
     }
 
-    public HearthstoneCard drawCard() {
-        HearthstoneCard card = deck.drawCard();
+    public Card drawCard() {
+        Card card = deck.drawCard();
         hand.addCard(card);
         return card;
     }
@@ -132,8 +132,8 @@ public class Player extends Attackable {
         return deck.getDmgCounter();
     }
 
-    public HearthstoneCard playCard(int index, Engine engine){
-        HearthstoneCard card = hand.getCard(index);
+    public Card playCard(int index, Engine engine){
+        Card card = hand.getCard(index);
 
         if (!cardPlayed(card, engine)) return null;
 
@@ -144,7 +144,7 @@ public class Player extends Attackable {
         return card;
     }
 
-    private boolean cardPlayed(HearthstoneCard card, Engine engine) {
+    private boolean cardPlayed(Card card, Engine engine) {
         if (card == null) return false;
         if (!checkMana(card)) return false;
 

@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.player;
 
-import dreamfactory.cardgame.cards.HearthstoneCard;
+import dreamfactory.cardgame.cards.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Deck {
     private int dmgCounter = 0;
-    private List<HearthstoneCard> backingDeck = new ArrayList<>();
+    private List<Card> backingDeck = new ArrayList<>();
 
-    public Deck (List<HearthstoneCard> deck) {
+    public Deck (List<Card> deck) {
         if (!acceptableSize(deck.size())){
             System.out.println("Deck must have 15 - 30 cards!");
         } else {
@@ -19,7 +19,7 @@ public class Deck {
         }
     }
 
-    public HearthstoneCard drawCard() {
+    public Card drawCard() {
         if (backingDeck.isEmpty()){
             dmgCounter++;
             return null;

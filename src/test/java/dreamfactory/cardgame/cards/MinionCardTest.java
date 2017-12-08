@@ -54,7 +54,7 @@ public class MinionCardTest {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
         minion1.addAbility(Ability.HASTE);
-        minion2.addAbility(Ability.WINDFURY);
+        minion2.addAbility(Ability.EXTRA_ATTACK);
 
         assertTrue(minion1.hasAbilities());
         assertTrue(minion2.hasAbilities());
@@ -65,7 +65,7 @@ public class MinionCardTest {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
         minion1.addAbility(Ability.HASTE);
-        minion2.addAbility(Ability.WINDFURY);
+        minion2.addAbility(Ability.EXTRA_ATTACK);
 
         assertTrue(minion1.hasAbility(Ability.HASTE));
         assertFalse(minion2.hasAbility(Ability.HASTE));
@@ -76,7 +76,7 @@ public class MinionCardTest {
         MinionCard minion1 = new MinionCard("Minion1", 2, 4, 6);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
         minion1.addAbility(Ability.HASTE);
-        minion2.addAbility(Ability.DIVINE_SHIELD);
+        minion2.addAbility(Ability.BLOCK);
         minion1.attack(minion2);
 
         assertEquals(3, minion1.getHealth());
@@ -87,9 +87,9 @@ public class MinionCardTest {
     public void Haste_Windfury_DivineShield_OK() {
         MinionCard minion1 = new MinionCard("Minion1", 2, 2, 4);
         MinionCard minion2 = new MinionCard("Minion2", 3, 3, 3);
-        minion1.addAbility(Ability.WINDFURY);
+        minion1.addAbility(Ability.EXTRA_ATTACK);
         minion1.addAbility(Ability.HASTE);
-        minion2.addAbility(Ability.DIVINE_SHIELD);
+        minion2.addAbility(Ability.BLOCK);
         minion1.attack(minion2);
         minion1.attack(minion2);
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MinionCard extends Attackable implements HearthstoneCard {
+public class MinionCard extends Attackable implements Card {
     private String title;
     private int manaCost;
     private List<Ability> abilities;
@@ -32,8 +32,8 @@ public class MinionCard extends Attackable implements HearthstoneCard {
 
     @Override
     public void takeDamage(int damage){
-        if (hasAbility(Ability.DIVINE_SHIELD)){
-            abilities.remove(Ability.DIVINE_SHIELD);
+        if (hasAbility(Ability.BLOCK)){
+            abilities.remove(Ability.BLOCK);
         } else {
             health -= damage;
         }
@@ -41,7 +41,7 @@ public class MinionCard extends Attackable implements HearthstoneCard {
 
     @Override
     public boolean hasWindfury() {
-        return hasAbility(Ability.WINDFURY);
+        return hasAbility(Ability.EXTRA_ATTACK);
     }
 
     @Override
