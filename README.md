@@ -1,11 +1,11 @@
 # CardGame
 
-Work in progress :D
-
 ### Description:
 A unnamed Card Game, originally based on Hearthstone™...  
-For now, there are 2 players with their own decks made of minion cards.  
-The players summon minions and attack each other.  
+There are 2 players with their own decks made of different cards...  
+The players have to play their cards to defeat the other player...
+They can summon minions from minion cards to attack the other player...
+The minions have some abilities, like Taunt, Haste...  
 The winner is the first one to lower the other players health to 0.  
 
 ### Tutorial
@@ -14,7 +14,7 @@ For now, it's console based, so you enter your commands thru the console.
 You start by entering both players names.  
 After that, you type in the commands that you want (you read them off the console).
 The point is to lower the other players health to 0 or less, then you win...
-But be carefull of his own minions! :O   
+But be carefull of his own minions and thigs! :O   
  ٩(- ̮̮̃-̃)۶ ٩(- ̮̮̃-̃)۶ ٩(- ̮̮̃-̃)۶ ٩(- ̮̮̃-̃)۶ ٩(- ̮̮̃-̃)۶
   
 *Example of commands:*   
