@@ -6,9 +6,9 @@ import dreamfactory.cardgame.cards.MinionCard;
 import java.util.ArrayList;
 import java.util.List;
 
-public static class AbilityMinionGenerator {
+public class AbilityMinionGenerator {
 
-    public List<MinionCard> createMinions() {
+    public static List<MinionCard> createMinions() {
         List<MinionCard> minionList = new ArrayList<>();
 
         MinionCard minion = new MinionCard("Puddle Jumper",1,2,1);

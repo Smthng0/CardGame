@@ -1,6 +1,8 @@
 package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.Card;
+import dreamfactory.cardgame.io.AbilityMinionGenerator;
+import dreamfactory.cardgame.io.PlainMinionLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,5 +41,16 @@ public class Deck {
     public int getDmgCounter() {
         return dmgCounter;
     }
+
+    public static Deck getConstructedDeck() {
+        List<Card> minionList = new ArrayList<>();
+        minionList.addAll(PlainMinionLoader.loadMinionsFromCSV());
+        minionList.addAll(PlainMinionLoader.loadMinionsFromCSV());
+        minionList.addAll(AbilityMinionGenerator.createMinions());
+        minionList.addAll(AbilityMinionGenerator.createMinions());
+
+        return new Deck(minionList);
+    }
+
 
 }

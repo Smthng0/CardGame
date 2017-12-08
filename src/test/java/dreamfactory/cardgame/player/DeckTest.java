@@ -23,12 +23,12 @@ public class DeckTest {
 
     @Test
     public void createDeck_fromCSV_OK() {
-        List<MinionCard> readerList = (new PlainMinionLoader().loadMinionsFromCSV());
+        List<MinionCard> readerList = (PlainMinionLoader.loadMinionsFromCSV());
         List<Card> minionList = new ArrayList<>();
         minionList.addAll(readerList);
         minionList.addAll(readerList);
 
-        List<MinionCard> abilityList = new AbilityMinionGenerator().createMinions();
+        List<MinionCard> abilityList = AbilityMinionGenerator.createMinions();
         minionList.addAll(abilityList);
         minionList.addAll(abilityList);
 

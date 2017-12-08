@@ -2,6 +2,7 @@ package dreamfactory.cardgame.io;
 
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.MinionCard;
+import dreamfactory.cardgame.player.Player;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ import java.util.List;
 
 public class PlainMinionLoader {
 
-    public  List<MinionCard> loadMinionsFromCSV() {
+    public static List<MinionCard> loadMinionsFromCSV() {
         List<MinionCard> minionList = new ArrayList<>();
-        ClassLoader classLoader = getClass().getClassLoader();
+        ClassLoader classLoader = PlainMinionLoader.class.getClassLoader();
         String pathToFile = classLoader.getResource(
                 "file/GenericMinions.csv").getPath();
 
@@ -25,7 +26,7 @@ public class PlainMinionLoader {
         return minionList;
     }
 
-    private void readLine(List<MinionCard> minionList,
+    private static void readLine(List<MinionCard> minionList,
                           BufferedReader reader) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {

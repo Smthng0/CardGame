@@ -1,13 +1,8 @@
 package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.Card;
-import dreamfactory.cardgame.io.AbilityMinionGenerator;
-import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Engine {
     private Player activePlayer;
@@ -25,10 +20,10 @@ public class Engine {
     private void createPlayers() {
         commands.printer("Enter first player name: ");
         commands.scanNextCommand();
-        activePlayer = new Player(commands.getCommand(), getConstructedDeck());
+        activePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
         commands.printer("Enter second player name: ");
         commands.scanNextCommand();
-        passivePlayer = new Player(commands.getCommand(), getConstructedDeck());
+        passivePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
         passivePlayer.startsSecond();
         turnCounter = 2;
     }
@@ -105,14 +100,5 @@ public class Engine {
         return passivePlayer;
     }
 
-    public static Deck getConstructedDeck() {
-        List<Card> minionList = new ArrayList<>();
-        minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
-        minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
-        minionList.addAll(new AbilityMinionGenerator().createMinions());
-        minionList.addAll(new AbilityMinionGenerator().createMinions());
-
-        return new Deck(minionList);
-    }
 
 }

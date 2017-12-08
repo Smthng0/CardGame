@@ -1,7 +1,7 @@
 package dreamfactory.cardgame.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dreamfactory.cardgame.engine.Engine;
+import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
 
 public class Players {
@@ -10,25 +10,25 @@ public class Players {
     private boolean playsFirst;
 
     public Players(String player1Name, String player2Name){
-        this.player1 = new Player(player1Name, ;
-        this.player2Name = player2Name;
+        this.player1 = new Player(player1Name, Deck.getConstructedDeck());
+        this.player2 = new Player(player2Name, Deck.getConstructedDeck());
         this.playsFirst = playsFirst;
     }
 
     public Players(String player1Name, String player2Name, boolean playsFirst){
-        this.player1Name = player1Name;
-        this.player2Name = player2Name;
+        this.player1 = new Player(player1Name, Deck.getConstructedDeck());
+        this.player2 = new Player(player2Name, Deck.getConstructedDeck());
         this.playsFirst = playsFirst;
     }
 
     @JsonProperty
-    public String getPlayer1Name() {
-        return player1Name;
+    public Player getPlayer1() {
+        return player1;
     }
 
     @JsonProperty
-    public String getPlayer2Name() {
-        return player2Name;
+    public Player getPlayer2() {
+        return player2;
     }
 
     @JsonProperty
