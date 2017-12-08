@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class WeaponCardTest {
@@ -16,13 +18,13 @@ public class WeaponCardTest {
         WeaponCard weapon1 = new WeaponCard("Sledgehammer", 6, 9, 4);
         WeaponCard weapon2 = new WeaponCard("Needle", 6, 2, 8, abilities);
 
-        assertTrue((weapon1.getTitle().equals("Sledgehammer"))
-                &&(weapon1.getManaCost() == 6)
-                &&(weapon1.getAttack() == 9)
-                &&(weapon1.getDurability() == 4)
-                &&(!weapon1.hasAbilities()));
-        assertTrue((weapon2.getDurability() == 8)
-                &&(weapon2.hasAbilities()));
+        assertEquals("Sledgehammer", weapon1.getTitle());
+        assertEquals(6, weapon1.getManaCost());
+        assertEquals(9, weapon1.getAttack());
+        assertEquals(4, weapon1.getDurability());
+        assertFalse(weapon1.hasAbilities());
+        assertEquals(8, weapon2.getDurability());
+        assertTrue(weapon2.hasAbilities());
     }
 
     @Test
@@ -40,8 +42,8 @@ public class WeaponCardTest {
         weapon.addAbility(Ability.DIVINE_SHIELD);
         weapon.addAbility(Ability.WINDFURY);
 
-        assertTrue(weapon.asString().equals("Sledgehammer, Mana Cost: 6, " +
-                "Attack: 9, Durability: 4, Abilities: DIVINE_SHIELD, WINDFURY\n"));
+        assertEquals("Sledgehammer, Mana Cost: 6, Attack: 9, Durability: 4, " +
+                "Abilities: DIVINE_SHIELD, WINDFURY\n", weapon.asString());
     }
 
 }

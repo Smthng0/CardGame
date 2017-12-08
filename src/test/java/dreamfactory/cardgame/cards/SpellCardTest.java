@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -17,11 +18,11 @@ public class SpellCardTest {
         SpellCard spellCard1 = new SpellCard("The Coin", 0, null);
         SpellCard spellCard2 = new SpellCard("The Coin", 1, abilities);
 
-        assertTrue((spellCard1.getTitle().equals("The Coin"))
-                &&(spellCard1.getManaCost() == 0)
-                &&(!spellCard1.hasAbilities()));
-        assertTrue((spellCard2.getManaCost() == 1)
-                &&(spellCard2.hasAbilities()));
+        assertEquals("The Coin", spellCard1.getTitle());
+        assertEquals(0, spellCard1.getManaCost());
+        assertFalse(spellCard1.hasAbilities());
+        assertEquals(1, spellCard2.getManaCost());
+        assertTrue(spellCard2.hasAbilities());
     }
 
     @Test
@@ -42,7 +43,7 @@ public class SpellCardTest {
         SpellCard spellCard = new SpellCard("The Coin", 0, null);
         spellCard.addAbility(Ability.ADD_MANA);
 
-        assertTrue(spellCard.asString().equals("The Coin, Mana Cost: 0, Abilities: ADD_MANA\n"));
+        assertEquals("       The Coin, Mana Cost:  0, Abilities: ADD_MANA\n", spellCard.asString());
     }
 
 }

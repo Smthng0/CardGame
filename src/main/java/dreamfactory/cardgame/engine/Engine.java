@@ -144,7 +144,7 @@ public class Engine {
         return passivePlayer;
     }
 
-    public static Deck getConstructedDeck() {
+    private static Deck getConstructedDeck() {
         List<HearthstoneCard> minionList = new ArrayList<>();
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());

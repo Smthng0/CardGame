@@ -74,13 +74,13 @@ public class Commands {
         }
 
         int attackingIndex = chooseAttacker(activePlayer);
-        if (!validAttackableIndex(attackingIndex)) return;
+        if (notValidAttackableIndex(attackingIndex)) return;
 
         Attackable attacker = activePlayer.getMinion(attackingIndex);
         //TODO: uvalit da moze i player, ne smao minion...
 
         int defendingIndex = chooseTarget(attacker, passivePlayer);
-        if (!validAttackableIndex(defendingIndex)) return;
+        if (notValidAttackableIndex(defendingIndex)) return;
         if (!tauntTarget(passivePlayer, defendingIndex)) {
             printer(commandStrings.notTauntTarget());
             return;
@@ -140,7 +140,7 @@ public class Commands {
         return true;
     }
 
-    private boolean validAttackableIndex (int index) {
+    private boolean notValidAttackableIndex(int index) {
         if (index == -1) {
             printer(commandStrings.invalidIndex());
             return false;
@@ -199,7 +199,7 @@ public class Commands {
     }
 
     public String printer(String input) {
-        System.out.println(input)
+        System.out.println(input);
         return input;
     }
 

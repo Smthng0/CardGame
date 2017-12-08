@@ -4,14 +4,13 @@ import dreamfactory.cardgame.cards.HearthstoneCard;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
-import dreamfactory.cardgame.player.Deck;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 public class DeckTest {
 
@@ -19,7 +18,7 @@ public class DeckTest {
     public void create_deck_OK() {
         Deck deck = createDeck();
 
-        assertTrue(deck.getDmgCounter() == 0);
+        assertEquals(0, deck.getDmgCounter());
     }
 
     @Test
@@ -33,7 +32,7 @@ public class DeckTest {
         minionList.addAll(abilityList);
         minionList.addAll(abilityList);
 
-        assertTrue(minionList.size() == 30);
+        assertEquals(30, minionList.size());
     }
 
     @Test
@@ -44,12 +43,12 @@ public class DeckTest {
             deck.drawCard();
         }
 
-        assertTrue(deck.getDmgCounter() == 0);
+        assertEquals(0, deck.getDmgCounter());
 
         deck.drawCard();
         deck.drawCard();
 
-        assertTrue(deck.getDmgCounter() == 2);
+        assertEquals(2, deck.getDmgCounter());
     }
 
     public Deck createDeck(){

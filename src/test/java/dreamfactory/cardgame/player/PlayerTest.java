@@ -6,6 +6,7 @@ import dreamfactory.cardgame.cards.WeaponCard;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -16,8 +17,8 @@ public class PlayerTest {
         Deck deck = new DeckTest().createDeck();
         Player player = new Player("Frane", deck);
 
-        assertTrue(player.getNumberOfCards() == 3);
-        assertTrue(player.getNumberOfMinions() == 0);
+        assertEquals(3, player.getNumberOfCards());
+        assertEquals(0, player.getNumberOfMinions());
     }
 
     @Test
@@ -27,7 +28,7 @@ public class PlayerTest {
         int playerHealth = player.getHealth();
         player.takeDamage(17);
 
-        assertTrue(player.getHealth() == (playerHealth - 17));
+        assertEquals(playerHealth - 17, player.getHealth());
     }
 
     @Test
@@ -42,15 +43,15 @@ public class PlayerTest {
 
         player.attack(minion);
 
-        assertTrue(player.getHealth() == (playerHealth - 7));
-        assertTrue(minion.getHealth() == 5);
+        assertEquals(playerHealth - 7, player.getHealth());
+        assertEquals(5, minion.getHealth());
         assertTrue(player.hasWeapon());
 
         player.resetAttacks();
         player.attack(minion);
 
-        assertTrue(player.getHealth() == (playerHealth - 14));
-        assertTrue(minion.getHealth() == -4);
+        assertEquals(playerHealth - 14, player.getHealth());
+        assertEquals(-4, minion.getHealth());
         assertFalse(player.hasWeapon());
     }
 
@@ -84,7 +85,7 @@ public class PlayerTest {
         player.attack(minion);
         player.attack(minion);
 
-        assertTrue(player.asString().equals("Frane, Health: 20\n"));
+        assertEquals("Frane, Health: 20\n", player.asString());
     }
 
     @Test

@@ -5,6 +5,7 @@ import dreamfactory.cardgame.cards.WeaponCard;
 import dreamfactory.cardgame.player.Hand;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HandTest {
@@ -13,7 +14,7 @@ public class HandTest {
     public void crate_hand_OK() {
         Hand hand = new Hand();
 
-        assertTrue(hand.getNumberOfCards() == 0);
+        assertEquals(0,hand.getNumberOfCards());
         assertTrue(hand.isEmpty());
     }
 
@@ -24,7 +25,7 @@ public class HandTest {
         hand.addCard(new SpellCard("kifla", 2, null));
         hand.addCard(new WeaponCard("kifla2", 2, 2, 2));
 
-        assertTrue(hand.getNumberOfCards() == 2);
+        assertEquals(2, hand.getNumberOfCards());
     }
 
 }

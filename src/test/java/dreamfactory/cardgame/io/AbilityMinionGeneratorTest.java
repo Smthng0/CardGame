@@ -17,7 +17,7 @@ public class AbilityMinionGeneratorTest {
         assertTrue(cardList.get(1).getTitle().equals("Mini Mantis"));
         assertTrue(cardList.get(2).getTitle().equals("Porcupine"));
         assertTrue(cardList.get(3).getTitle().equals("Mantis"));
-        assertTrue(cardList.get(4).getTitle().equals("Puddle Jumpitron"));
+        assertTrue(cardList.get(4).getTitle().equals("Puddle Jumpitor"));
     }
 
 }

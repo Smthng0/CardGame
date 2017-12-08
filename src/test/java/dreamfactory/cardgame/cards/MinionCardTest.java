@@ -18,13 +18,13 @@ public class MinionCardTest {
         MinionCard minion = new MinionCard("Minion1", 8, 17, 4);
         MinionCard minionWithAbility = new MinionCard("Minion1", 8, 5, 8, ability);
 
-        assertTrue((minion.getTitle().equals("Minion1"))
-                &&(minion.getManaCost() == 8)
-                &&(minion.getAttack() == 17)
-                &&(minion.getHealth() == 4)
-                &&(!minion.hasAbilities()));
-        assertTrue((minionWithAbility.getHealth() == 8)
-                &&(minionWithAbility.hasAbilities()));
+        assertEquals("Minion1", minion.getTitle());
+        assertEquals(8, minion.getManaCost());
+        assertEquals(17, minion.getAttack());
+        assertEquals(4, minion.getHealth());
+        assertFalse(minion.hasAbilities());
+        assertEquals(8, minionWithAbility.getHealth());
+        assertTrue(minionWithAbility.hasAbilities());
     }
 
     @Test
@@ -34,8 +34,8 @@ public class MinionCardTest {
         minion1.resetAttacks();
         minion1.attack(minion2);
 
-        assertTrue(minion1.getHealth() == 2);
-        assertTrue(minion2.getHealth() == 1);
+        assertEquals(2, minion1.getHealth());
+        assertEquals(1, minion2.getHealth());
     }
 
     @Test
@@ -45,8 +45,8 @@ public class MinionCardTest {
         minion1.addAbility(Ability.HASTE);
         minion1.attack(minion2);
 
-        assertTrue(minion1.getHealth() == 3);
-        assertTrue(minion2.getHealth() == -1);
+        assertEquals(3, minion1.getHealth());
+        assertEquals(-1, minion2.getHealth());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class MinionCardTest {
         minion2.addAbility(Ability.DIVINE_SHIELD);
         minion1.attack(minion2);
 
-        assertTrue(minion1.getHealth() == 3);
-        assertTrue(minion2.getHealth() == 3);
+        assertEquals(3, minion1.getHealth());
+        assertEquals(3, minion2.getHealth());
     }
 
     @Test
@@ -93,8 +93,8 @@ public class MinionCardTest {
         minion1.attack(minion2);
         minion1.attack(minion2);
 
-        assertTrue(minion1.getHealth() == -2);
-        assertTrue(minion2.getHealth() == 1);
+        assertEquals(-2, minion1.getHealth());
+        assertEquals(1, minion2.getHealth());
     }
 
     @Test
