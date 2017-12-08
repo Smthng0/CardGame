@@ -66,4 +66,12 @@ public class Hand {
     private boolean validIndex(int index) {
         return ((index >= 0) && (index < getNumberOfCards()));
     }
+
+    public List<Card> getBackingHand() {
+        return backingHand;
+    }
+
+    public static int getCardLimit() {
+        return CARD_LIMIT;
+    }
 }

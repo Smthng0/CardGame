@@ -9,8 +9,7 @@ public class MultiplayerEngine {
     private Commands commands = new Commands();
     private CommandChecker commandChecker = new CommandChecker();
 
-    public void inizializeGame() {
+    public void initializeGame(Player player1, Player player2) {
         commands.printer("Starting MultiPlayer Session...");
-        System.exit(0);
     }
 }

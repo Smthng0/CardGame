@@ -22,9 +22,9 @@ public class ServerApplication extends Application<ServerConfiguration>{
 
         final GameController gameController = new GameController();
         final CreatePlayers createPlayers = new CreatePlayers(gameController);
-        final ServerCommands serverCommands = new ServerCommands(gameController);
+        //final ServerCommands serverCommands = new ServerCommands(gameController);
         environment.jersey().register(createPlayers);
-        environment.jersey().register(serverCommands);
+        //environment.jersey().register(serverCommands);
     }
 
 

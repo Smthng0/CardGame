@@ -1,9 +1,9 @@
 package dreamfactory.cardgame.cards.spells;
 
-import dreamfactory.cardgame.engine.Engine;
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.MinionCard;
 import dreamfactory.cardgame.cards.SpellCard;
+import dreamfactory.cardgame.engine.Engine;
 
 import java.util.ArrayList;
 import java.util.List;

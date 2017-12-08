@@ -2,8 +2,8 @@ package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.io.PlainMinionLoader;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
+import dreamfactory.cardgame.io.PlainMinionLoader;
 import org.junit.Test;
 
 import java.util.ArrayList;

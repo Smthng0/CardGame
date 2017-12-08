@@ -229,4 +229,19 @@ public class Player extends Attackable {
         return playerName;
     }
 
+    public WeaponCard getWeapon() {
+        return weapon;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
 }

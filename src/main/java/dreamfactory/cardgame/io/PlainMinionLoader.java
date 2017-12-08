@@ -2,9 +2,11 @@ package dreamfactory.cardgame.io;
 
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.player.Player;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

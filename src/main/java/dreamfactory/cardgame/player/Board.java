@@ -121,6 +121,11 @@ public class Board {
         return backingBoard.isEmpty();
     }
 
+    public List<MinionCard> getBackingBoard() {
+        return backingBoard;
+    }
 
-
+    public static int getMinionLimit() {
+        return MINION_LIMIT;
+    }
 }

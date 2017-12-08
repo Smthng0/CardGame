@@ -42,6 +42,10 @@ public class Deck {
         return dmgCounter;
     }
 
+    public List<Card> getBackingDeck() {
+        return backingDeck;
+    }
+
     public static Deck getConstructedDeck() {
         List<Card> minionList = new ArrayList<>();
         minionList.addAll(PlainMinionLoader.loadMinionsFromCSV());

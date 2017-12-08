@@ -11,6 +11,9 @@ public class MinionCard extends Attackable implements Card {
     private int manaCost;
     private List<Ability> abilities;
 
+    public MinionCard() {
+    }
+
     public MinionCard(String title, int manaCost, int attack, int health){
         this.title = title;
         this.manaCost = manaCost;
@@ -116,4 +119,7 @@ public class MinionCard extends Attackable implements Card {
         return abilities.contains(ability);
     }
 
+    public List<Ability> getAbilities() {
+        return abilities;
+    }
 }

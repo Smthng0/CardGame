@@ -26,7 +26,7 @@ public class ServerCommands {
     @GET
     @Timed
     public GameController.GameStatus endTurn(@QueryParam("endTurn") String playerName) {
-        gameController.endTurn(playerName);
+        //gameController.endTurn(playerName);
         return gameController.gameState;
     }
 

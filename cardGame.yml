@@ -1,2 +1,7 @@
-host: 192:168:88:23
-port: 8000
+server:
+  type: simple
+  applicationContextPath: /app
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
