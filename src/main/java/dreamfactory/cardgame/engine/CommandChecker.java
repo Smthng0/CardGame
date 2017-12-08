@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-public class Checker {
+public class CommandChecker {
 
     public boolean checkIfHotSeat(String command) {
         return ((command.equalsIgnoreCase("HotSeat"))
@@ -14,10 +14,6 @@ public class Checker {
                 || (command.equalsIgnoreCase("Multi"))
                 || (command.equalsIgnoreCase("Player"))
                 || (command.equalsIgnoreCase("M")));
-    }
-
-    public boolean checkIfServer(String command) {
-        return command.equals("StarT ServeR");
     }
 
     public boolean checkIfPlay(String command) {

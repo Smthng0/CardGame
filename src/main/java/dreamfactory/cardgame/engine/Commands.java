@@ -43,11 +43,16 @@ public class Commands {
         printer(commandStrings.viewBoards(activePlayer, passivePlayer));
     }
 
+    public void incrementManaPool(Player player) {
+        player.setManaPool(player.getManaPool()+1);
+        player.setRemainingMana(player.getManaPool());
+    }
+
     public void playCard(Player player, Engine engine) {
         printer(commandStrings.availableCards(player));
         Card card = chooseCard(player, engine);
         //TODO: igrat se malo s optional...
-        if (new Checker().checkIfReturn(command)) {
+        if (new CommandChecker().checkIfReturn(command)) {
             return;
         }
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));

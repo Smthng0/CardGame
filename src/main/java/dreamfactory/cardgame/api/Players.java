@@ -1,14 +1,16 @@
-package dreamfactory.cardgame.multiplayer.Server.api;
+package dreamfactory.cardgame.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dreamfactory.cardgame.engine.Engine;
+import dreamfactory.cardgame.player.Player;
 
 public class Players {
-    private String player1Name;
-    private String player2Name;
+    private Player player1;
+    private Player player2;
     private boolean playsFirst;
 
     public Players(String player1Name, String player2Name){
-        this.player1Name = player1Name;
+        this.player1 = new Player(player1Name, ;
         this.player2Name = player2Name;
         this.playsFirst = playsFirst;
     }

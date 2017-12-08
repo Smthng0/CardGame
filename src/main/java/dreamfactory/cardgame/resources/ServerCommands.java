@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.multiplayer.Server.resources;
+package dreamfactory.cardgame.resources;
 
 import com.codahale.metrics.annotation.Timed;
 

@@ -1,8 +1,8 @@
-package dreamfactory.cardgame.multiplayer.Server.resources;
+package dreamfactory.cardgame.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dreamfactory.cardgame.multiplayer.Server.api.Players;
+import dreamfactory.cardgame.api.Players;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlainMinionLoader {
+
     public  List<MinionCard> loadMinionsFromCSV() {
         List<MinionCard> minionList = new ArrayList<>();
         ClassLoader classLoader = getClass().getClassLoader();

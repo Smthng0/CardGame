@@ -1,12 +1,15 @@
-package dreamfactory.cardgame.multiplayer.Server;
+package dreamfactory.cardgame;
 
-import dreamfactory.cardgame.multiplayer.Server.resources.CreatePlayers;
-import dreamfactory.cardgame.multiplayer.Server.resources.GameController;
-import dreamfactory.cardgame.multiplayer.Server.resources.ServerCommands;
+import dreamfactory.cardgame.resources.CreatePlayers;
+import dreamfactory.cardgame.resources.GameController;
+import dreamfactory.cardgame.resources.ServerCommands;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 
 public class ServerApplication extends Application<ServerConfiguration>{
+    public static void main(String[] args) throws Exception {
+        new ServerApplication().run(args);
+    }
 
     @Override
     public String getName() {

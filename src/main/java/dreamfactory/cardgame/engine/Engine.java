@@ -3,7 +3,6 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
 import dreamfactory.cardgame.io.PlainMinionLoader;
-import dreamfactory.cardgame.multiplayer.Server.ServerApplication;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
 
@@ -15,38 +14,12 @@ public class Engine {
     private Player passivePlayer;
     private int turnCounter;
     private Commands commands = new Commands();
-    private Checker checker = new Checker();
+    private CommandChecker commandChecker = new CommandChecker();
 
-    public void initializeGame() throws Exception {
-        do {
-            commands.chooseGameType();
-            commands.scanNextCommand();
-            if (checker.checkIfHotSeat(commands.getCommand())) {
-                hotSeat();
-            }
-            if (checker.checkIfMultiplayer(commands.getCommand())) {
-                multiPlayer();
-            }
-            if (checker.checkIfServer(commands.getCommand())) {
-                startServer();
-            }
-        } while (!checker.checkIfExitGame(commands.getCommand()));
-    }
-
-    private void hotSeat() {
+    public void initializeGame() {
         createPlayers();
         commands.introPrint(activePlayer, passivePlayer);
         startTurn();
-    }
-
-    private void multiPlayer() {
-        commands.printer("Starting MultiPlayer Session...");
-        System.exit(0);
-    }
-
-    private void startServer() throws Exception{
-        commands.printer("Starting Server...");
-        new ServerApplication().run();
     }
 
     private void createPlayers() {
@@ -60,15 +33,8 @@ public class Engine {
         turnCounter = 2;
     }
 
-    public void createMultiPlayers(String player1, String player2) {
-        activePlayer = new Player(player1, getConstructedDeck());
-        passivePlayer = new Player(player2, getConstructedDeck());
-        passivePlayer.startsSecond();
-        turnCounter = 2;
-    }
-
     private void startTurn() {
-        incrementManaPool();
+        commands.incrementManaPool(activePlayer);
         Card card = activePlayer.drawCard();
         commands.startOfTurnPrint(activePlayer, turnCounter, card);
 
@@ -86,42 +52,37 @@ public class Engine {
         chooseAction();
     }
 
-    private void incrementManaPool() {
-        activePlayer.setManaPool(activePlayer.getManaPool()+1);
-        activePlayer.setRemainingMana(activePlayer.getManaPool());
-    }
-
     private void chooseAction() {
         do {
             commands.availableActionsPrint();
             commands.scanNextCommand();
 
 
-            if (checker.checkIfPlay(commands.getCommand())) {
+            if (commandChecker.checkIfPlay(commands.getCommand())) {
                 do {
                     commands.playCard(activePlayer, this);
-                } while (!checker.checkIfReturn(commands.getCommand()));
+                } while (!commandChecker.checkIfReturn(commands.getCommand()));
             }
 
-            if (checker.checkIfAttack(commands.getCommand())) {
+            if (commandChecker.checkIfAttack(commands.getCommand())) {
                 do {
                     commands.attack(activePlayer, passivePlayer);
-                } while (!checker.checkIfReturn(commands.getCommand()));
+                } while (!commandChecker.checkIfReturn(commands.getCommand()));
             }
 
-            if (checker.checkIfCheckStatus(commands.getCommand())) {
+            if (commandChecker.checkIfCheckStatus(commands.getCommand())) {
                 commands.checkStatusPrint(activePlayer,passivePlayer);
             }
 
-            if (checker.checkIfViewBoards(commands.getCommand())) {
+            if (commandChecker.checkIfViewBoards(commands.getCommand())) {
                 commands.viewBoardsPrint(activePlayer, passivePlayer);
             }
 
-            if (checker.checkIfEndTurn(commands.getCommand())) {
+            if (commandChecker.checkIfEndTurn(commands.getCommand())) {
                 endTurn();
             }
 
-        } while (!checker.checkIfExitGame(commands.getCommand()));
+        } while (!commandChecker.checkIfExitGame(commands.getCommand()));
     }
 
     private void endTurn() {
@@ -144,7 +105,7 @@ public class Engine {
         return passivePlayer;
     }
 
-    private static Deck getConstructedDeck() {
+    public static Deck getConstructedDeck() {
         List<Card> minionList = new ArrayList<>();
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());
         minionList.addAll(new PlainMinionLoader().loadMinionsFromCSV());

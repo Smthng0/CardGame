@@ -1,7 +1,7 @@
-package dreamfactory.cardgame.multiplayer.Server.resources;
+package dreamfactory.cardgame.resources;
 
 import dreamfactory.cardgame.engine.Engine;
-import dreamfactory.cardgame.multiplayer.Server.api.Players;
+import dreamfactory.cardgame.api.Players;
 
 public class GameController {
     private Engine engine;

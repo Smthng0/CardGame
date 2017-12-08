@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.multiplayer.Server;
+package dreamfactory.cardgame;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
