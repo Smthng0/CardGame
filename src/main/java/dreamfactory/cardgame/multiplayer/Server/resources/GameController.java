@@ -15,7 +15,7 @@ public class GameController {
         PLAYER2_TURN
     }
 
-    public void startGame(String player1, String player2) {
+    private void startGame(String player1, String player2) {
         this.engine = new Engine();
         engine.createMultiPlayers(player1,player2);
         gameState = GameStatus.PLAYER1_TURN;
@@ -27,6 +27,11 @@ public class GameController {
         } else if (playerName.equals(players.getPlayer2Name())) {
             gameState = GameStatus.PLAYER1_TURN;
         }
+    }
+
+    public boolean doAction(String command) {
+        return !command.equalsIgnoreCase("tu trebam vidit ako je prosla komanda");
+        //mislio sam slati komande u engine, tj u system in dok se vrti igra... pa vracati oba playera system.out..gi
     }
 
     private boolean playerExists(String player){

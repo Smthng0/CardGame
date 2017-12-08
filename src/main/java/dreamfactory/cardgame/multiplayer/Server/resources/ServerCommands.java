@@ -30,4 +30,10 @@ public class ServerCommands {
         return gameController.gameState;
     }
 
+    @GET
+    @Timed
+    public boolean action(@QueryParam("action") String playerName, String command) {
+        return gameController.doAction(command);
+    }
+
 }
