@@ -47,7 +47,7 @@ public class GameController {
         if (!player1Exists()) {
             players.setPlayer1(player);
             return player;
-        }
+    }
 
         if (playerName.equals(players.getPlayer1().getPlayerName())) {
             return null;

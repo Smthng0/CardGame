@@ -1,8 +1,5 @@
 package dreamfactory.cardgame.cards;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-@JsonDeserialize(contentAs=MinionCard.class)
 public interface Card {
     String getTitle();
 
