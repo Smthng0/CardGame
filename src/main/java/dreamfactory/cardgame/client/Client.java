@@ -60,7 +60,9 @@ public class Client {
         ClientCommands target = clientCommandsBuilder();
         String command = "";
         target.sendAction(playerName, command);
-        //TODO: sredit da ide action po action... trebam engine/commands razjebat
+        //TODO: sredit da ide action po action... trebam engine/commands razjebat... napravit MultiplayerCommands :)
+        // dovoljno mi je override attack target zasad... tamo prodje sve checkove....
+        // i playCard (ako cardPlayedCheck vrati not null)
     }
 
     private static CreateGameClient createGameBuilder() {
