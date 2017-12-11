@@ -1,6 +1,5 @@
 package dreamfactory.cardgame.resources;
 
-import com.codahale.metrics.annotation.Timed;
 import dreamfactory.cardgame.api.GameStatus;
 
 import javax.ws.rs.GET;

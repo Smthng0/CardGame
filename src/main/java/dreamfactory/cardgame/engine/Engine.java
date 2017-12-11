@@ -1,17 +1,18 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.api.Players;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
 
 public class Engine {
-    private Player activePlayer;
-    private Player passivePlayer;
-    private int turnCounter;
-    private Commands commands = new Commands();
-    private CommandChecker commandChecker = new CommandChecker();
+    protected Player activePlayer;
+    protected Player passivePlayer;
+    protected int turnCounter;
+    protected Commands commands = new Commands();
+    protected CommandChecker commandChecker = new CommandChecker();
 
-    public void initializeGame() {
+    public void initializeGame(Players players, String host) {
         createPlayers();
         commands.introPrint(activePlayer, passivePlayer);
         startTurn();
@@ -28,7 +29,7 @@ public class Engine {
         turnCounter = 2;
     }
 
-    private void startTurn() {
+    protected void startTurn() {
         commands.incrementManaPool(activePlayer);
         Card card = activePlayer.drawCard();
         commands.startOfTurnPrint(activePlayer, turnCounter, card);
@@ -80,7 +81,7 @@ public class Engine {
         } while (!commandChecker.checkIfExitGame(commands.getCommand()));
     }
 
-    private void endTurn() {
+    public void endTurn() {
         while (activePlayer.isHandFull()) {
             activePlayer.removeCard(0);
         }

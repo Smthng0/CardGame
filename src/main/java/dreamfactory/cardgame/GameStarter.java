@@ -1,5 +1,6 @@
 package dreamfactory.cardgame;
 
+import dreamfactory.cardgame.client.Client;
 import dreamfactory.cardgame.engine.CommandChecker;
 import dreamfactory.cardgame.engine.Commands;
 import dreamfactory.cardgame.engine.Engine;
@@ -15,10 +16,13 @@ public class GameStarter {
             commands.scanNextCommand();
 
             if (commandChecker.checkIfHotSeat(commands.getCommand())) {
-                new Engine().initializeGame();
+                new Engine().initializeGame(null, null);
+            }
+
+            if (commandChecker.checkIfMultiplayer(commands.getCommand())) {
+                Client.main(args);
             }
 
         } while (!commandChecker.checkIfExitGame(commands.getCommand()));
-        new Engine().initializeGame();
     }
 }

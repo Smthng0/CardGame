@@ -13,7 +13,6 @@ public class GameController {
 
     private void startGame() {
         this.engine = new MultiplayerEngine();
-        engine.initializeGame(players, "server");
         gameState = GameStatus.PLAYER1_TURN;
     }
 
@@ -23,13 +22,41 @@ public class GameController {
         } else if (playerName.equals(players.getPlayer2().getPlayerName())) {
             gameState = GameStatus.PLAYER1_TURN;
         }
-        //TODO: tu trebam poporavit logiku... (da su sve isti objekti, samo uvalit dodatno ako igra prvi)
-        //TODO: prominit iz playername u pravi player...
     }
 
     public boolean doAction(String command) {
-        return !command.equalsIgnoreCase("tu trebam vidit ako je prosla komanda");
-        //TODO: mislio sam slati komande u engine, tj u system in dok se vrti igra... pa vracati oba playera system.out..gi
+        //TODO: uvalit da provjeri ako je uspila komanda...
+        return true;
+    }
+
+    public boolean recievePlayers(String playerName, Players players) {
+        if ((playerName.equals(players.getPlayer1().getPlayerName()))
+                && gameState.equals(GameStatus.PLAYER1_TURN)) {
+            this.players = players;
+            return true;
+        }
+
+        if ((playerName.equals(players.getPlayer2().getPlayerName()))
+                && gameState.equals(GameStatus.PLAYER2_TURN)) {
+            this.players = players;
+            return true;
+        }
+
+        return false;
+    }
+
+    public Players sendPlayers(String playerName) {
+        if ((playerName.equals(players.getPlayer1().getPlayerName()))
+                && gameState.equals(GameStatus.PLAYER1_TURN)) {
+            return players;
+        }
+
+        if ((playerName.equals(players.getPlayer2().getPlayerName()))
+                && gameState.equals(GameStatus.PLAYER2_TURN)) {
+            return players;
+        }
+
+        return null;
     }
 
     public Player createPlayer(String playerName) {

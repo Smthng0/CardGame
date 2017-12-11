@@ -51,10 +51,11 @@ public class Commands {
     public void playCard(Player player, Engine engine) {
         printer(commandStrings.availableCards(player));
         Card card = chooseCard(player, engine);
-        //TODO: igrat se malo s optional...
+
         if (new CommandChecker().checkIfReturn(command)) {
             return;
         }
+
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
@@ -83,6 +84,7 @@ public class Commands {
 
         Attackable attacker = activePlayer.getMinion(attackingIndex);
         //TODO: uvalit da moze i player, ne smao minion...
+        //TODO: refactorat u AttackSequence class
 
         int defendingIndex = chooseTarget(attacker, passivePlayer);
         if (notValidAttackableIndex(defendingIndex)) return;
@@ -148,9 +150,9 @@ public class Commands {
     private boolean notValidAttackableIndex(int index) {
         if (index == -1) {
             printer(commandStrings.invalidIndex());
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private boolean validAttacker (Attackable attacker) {

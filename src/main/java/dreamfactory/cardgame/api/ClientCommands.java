@@ -12,7 +12,7 @@ public interface ClientCommands {
 
     @GET
     @Path("/action")
-    boolean doAction(@QueryParam("player_name") String playerName, String command);
+    boolean action(@QueryParam("player_name") String playerName, String command);
 
     @GET
     @Path("/turn")
