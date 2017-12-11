@@ -2,10 +2,7 @@ package dreamfactory.cardgame.resources;
 
 import dreamfactory.cardgame.api.GameStatus;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/commands")
@@ -23,10 +20,17 @@ public class ServerCommands {
         return gameController.gameState;
     }
 
+    //TODO: ovo trebam jos puno tu prckat... promjenit iz GET u POST, isto na clintu... i wrappat stvari u response
+    @POST
+    @Path(("/store_actions"))
+    public boolean getAction(@QueryParam("player_name") String playerName, String command) {
+        return gameController.getActions(command);
+    }
+
     @GET
-    @Path(("/action"))
-    public boolean action(@QueryParam("player_name") String playerName, String command) {
-        return gameController.doAction(command);
+    @Path("/return_actions")
+    public boolean sendAction(@QueryParam("player_name") String playerName) {
+        return gameController.sendActions();
     }
 
     @GET

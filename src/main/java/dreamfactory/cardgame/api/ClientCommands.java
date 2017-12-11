@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.api;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
@@ -10,9 +11,13 @@ public interface ClientCommands {
     @Path("/status")
     GameStatus getStatus(@QueryParam("player_name") String playerName);
 
+    @POST
+    @Path("/store_action")
+    boolean sendAction(@QueryParam("player_name") String playerName, String command);
+
     @GET
-    @Path("/action")
-    boolean action(@QueryParam("player_name") String playerName, String command);
+    @Path("/get_action")
+    boolean getAction(@QueryParam("player_name") String playerName);
 
     @GET
     @Path("/turn")

@@ -24,39 +24,16 @@ public class GameController {
         }
     }
 
-    public boolean doAction(String command) {
-        //TODO: uvalit da provjeri ako je uspila komanda...
+    public boolean getActions(String command) {
+        //TODO: uvalit da provjeri ako je uspila komanda... i skupljat ih negdi za poslat drugom
+        //umisto String command treba biti actions list...
+        //nova klasa actions sa play i attack... play sadrzi index, a attack 2 indexa...
         return true;
     }
 
-    public boolean recievePlayers(String playerName, Players players) {
-        if ((playerName.equals(players.getPlayer1().getPlayerName()))
-                && gameState.equals(GameStatus.PLAYER1_TURN)) {
-            this.players = players;
-            return true;
-        }
-
-        if ((playerName.equals(players.getPlayer2().getPlayerName()))
-                && gameState.equals(GameStatus.PLAYER2_TURN)) {
-            this.players = players;
-            return true;
-        }
-
-        return false;
-    }
-
-    public Players sendPlayers(String playerName) {
-        if ((playerName.equals(players.getPlayer1().getPlayerName()))
-                && gameState.equals(GameStatus.PLAYER1_TURN)) {
-            return players;
-        }
-
-        if ((playerName.equals(players.getPlayer2().getPlayerName()))
-                && gameState.equals(GameStatus.PLAYER2_TURN)) {
-            return players;
-        }
-
-        return null;
+    public boolean sendActions() {
+        //pending actions slat...
+        return true;
     }
 
     public Player createPlayer(String playerName) {

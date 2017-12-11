@@ -55,20 +55,11 @@ public class Client {
         target.endTurn(playerName);
     }
 
-    public static boolean sendPlayers(Players players) {
-        ClientUpdate target = clientUpdateBuilder();
-        return target.sendPlayers(playerName, players);
-    }
 
-    public static Players recievePlayers() {
-        ClientUpdate target = clientUpdateBuilder();
-        return target.recievePlayers(playerName);
-    }
-
-    public static void doAction() {
+    public static void sendAction() {
         ClientCommands target = clientCommandsBuilder();
         String command = "";
-        target.action(playerName, command);
+        target.sendAction(playerName, command);
         //TODO: sredit da ide action po action... trebam engine/commands razjebat
     }
 
@@ -87,15 +78,5 @@ public class Client {
                 .decoder(new GsonDecoder(myGson))
                 .target(ClientCommands.class, "http://localhost:8080/app");
     }
-
-    private static ClientUpdate clientUpdateBuilder() {
-        return Feign.builder()
-                .contract(new JAXRSContract())
-                .encoder(new GsonEncoder(myGson))
-                .decoder(new GsonDecoder(myGson))
-                .target(ClientUpdate.class, "http://localhost:8080/app");
-    }
-
-
 
 }
