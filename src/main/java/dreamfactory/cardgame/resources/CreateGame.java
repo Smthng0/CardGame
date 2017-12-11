@@ -17,11 +17,11 @@ import javax.ws.rs.core.Response;
 
 @Path("/players")
 @Produces(MediaType.APPLICATION_JSON)
-public class CreatePlayers {
+public class CreateGame {
     private GameController gameController;
     private final Gson myGson;
 
-    public CreatePlayers(GameController gameController) {
+    public CreateGame(GameController gameController) {
         myGson = new GsonBuilder().registerTypeAdapter(Card.class, new CardTypeAdapter()).create();
         this.gameController = gameController;
     }

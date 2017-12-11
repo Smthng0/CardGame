@@ -1,6 +1,6 @@
 package dreamfactory.cardgame;
 
-import dreamfactory.cardgame.resources.CreatePlayers;
+import dreamfactory.cardgame.resources.CreateGame;
 import dreamfactory.cardgame.resources.GameController;
 import dreamfactory.cardgame.resources.ServerCommands;
 import io.dropwizard.Application;
@@ -21,10 +21,10 @@ public class ServerApplication extends Application<ServerConfiguration>{
                     Environment environment) {
 
         final GameController gameController = new GameController();
-        final CreatePlayers createPlayers = new CreatePlayers(gameController);
-        //final ServerCommands serverCommands = new ServerCommands(gameController);
-        environment.jersey().register(createPlayers);
-        //environment.jersey().register(serverCommands);
+        final CreateGame createGame = new CreateGame(gameController);
+        final ServerCommands serverCommands = new ServerCommands(gameController);
+        environment.jersey().register(createGame);
+        environment.jersey().register(serverCommands);
     }
 
 

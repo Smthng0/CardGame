@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import dreamfactory.cardgame.api.GameStatus;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,22 +19,22 @@ public class ServerCommands {
     }
 
     @GET
-    @Timed
-    public GameController.GameStatus gameStatus(@QueryParam("status") String playerName) {
+    @Path("/status")
+    public GameStatus gameStatus(@QueryParam("player_name") String playerName) {
         return gameController.gameState;
     }
 
     @GET
-    @Timed
-    public GameController.GameStatus endTurn(@QueryParam("endTurn") String playerName) {
-        //gameController.endTurn(playerName);
-        return gameController.gameState;
-    }
-
-    @GET
-    @Timed
-    public boolean action(@QueryParam("action") String playerName, String command) {
+    @Path(("/action"))
+    public boolean action(@QueryParam("player_name") String playerName, String command) {
         return gameController.doAction(command);
+    }
+
+    @GET
+    @Path("/turn")
+    public GameStatus endTurn(@QueryParam("player_name") String playerName) {
+        gameController.endTurn(playerName);
+        return gameController.gameState;
     }
 
 }
