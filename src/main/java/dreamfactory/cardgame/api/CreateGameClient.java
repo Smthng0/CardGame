@@ -13,6 +13,10 @@ public interface CreateGameClient {
     Player createPlayer(@QueryParam("player_name") String playerName);
 
     @GET
-    @Path("/start")
+    @Path("/ready")
     Players gameReady(@QueryParam("player_name") String playerName);
+
+    @GET
+    @Path("/start")
+    GameStatus startGame(@QueryParam("player_name") String playerName);
 }

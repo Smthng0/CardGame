@@ -132,10 +132,10 @@ public class Player extends Attackable {
         return deck.getDmgCounter();
     }
 
-    public Card playCard(int index, Engine engine){
+    public Card playCard(int index){
         Card card = hand.getCard(index);
 
-        if (!cardPlayed(card, engine)) return null;
+        if (!cardPlayed(card)) return null;
 
         remainingMana -= card.getManaCost();
         hand.removeCard(index);
@@ -144,7 +144,7 @@ public class Player extends Attackable {
         return card;
     }
 
-    private boolean cardPlayed(Card card, Engine engine) {
+    private boolean cardPlayed(Card card) {
         if (card == null) return false;
         if (!checkMana(card)) return false;
 
@@ -156,8 +156,6 @@ public class Player extends Attackable {
             if (!equipWeapon((WeaponCard)card)) {
                 return false;
             }
-        } else if (card instanceof SpellCard) {
-            ((SpellCard) card).effect(engine);
         }
 
         return true;

@@ -3,6 +3,7 @@ package dreamfactory.cardgame.resources;
 import com.codahale.metrics.annotation.Timed;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dreamfactory.cardgame.api.GameStatus;
 import dreamfactory.cardgame.api.Players;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
@@ -40,11 +41,21 @@ public class CreateGame {
 
     @GET
     @Timed
-    @Path("/start")
-    public Response gameReadyToStart(@QueryParam("player_name") String playerName) {
+    @Path("/ready")
+    public Response gameReady(@QueryParam("player_name") String playerName) {
         Players players = gameController.gameReady();
 
         return Response.ok(cardGson.toJson(players))
+                .build();
+    }
+
+    @GET
+    @Timed
+    @Path("/start")
+    public Response startGame(@QueryParam("player_name") String playerName) {
+        GameStatus game = gameController.startGame();
+
+        return Response.ok(cardGson.toJson(game))
                 .build();
     }
 

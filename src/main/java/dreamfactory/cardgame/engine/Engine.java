@@ -25,11 +25,15 @@ public class Engine {
         commands.printer("Enter second player name: ");
         commands.scanNextCommand();
         passivePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
-        passivePlayer.startsSecond();
         turnCounter = 2;
     }
 
     protected void startTurn() {
+        startTurnSequence();
+        chooseAction();
+    }
+
+    public void startTurnSequence() {
         commands.incrementManaPool(activePlayer);
         Card card = activePlayer.drawCard();
         commands.startOfTurnPrint(activePlayer, turnCounter, card);
@@ -45,10 +49,9 @@ public class Engine {
         }
 
         commands.checkStatusPrint(activePlayer, passivePlayer);
-        chooseAction();
     }
 
-    private void chooseAction() {
+    protected void chooseAction() {
         do {
             commands.availableActionsPrint();
             commands.scanNextCommand();
@@ -56,7 +59,7 @@ public class Engine {
 
             if (commandChecker.checkIfPlay(commands.getCommand())) {
                 do {
-                    commands.playCard(activePlayer, this);
+                    commands.playCard(activePlayer);
                 } while (!commandChecker.checkIfReturn(commands.getCommand()));
             }
 
@@ -86,7 +89,7 @@ public class Engine {
         startTurn();
     }
 
-    protected void endTurnSequence() {
+    public void endTurnSequence() {
         while (activePlayer.isHandFull()) {
             activePlayer.removeCard(0);
         }

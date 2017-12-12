@@ -59,7 +59,7 @@ public class PlayerTest {
         Player player = new Player("Frane", deck);
         player.drawCard();
         player.setRemainingMana(10);
-        player.playCard(0, null);
+        player.playCard(0);
 
         assertTrue(player.hasMinions());
     }

@@ -5,21 +5,24 @@ import dreamfactory.cardgame.api.Players;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
-import dreamfactory.cardgame.client.Client;
+import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.player.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MultiplayerEngine extends Engine {
     private GameStatus myTurn;
+    private Client client;
+    public Commands servercommands;
 
     @Override
     public void initializeGame(Players players, String host) {
         commands = new MultiplayerCommands();
+        client = new Client();
         commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
-        passivePlayer.startsSecond();
 
         if (host.equals(players.getPlayer1().getPlayerName())) {
             this.myTurn = GameStatus.PLAYER1_TURN;
@@ -34,21 +37,31 @@ public class MultiplayerEngine extends Engine {
         startTurn();
     }
 
+    public void initializeServer(Players players) {
+        servercommands = new Commands();
+        activePlayer = players.getPlayer1();
+        passivePlayer = players.getPlayer2();
+        turnCounter = 2;
+        startTurnSequence();
+    }
+
     @Override
     protected void startTurn() {
-        if (myTurn.equals(Client.getStatus())) {
+        if (myTurn.equals(client.getStatus())) {
             commands.printer("radi startTurn");
-            super.startTurn();
+            startTurnSequence();
+            chooseAction();
         } else {
+            startTurnSequence();
             endTurn();
         }
     }
 
     @Override
     public void endTurn() {
-        if (myTurn.equals(Client.getStatus())) {
+        if (myTurn.equals(client.getStatus())) {
             commands.printer("radi end turn");
-            Client.endTurn();
+            client.endTurn();
             endTurnSequence();
         }
 
@@ -57,21 +70,22 @@ public class MultiplayerEngine extends Engine {
     }
 
     private void waitForTurn() {
-        List<Action> actionList;
+        Action action = null;
         do {
             try {
                 Thread.sleep(1000);
                 System.out.print(".");
-                actionList = Client.getActions();
-                for (Action action : actionList) {
+                action = client.getAction();
+                if (action != null) {
                     doActionsOfOpponent(activePlayer, passivePlayer, action);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while (Client.getStatus() != myTurn);
+        } while ((client.getStatus() != myTurn)
+                && (action != null));
         endTurnSequence();
-        startTurn(); //TODO: uvalit za exit game...
+        startTurn();
     }
 
     private void doActionsOfOpponent(Player activePlayer,
@@ -83,8 +97,7 @@ public class MultiplayerEngine extends Engine {
         } else if (action instanceof PlayCard) {
             commands.printer(new CommandStrings()
                     .cardPlayedCheck(activePlayer.playCard(
-                            ((PlayCard) action).getIndex(),
-                            ((PlayCard) action).getEngine()),
+                            ((PlayCard) action).getIndex()),
                             activePlayer.getRemainingMana()));
         }
     }

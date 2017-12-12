@@ -1,6 +1,5 @@
 package dreamfactory.cardgame;
 
-import dreamfactory.cardgame.client.Client;
 import dreamfactory.cardgame.engine.CommandChecker;
 import dreamfactory.cardgame.engine.Commands;
 import dreamfactory.cardgame.engine.Engine;

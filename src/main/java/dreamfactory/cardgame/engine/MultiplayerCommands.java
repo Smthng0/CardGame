@@ -3,13 +3,14 @@ package dreamfactory.cardgame.engine;
 import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.cards.Card;
-import dreamfactory.cardgame.client.Client;
+import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.player.Player;
 
 public class MultiplayerCommands extends Commands {
+    private Client client = new Client();
 
     @Override
-    protected Card chooseCard(Player player, Engine engine) {
+    protected Card chooseCard(Player player) {
         scanNextCommand();
         int index;
 
@@ -19,8 +20,8 @@ public class MultiplayerCommands extends Commands {
             return null;
         }
 
-        if (Client.sendAction(new PlayCard(index, engine))) {
-            return player.playCard(index, engine);
+        if (client.playCard(new PlayCard(index))) {
+            return player.playCard(index);
         }
 
         printer("Play Card failed!");
@@ -31,7 +32,7 @@ public class MultiplayerCommands extends Commands {
     public boolean attackTarget(Player attackingPlayer, Player defendingPlayer,
                               int attackingIndex, int defendingIndex) {
 
-        if (Client.sendAction(new Attack(attackingIndex, defendingIndex))) {
+        if (client.sendAction(new Attack(attackingIndex, defendingIndex))) {
             return super.attackTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
         }
 

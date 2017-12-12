@@ -48,9 +48,9 @@ public class Commands {
         player.setRemainingMana(player.getManaPool());
     }
 
-    public void playCard(Player player, Engine engine) {
+    public void playCard(Player player) {
         printer(commandStrings.availableCards(player));
-        Card card = chooseCard(player, engine);
+        Card card = chooseCard(player);
 
         if (new CommandChecker().checkIfReturn(command)) {
             return;
@@ -59,7 +59,7 @@ public class Commands {
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
-    protected Card chooseCard(Player player, Engine engine){
+    protected Card chooseCard(Player player){
         scanNextCommand();
         int index;
 
@@ -69,7 +69,7 @@ public class Commands {
             return null;
         }
 
-        return player.playCard(index, engine);
+        return player.playCard(index);
     }
 
     public void attack(Player activePlayer, Player passivePlayer) {

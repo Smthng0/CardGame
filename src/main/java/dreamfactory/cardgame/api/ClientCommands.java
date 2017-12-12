@@ -1,14 +1,15 @@
 package dreamfactory.cardgame.api;
 
 import dreamfactory.cardgame.api.actions.Action;
+import dreamfactory.cardgame.api.actions.PlayCard;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/commands")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface ClientCommands {
     @GET
     @Path("/status")
@@ -16,11 +17,15 @@ public interface ClientCommands {
 
     @POST
     @Path("/actions")
-    boolean sendAction(@QueryParam("player_name") String playerName, Action action);
+    boolean sendAction(Action action);
+
+    @POST
+    @Path("/play")
+    boolean playCard(PlayCard action);
 
     @GET
     @Path("/actions")
-    List<Action> getActions(@QueryParam("player_name") String playerName);
+    Action getAction(@QueryParam("player_name") String playerName);
 
     @GET
     @Path("/turn")
