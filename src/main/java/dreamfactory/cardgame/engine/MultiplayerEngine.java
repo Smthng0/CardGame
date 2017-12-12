@@ -70,20 +70,19 @@ public class MultiplayerEngine extends Engine {
     }
 
     private void waitForTurn() {
-        Action action = null;
+        List<Action> actionList = new ArrayList<>();
         do {
             try {
                 Thread.sleep(1000);
                 System.out.print(".");
-                action = client.getAction();
-                if (action != null) {
+                actionList.addAll(client.getActions());
+                for (Action action : actionList) {
                     doActionsOfOpponent(activePlayer, passivePlayer, action);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while ((client.getStatus() != myTurn)
-                && (action != null));
+        } while (client.getStatus() != myTurn);
         endTurnSequence();
         startTurn();
     }

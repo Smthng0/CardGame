@@ -2,6 +2,7 @@ package dreamfactory.cardgame;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import dreamfactory.cardgame.api.*;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.ActionTypeAdapter;
@@ -14,17 +15,18 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.jaxrs.JAXRSContract;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class Client {
-    private Gson myGson = new GsonBuilder()
+    private final Gson myGson = new GsonBuilder()
             .registerTypeAdapter(Card.class, new CardTypeAdapter())
             .registerTypeAdapter(Action.class, new ActionTypeAdapter())
             .create();
     private String url = "http://localhost:8080/app";
     private ClientCommands clientCommands = clientCommandsBuilder();
     private CreateGameClient createGameClient = createGameBuilder();
-    private String playerName = "frane";
+    private String playerName = "kifla";
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -77,8 +79,8 @@ public class Client {
         return clientCommands.sendAction(action);
     }
 
-    public Action getAction() {
-        return clientCommands.getAction(playerName);
+    public List<Action> getActions() {
+        return clientCommands.getActions(playerName);
     }
 
     private CreateGameClient createGameBuilder() {

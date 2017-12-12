@@ -25,7 +25,7 @@ public interface ClientCommands {
 
     @GET
     @Path("/actions")
-    Action getAction(@QueryParam("player_name") String playerName);
+    List<Action> getActions(@QueryParam("player_name") String playerName);
 
     @GET
     @Path("/turn")

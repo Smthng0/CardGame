@@ -67,16 +67,20 @@ public class GameController {
         return false;
     }
 
-    public Action getAction(String playerName) {
+    public List<Action> getActions(String playerName) {
+        List<Action> tempList = new ArrayList<>(actionList);
+
         if ((isPlayer1(playerName))
                 && (gameState.equals(GameStatus.PLAYER2_TURN))) {
-            return actionList.remove(0);
+            actionList.clear();
+            return tempList;
         } else if ((isPlayer2(playerName))
             && (gameState.equals(GameStatus.PLAYER1_TURN))) {
-            return actionList.remove(0);
-        } //TODO: uvalit da u realtime se akcije vrte...
+            actionList.clear();
+            return tempList;
+        }
 
-        return null;
+        return actionList;
     }
 
     public Player createPlayer(String playerName) {
