@@ -67,7 +67,7 @@ public class Engine {
             }
 
             if (commandChecker.checkIfCheckStatus(commands.getCommand())) {
-                commands.checkStatusPrint(activePlayer,passivePlayer);
+                commands.checkStatusPrint(activePlayer, passivePlayer);
             }
 
             if (commandChecker.checkIfViewBoards(commands.getCommand())) {
@@ -82,6 +82,11 @@ public class Engine {
     }
 
     public void endTurn() {
+        endTurnSequence();
+        startTurn();
+    }
+
+    protected void endTurnSequence() {
         while (activePlayer.isHandFull()) {
             activePlayer.removeCard(0);
         }
@@ -90,7 +95,6 @@ public class Engine {
         activePlayer = passivePlayer;
         passivePlayer = tempPlayer;
         turnCounter++;
-        startTurn();
     }
 
     public Player getFriendlyPlayer() {

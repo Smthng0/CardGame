@@ -169,6 +169,10 @@ public class Player extends Attackable {
         }
     }
 
+    public void addCard(Card card) {
+        hand.addCard(card);
+    }
+
     public boolean validIndex(int index) {
         return ((index >= 0) && (index < hand.getNumberOfCards()));
     }

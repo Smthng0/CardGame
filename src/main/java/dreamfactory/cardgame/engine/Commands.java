@@ -59,7 +59,7 @@ public class Commands {
         printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
     }
 
-    private Card chooseCard(Player player, Engine engine){
+    protected Card chooseCard(Player player, Engine engine){
         scanNextCommand();
         int index;
 
@@ -159,14 +159,17 @@ public class Commands {
         return (attacker != null && attacker.canAttack());
     }
 
-    private void attackTarget(Player attackingPlayer, Player defendingPlayer,
+    public boolean attackTarget(Player attackingPlayer, Player defendingPlayer,
                               int attackingIndex, int defendingIndex) {
 
         if (defendingIndex == getPlayerIndex(defendingPlayer)){
             attackPlayerTarget(attackingPlayer.getMinion(attackingIndex), defendingPlayer);
+            return true;
         } else if (defendingPlayer.getMinion(defendingIndex) != null){
             attackMinionTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
+            return true;
         }
+        return false;
     }
 
     private void attackPlayerTarget(Attackable attacker, Player defendingPlayer) {
@@ -205,9 +208,8 @@ public class Commands {
         command = scanner.nextLine();
     }
 
-    public String printer(String input) {
+    public void printer(String input) {
         System.out.println(input);
-        return input;
     }
 
     private int getPlayerIndex(Player player) {

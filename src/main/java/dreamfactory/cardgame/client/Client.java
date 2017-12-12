@@ -3,6 +3,8 @@ package dreamfactory.cardgame.client;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dreamfactory.cardgame.api.*;
+import dreamfactory.cardgame.api.actions.Action;
+import dreamfactory.cardgame.api.actions.ActionTypeAdapter;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
 import dreamfactory.cardgame.engine.MultiplayerEngine;
@@ -11,8 +13,13 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.jaxrs.JAXRSContract;
 
+import java.util.List;
+
 public class Client {
-    private static Gson myGson = new GsonBuilder().registerTypeAdapter(Card.class, new CardTypeAdapter()).create();
+    private static Gson cardGson = new GsonBuilder().registerTypeAdapter(
+            Card.class, new CardTypeAdapter()).create();
+    private static Gson actionGson = new GsonBuilder().registerTypeAdapter(
+            Action.class, new ActionTypeAdapter()).create();
     private static MultiplayerEngine engine = new MultiplayerEngine();
     private static String playerName = "frane";
 
@@ -46,38 +53,47 @@ public class Client {
     }
 
     public static GameStatus getStatus() {
-        ClientCommands target = clientCommandsBuilder();
+        ClientCommands target = clientStateBuilder();
         return target.getStatus(playerName);
     }
 
     public static void endTurn() {
-        ClientCommands target = clientCommandsBuilder();
+        ClientCommands target = clientStateBuilder();
         target.endTurn(playerName);
     }
 
 
-    public static void sendAction() {
-        ClientCommands target = clientCommandsBuilder();
-        String command = "";
-        target.sendAction(playerName, command);
-        //TODO: sredit da ide action po action... trebam engine/commands razjebat... napravit MultiplayerCommands :)
-        // dovoljno mi je override attack target zasad... tamo prodje sve checkove....
-        // i playCard (ako cardPlayedCheck vrati not null)
+    public static boolean sendAction(Action action) {
+        ClientCommands target = clientActionBuilder();
+        return target.sendAction(playerName, action);
+    }
+
+    public static List<Action> getActions() {
+        ClientCommands target = clientActionBuilder();
+        return target.getActions(playerName);
     }
 
     private static CreateGameClient createGameBuilder() {
         return Feign.builder()
                 .contract(new JAXRSContract())
-                .encoder(new GsonEncoder(myGson))
-                .decoder(new GsonDecoder(myGson))
+                .encoder(new GsonEncoder(cardGson))
+                .decoder(new GsonDecoder(cardGson))
                 .target(CreateGameClient.class, "http://localhost:8080/app");
     }
 
-    private static ClientCommands clientCommandsBuilder() {
+    private static ClientCommands clientStateBuilder() {
         return Feign.builder()
                 .contract(new JAXRSContract())
-                .encoder(new GsonEncoder(myGson))
-                .decoder(new GsonDecoder(myGson))
+                .encoder(new GsonEncoder(cardGson))
+                .decoder(new GsonDecoder(cardGson))
+                .target(ClientCommands.class, "http://localhost:8080/app");
+    }
+
+    private static ClientCommands clientActionBuilder() {
+        return Feign.builder()
+                .contract(new JAXRSContract())
+                .encoder(new GsonEncoder(actionGson))
+                .decoder(new GsonDecoder(actionGson))
                 .target(ClientCommands.class, "http://localhost:8080/app");
     }
 

@@ -19,10 +19,12 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class CreateGame {
     private GameController gameController;
-    private final Gson myGson;
+    private final Gson cardGson;
 
     public CreateGame(GameController gameController) {
-        myGson = new GsonBuilder().registerTypeAdapter(Card.class, new CardTypeAdapter()).create();
+        cardGson = new GsonBuilder()
+                .registerTypeAdapter(Card.class, new CardTypeAdapter())
+                .create();
         this.gameController = gameController;
     }
 
@@ -32,7 +34,7 @@ public class CreateGame {
     public Response createPlayer(@QueryParam("player_name") String playerName) {
         Player player = gameController.createPlayer(playerName);
 
-        return Response.ok(myGson.toJson(player))
+        return Response.ok(cardGson.toJson(player))
                 .build();
     }
 
@@ -42,7 +44,7 @@ public class CreateGame {
     public Response gameReadyToStart(@QueryParam("player_name") String playerName) {
         Players players = gameController.gameReady();
 
-        return Response.ok(myGson.toJson(players))
+        return Response.ok(cardGson.toJson(players))
                 .build();
     }
 
