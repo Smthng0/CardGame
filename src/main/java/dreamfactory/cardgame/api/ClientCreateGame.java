@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 
 @Path("/players")
-public interface CreateGameClient {
+public interface ClientCreateGame {
     @GET
     @Path("/create")
     Player createPlayer(@QueryParam("player_name") String playerName);

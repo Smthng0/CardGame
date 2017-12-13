@@ -20,7 +20,7 @@ public class GameStarter {
             }
 
             if (commandChecker.checkIfMultiplayer(commands.getCommand())) {
-                commands.createClient().initializeClient();
+                new MultiplayerEngine().createClient();
             }
 
         } while (!commandChecker.checkIfExitGame(commands.getCommand()));

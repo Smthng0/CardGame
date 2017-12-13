@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.GameStarter;
+import dreamfactory.cardgame.api.FeignFactory;
 import dreamfactory.cardgame.api.GameStatus;
 import dreamfactory.cardgame.api.Players;
 import dreamfactory.cardgame.api.actions.Action;
@@ -18,10 +19,22 @@ public class MultiplayerEngine extends Engine {
     private Commands oldCommands = new Commands();
     public Commands serverCommands = new ServerCommands();
 
+    public void createClient() {
+        commands.printer("\nEnter Player Name: \n");
+        commands.scanNextCommand();
+        String playerName = commands.getCommand();
+        commands.printer("\nEnter IP address of server: (must enter correct address)\n");
+        commands.scanNextCommand();
+        FeignFactory feign = new FeignFactory(commands.getCommand());
+        client = new Client(playerName,
+                feign.clientCreateGameBuilder(),
+                feign.clientCommandsBuilder());
+        initializeGame(client.initializeClient(), playerName);
+    }
+
     @Override
     public void initializeGame(Players players, String host) {
-        client = new Client();
-        commands = new MultiplayerCommands();
+        commands = new MultiplayerCommands(client);
         commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();

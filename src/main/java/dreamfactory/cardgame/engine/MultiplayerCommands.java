@@ -4,11 +4,14 @@ import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.Client;
-import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
 
 public class MultiplayerCommands extends Commands {
-    private Client client = new Client();
+    private Client client;
+
+    public MultiplayerCommands(Client client) {
+        this.client = client;
+    }
 
     @Override
     protected Card chooseCard(Player player) {

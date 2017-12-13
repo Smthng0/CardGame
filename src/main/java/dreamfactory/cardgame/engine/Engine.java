@@ -51,7 +51,7 @@ public class Engine {
         return card;
     }
 
-    protected void chooseAction() {
+    private void chooseAction() {
         do {
             commands.availableActionsPrint();
             commands.scanNextCommand();

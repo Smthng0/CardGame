@@ -19,15 +19,6 @@ public class Commands {
                 + commandStrings.chooseGameType());
     }
 
-    public Client createClient() {
-        printer("\nEnter Player Name: \n");
-        scanNextCommand();
-        String playerName = command;
-        printer("\nEnter IP address of server: (must enter correct address)\n");
-        scanNextCommand();
-        return new Client(playerName, command);
-    }
-
     public void introPrint(Player activePlayer, Player passivePlayer){
         printer(commandStrings.gameStart(activePlayer, passivePlayer));
     }
