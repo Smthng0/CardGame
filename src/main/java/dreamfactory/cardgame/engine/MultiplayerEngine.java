@@ -14,12 +14,13 @@ import java.util.List;
 public class MultiplayerEngine extends Engine {
     private GameStatus myTurn;
     private Client client;
-    public Commands servercommands;
+    private Commands oldCommands = new Commands();
+    public Commands serverCommands = new ServerCommands();
 
     @Override
     public void initializeGame(Players players, String host) {
-        commands = new MultiplayerCommands();
         client = new Client();
+        commands = new MultiplayerCommands();
         commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
@@ -38,21 +39,19 @@ public class MultiplayerEngine extends Engine {
     }
 
     public void initializeServer(Players players) {
-        servercommands = new Commands();
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
         turnCounter = 2;
+        commands = new ServerCommands();
         startTurnSequence();
     }
 
     @Override
     protected void startTurn() {
         if (myTurn.equals(client.getStatus())) {
-            commands.printer("radi startTurn");
-            startTurnSequence();
-            chooseAction();
+            commands.printer("\nIt's your turn!\n");
+            super.startTurn();
         } else {
-            startTurnSequence();
             endTurn();
         }
     }
@@ -60,29 +59,38 @@ public class MultiplayerEngine extends Engine {
     @Override
     public void endTurn() {
         if (myTurn.equals(client.getStatus())) {
-            commands.printer("radi end turn");
+            commands.printer("It's your opponents turn!");
             client.endTurn();
             endTurnSequence();
+            startTurnSequence();
         }
 
-        commands.printer("radi wait for turn end turn");
+        commands.printer("Waiting for your opponent to end turn...");
         waitForTurn();
     }
 
     private void waitForTurn() {
         List<Action> actionList = new ArrayList<>();
-        do {
+        while (client.getStatus() != myTurn) {
             try {
                 Thread.sleep(1000);
                 System.out.print(".");
                 actionList.addAll(client.getActions());
+
                 for (Action action : actionList) {
                     doActionsOfOpponent(activePlayer, passivePlayer, action);
+                }
+
+                actionList.clear();
+
+                if (activePlayer.isDead() || passivePlayer.isDead()) {
+                    commands.scanNextCommand();
+                    System.exit(0);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while (client.getStatus() != myTurn);
+        }
         endTurnSequence();
         startTurn();
     }
@@ -90,11 +98,13 @@ public class MultiplayerEngine extends Engine {
     private void doActionsOfOpponent(Player activePlayer,
                                      Player passivePlayer, Action action) {
         if (action instanceof Attack) {
-            super.commands.attackTarget(activePlayer, passivePlayer,
+            commands.printer("\nOpponent just attacked: \n");
+            oldCommands.attackTarget(activePlayer, passivePlayer,
                     ((Attack) action).getAttackingIndex(),
                     ((Attack) action).getDefendingIndex());
         } else if (action instanceof PlayCard) {
-            commands.printer(new CommandStrings()
+            commands.printer("\nOpponent just played a card: \n" +
+                    new CommandStrings()
                     .cardPlayedCheck(activePlayer.playCard(
                             ((PlayCard) action).getIndex()),
                             activePlayer.getRemainingMana()));

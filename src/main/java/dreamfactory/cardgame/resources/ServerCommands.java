@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import dreamfactory.cardgame.api.GameStatus;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.ActionTypeAdapter;
-import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
 
@@ -44,15 +43,6 @@ public class ServerCommands {
     @Path("/actions")
     public Response sendAction(String action) {
         boolean isAction = gameController.sendAction(myGson.fromJson(action, Action.class));
-
-        return Response.ok(myGson.toJson(isAction))
-                .build();
-    }
-
-    @POST
-    @Path("/play")
-    public Response playCard(PlayCard action) {
-        boolean isAction = gameController.sendAction(action);
 
         return Response.ok(myGson.toJson(isAction))
                 .build();

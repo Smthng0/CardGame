@@ -1,7 +1,6 @@
 package dreamfactory.cardgame.api;
 
 import dreamfactory.cardgame.api.actions.Action;
-import dreamfactory.cardgame.api.actions.PlayCard;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,10 +17,6 @@ public interface ClientCommands {
     @POST
     @Path("/actions")
     boolean sendAction(Action action);
-
-    @POST
-    @Path("/play")
-    boolean playCard(PlayCard action);
 
     @GET
     @Path("/actions")

@@ -29,14 +29,13 @@ public class Engine {
     }
 
     protected void startTurn() {
-        startTurnSequence();
+        commands.startOfTurnPrint(activePlayer, turnCounter, startTurnSequence());
         chooseAction();
     }
 
-    public void startTurnSequence() {
+    public Card startTurnSequence() {
         commands.incrementManaPool(activePlayer);
         Card card = activePlayer.drawCard();
-        commands.startOfTurnPrint(activePlayer, turnCounter, card);
 
         if (card == null) {
             activePlayer.takeDamage(activePlayer.getDeckDmgCounter());
@@ -49,6 +48,7 @@ public class Engine {
         }
 
         commands.checkStatusPrint(activePlayer, passivePlayer);
+        return card;
     }
 
     protected void chooseAction() {

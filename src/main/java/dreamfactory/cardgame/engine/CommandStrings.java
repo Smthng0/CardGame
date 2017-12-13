@@ -33,7 +33,7 @@ public class CommandStrings {
     }
 
     public String startOfTurn(Player player, int turnCounter){
-        return ("\nIt's " + player.getPlayerName() + "'s turn!\n"
+        return ("It's " + player.getPlayerName() + "'s turn!\n"
                 + "Turn number: " + (int)Math.ceil(turnCounter/2)
                 + SEPARATOR);
     }

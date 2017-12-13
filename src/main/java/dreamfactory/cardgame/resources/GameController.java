@@ -16,12 +16,11 @@ public class GameController {
     private List<Action> actionList = new ArrayList<>();
     private Players players = new Players();
     public GameStatus gameState = GameStatus.NO_GAME;
-    private MultiplayerEngine engine;
+    private MultiplayerEngine engine = new MultiplayerEngine();
 
     public GameStatus startGame() {
         if (gameState.equals(GameStatus.READY_TO_START)) {
             gameState = GameStatus.PLAYER1_TURN;
-            engine = new MultiplayerEngine();
             engine.initializeServer(players);
         }
         return gameState;
@@ -57,7 +56,7 @@ public class GameController {
 
     private boolean doAction(Player activePlayer, Player passivePlayer, Action action) {
         if (action instanceof Attack) {
-            return engine.servercommands.attackTarget(activePlayer, passivePlayer,
+            return engine.serverCommands.attackTarget(activePlayer, passivePlayer,
                     ((Attack) action).getAttackingIndex(),
                     ((Attack) action).getDefendingIndex());
         } else if (action instanceof PlayCard) {

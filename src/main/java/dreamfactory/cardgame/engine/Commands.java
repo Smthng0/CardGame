@@ -172,7 +172,7 @@ public class Commands {
         return false;
     }
 
-    private void attackPlayerTarget(Attackable attacker, Player defendingPlayer) {
+    protected void attackPlayerTarget(Attackable attacker, Player defendingPlayer) {
         attacker.attack(defendingPlayer);
         printer(commandStrings.didDamageTo(attacker, defendingPlayer));
 

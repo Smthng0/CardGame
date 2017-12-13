@@ -4,6 +4,7 @@ import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.Client;
+import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
 
 public class MultiplayerCommands extends Commands {
@@ -20,7 +21,7 @@ public class MultiplayerCommands extends Commands {
             return null;
         }
 
-        if (client.playCard(new PlayCard(index))) {
+        if (client.sendAction(new PlayCard(index))) {
             return player.playCard(index);
         }
 

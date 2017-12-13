@@ -2,11 +2,9 @@ package dreamfactory.cardgame;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import dreamfactory.cardgame.api.*;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.ActionTypeAdapter;
-import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
 import dreamfactory.cardgame.engine.MultiplayerEngine;
@@ -15,7 +13,6 @@ import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import feign.jaxrs.JAXRSContract;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class Client {
@@ -26,7 +23,7 @@ public class Client {
     private String url = "http://localhost:8080/app";
     private ClientCommands clientCommands = clientCommandsBuilder();
     private CreateGameClient createGameClient = createGameBuilder();
-    private String playerName = "kifla";
+    private String playerName = "vice";
 
     public static void main(String[] args) {
         Client client = new Client();
@@ -50,6 +47,7 @@ public class Client {
         new MultiplayerEngine().initializeGame(players, client.playerName);
     }
 
+
     public void create() {
         createGameClient.createPlayer(playerName);
     }
@@ -69,11 +67,6 @@ public class Client {
     public void endTurn() {
         clientCommands.endTurn(playerName);
     }
-
-    public boolean playCard(PlayCard action) {
-        return clientCommands.playCard(action);
-    }
-
 
     public boolean sendAction(Action action) {
         return clientCommands.sendAction(action);
