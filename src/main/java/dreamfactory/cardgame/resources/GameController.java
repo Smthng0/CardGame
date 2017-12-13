@@ -69,6 +69,11 @@ public class GameController {
     public List<Action> getActions(String playerName) {
         List<Action> tempList = new ArrayList<>(actionList);
 
+        if (players.getPlayer1().isDead()
+                || players.getPlayer2().isDead()) {
+            gameState = GameStatus.NO_GAME;
+        }
+
         if ((isPlayer1(playerName))
                 && (gameState.equals(GameStatus.PLAYER2_TURN))) {
             actionList.clear();
@@ -78,6 +83,7 @@ public class GameController {
             actionList.clear();
             return tempList;
         }
+
 
         return actionList;
     }

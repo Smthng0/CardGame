@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.GameStarter;
 import dreamfactory.cardgame.api.GameStatus;
 import dreamfactory.cardgame.api.Players;
 import dreamfactory.cardgame.api.actions.Action;
@@ -84,8 +85,7 @@ public class MultiplayerEngine extends Engine {
                 actionList.clear();
 
                 if (activePlayer.isDead() || passivePlayer.isDead()) {
-                    commands.scanNextCommand();
-                    System.exit(0);
+                    GameStarter.main(null);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -25,28 +25,34 @@ public class Client {
     private CreateGameClient createGameClient = createGameBuilder();
     private String playerName = "vice";
 
-    public static void main(String[] args) {
-        Client client = new Client();
-        client.create();
+    public Client () {
+    }
+
+    public Client (String playerName, String ipAddress) {
+        this.url = "http://" + ipAddress + ":8080/app";
+        this.playerName = playerName;
+    }
+
+    public void initializeClient() {
+        create();
         Players players = null;
 
-        if ((client.getStatus().equals(GameStatus.PREPARING))
-                || (client.getStatus().equals(GameStatus.READY_TO_START))
-                || (client.getStatus().equals(GameStatus.PLAYER1_TURN))) {
+        if ((getStatus().equals(GameStatus.PREPARING))
+                || (getStatus().equals(GameStatus.READY_TO_START))
+                || (getStatus().equals(GameStatus.PLAYER1_TURN))) {
             do {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                players = client.gameReady();
+                players = gameReady();
             } while (players == null);
         }
 
-        client.startGame();
-        new MultiplayerEngine().initializeGame(players, client.playerName);
+        startGame();
+        new MultiplayerEngine().initializeGame(players, playerName);
     }
-
 
     public void create() {
         createGameClient.createPlayer(playerName);

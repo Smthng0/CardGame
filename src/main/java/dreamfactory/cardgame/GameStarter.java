@@ -3,6 +3,7 @@ package dreamfactory.cardgame;
 import dreamfactory.cardgame.engine.CommandChecker;
 import dreamfactory.cardgame.engine.Commands;
 import dreamfactory.cardgame.engine.Engine;
+import dreamfactory.cardgame.engine.MultiplayerEngine;
 
 
 public class GameStarter {
@@ -19,7 +20,7 @@ public class GameStarter {
             }
 
             if (commandChecker.checkIfMultiplayer(commands.getCommand())) {
-                Client.main(args);
+                commands.createClient().initializeClient();
             }
 
         } while (!commandChecker.checkIfExitGame(commands.getCommand()));

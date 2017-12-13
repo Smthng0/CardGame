@@ -1,5 +1,6 @@
 package dreamfactory.cardgame.engine;
 
+import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.MinionCard;
@@ -16,6 +17,15 @@ public class Commands {
     public void chooseGameType() {
         printer(commandStrings.intro("1.0 alpha")
                 + commandStrings.chooseGameType());
+    }
+
+    public Client createClient() {
+        printer("\nEnter Player Name: \n");
+        scanNextCommand();
+        String playerName = command;
+        printer("\nEnter IP address of server: (must enter correct address)\n");
+        scanNextCommand();
+        return new Client(playerName, command);
     }
 
     public void introPrint(Player activePlayer, Player passivePlayer){
