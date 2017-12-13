@@ -1,8 +1,10 @@
 package dreamfactory.cardgame.player;
 
-import dreamfactory.cardgame.cards.*;
+import dreamfactory.cardgame.cards.Ability;
+import dreamfactory.cardgame.cards.Card;
+import dreamfactory.cardgame.cards.MinionCard;
+import dreamfactory.cardgame.cards.WeaponCard;
 import dreamfactory.cardgame.cards.spells.TheCoin;
-import dreamfactory.cardgame.engine.Engine;
 
 public class Player extends Attackable {
     private String playerName;

@@ -1,6 +1,7 @@
 package dreamfactory.cardgame.api;
 
 import dreamfactory.cardgame.player.Player;
+import dreamfactory.cardgame.player.Players;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

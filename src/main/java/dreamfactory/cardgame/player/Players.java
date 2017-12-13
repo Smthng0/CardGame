@@ -1,4 +1,4 @@
-package dreamfactory.cardgame.api;
+package dreamfactory.cardgame.player;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dreamfactory.cardgame.player.Player;

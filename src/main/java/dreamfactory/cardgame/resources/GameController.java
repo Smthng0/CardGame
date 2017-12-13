@@ -1,11 +1,12 @@
 package dreamfactory.cardgame.resources;
 
 import dreamfactory.cardgame.api.GameStatus;
-import dreamfactory.cardgame.api.Players;
+import dreamfactory.cardgame.player.Players;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.engine.MultiplayerEngine;
+import dreamfactory.cardgame.player.PlayerChecker;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
 
@@ -17,6 +18,43 @@ public class GameController {
     private Players players;
     public GameStatus gameState = GameStatus.NO_GAME;
     private MultiplayerEngine engine = new MultiplayerEngine();
+    private PlayerChecker checker = new PlayerChecker();
+
+    public Player createPlayer(String playerName) {
+        if (gameState.equals(GameStatus.NO_GAME)){
+            players = new Players();
+        }
+
+        if(checker.playersExist(players)){
+            return null;
+        }
+
+        Player player = new Player(playerName, Deck.getConstructedDeck());
+
+        if (!checker.player1Exists(players)) {
+            players.setPlayer1(player);
+            gameState = GameStatus.PREPARING;
+            return player;
+        }
+
+        if (playerName.equals(players.getPlayer1().getPlayerName())) {
+            return null;
+        }
+
+        players.setPlayer2(player);
+        gameState = GameStatus.PREPARING;
+        return player;
+    }
+
+    public Players gameReady() {
+        if(checker.playersExist(players)) {
+            if (gameState.equals(GameStatus.PREPARING)){
+                gameState = GameStatus.READY_TO_START;
+            }
+            return players;
+        }
+        return null;
+    }
 
     public GameStatus startGame() {
         if (gameState.equals(GameStatus.READY_TO_START)) {
@@ -27,15 +65,18 @@ public class GameController {
     }
 
     public void endTurn(String playerName) {
-        if (isPlayer1(playerName)) {
+        if (checker.isPlayer1(playerName, players)) {
             gameState = GameStatus.PLAYER2_TURN;
-            engine.endTurnSequence();
-            engine.startTurnSequence();
-        } else if (isPlayer2(playerName)) {
+            changeTurn();
+        } else if (checker.isPlayer2(playerName, players)) {
             gameState = GameStatus.PLAYER1_TURN;
-            engine.endTurnSequence();
-            engine.startTurnSequence();
+            changeTurn();
         }
+    }
+
+    private void changeTurn() {
+        engine.endTurnSequence();
+        engine.startTurnSequence();
     }
 
     public boolean sendAction(Action action) {
@@ -50,7 +91,6 @@ public class GameController {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -67,81 +107,30 @@ public class GameController {
     }
 
     public List<Action> getActions(String playerName) {
-        List<Action> tempList = new ArrayList<>(actionList);
-
-        if (players.getPlayer1().isDead()
-                || players.getPlayer2().isDead()) {
-            gameState = GameStatus.NO_GAME;
-        }
-
-        if ((isPlayer1(playerName))
+        if ((checker.isPlayer1(playerName, players))
                 && (gameState.equals(GameStatus.PLAYER2_TURN))) {
-            actionList.clear();
-            return tempList;
-        } else if ((isPlayer2(playerName))
+            return clearAndReturn(actionList);
+        } else if ((checker.isPlayer2(playerName, players))
             && (gameState.equals(GameStatus.PLAYER1_TURN))) {
-            actionList.clear();
-            return tempList;
+            return clearAndReturn(actionList);
         }
 
 
         return actionList;
     }
 
-    public Player createPlayer(String playerName) {
-        if (gameState.equals(GameStatus.NO_GAME)){
-            players = new Players();
+    private List<Action> clearAndReturn(List<Action> actionList) {
+        List<Action> tempList = new ArrayList<>(actionList);
+        actionList.clear();
+        checkForPlayerDeath();
+        return tempList;
+    }
+
+    private void checkForPlayerDeath() {
+        if (players.getPlayer1().isDead()
+                || players.getPlayer2().isDead()) {
+            gameState = GameStatus.NO_GAME;
         }
-
-        if(playersExist()){
-            return null;
-        }
-
-        Player player = new Player(playerName, Deck.getConstructedDeck());
-
-        if (!player1Exists()) {
-            players.setPlayer1(player);
-            gameState = GameStatus.PREPARING;
-            return player;
-        }
-
-        if (playerName.equals(players.getPlayer1().getPlayerName())) {
-            return null;
-        }
-
-        players.setPlayer2(player);
-        gameState = GameStatus.PREPARING;
-        return player;
-    }
-
-    public Players gameReady() {
-        if(playersExist()) {
-            if (gameState.equals(GameStatus.PREPARING)){
-                gameState = GameStatus.READY_TO_START;
-            }
-            return players;
-        }
-        return null;
-    }
-
-    private boolean playersExist(){
-        return (player1Exists() && player2Exists());
-    }
-
-    private boolean player1Exists() {
-        return (players.getPlayer1() != null);
-    }
-
-    private boolean player2Exists() {
-        return (players.getPlayer2() != null);
-    }
-
-    private boolean isPlayer1(String playerName) {
-        return playerName.equals(players.getPlayer1().getPlayerName());
-    }
-
-    private boolean isPlayer2(String playerName) {
-        return playerName.equals(players.getPlayer2().getPlayerName());
     }
 
 }

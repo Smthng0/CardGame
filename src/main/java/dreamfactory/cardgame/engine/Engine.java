@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.api.Players;
+import dreamfactory.cardgame.player.Players;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.player.Deck;
 import dreamfactory.cardgame.player.Player;
@@ -19,10 +19,10 @@ public class Engine {
     }
 
     private void createPlayers() {
-        commands.printer("Enter first player name: ");
+        Commands.printer("Enter first player name: ");
         commands.scanNextCommand();
         activePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
-        commands.printer("Enter second player name: ");
+        Commands.printer("Enter second player name: ");
         commands.scanNextCommand();
         passivePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
         turnCounter = 2;
@@ -99,14 +99,5 @@ public class Engine {
         passivePlayer = tempPlayer;
         turnCounter++;
     }
-
-    public Player getFriendlyPlayer() {
-        return activePlayer;
-    }
-
-    public Player getEnemyPlayer() {
-        return passivePlayer;
-    }
-
 
 }

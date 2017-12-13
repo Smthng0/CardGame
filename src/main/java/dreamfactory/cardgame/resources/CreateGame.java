@@ -4,7 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dreamfactory.cardgame.api.GameStatus;
-import dreamfactory.cardgame.api.Players;
+import dreamfactory.cardgame.player.Players;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
 import dreamfactory.cardgame.player.Player;

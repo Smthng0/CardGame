@@ -9,7 +9,6 @@ import dreamfactory.cardgame.api.actions.ActionTypeAdapter;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.CardTypeAdapter;
 
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

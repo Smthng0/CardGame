@@ -2,7 +2,7 @@ package dreamfactory.cardgame.cards.spells;
 
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.SpellCard;
-import dreamfactory.cardgame.engine.Engine;
+import dreamfactory.cardgame.player.Player;
 
 public class TheCoin extends SpellCard {
 
@@ -12,7 +12,7 @@ public class TheCoin extends SpellCard {
     }
 
     @Override
-    public void effect(Engine engine) {
-        engine.getFriendlyPlayer().incrementRemainingMana();
+    public void effect(Player player) {
+        player.incrementRemainingMana();
     }
 }

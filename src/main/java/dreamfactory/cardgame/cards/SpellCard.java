@@ -1,6 +1,6 @@
 package dreamfactory.cardgame.cards;
 
-import dreamfactory.cardgame.engine.Engine;
+import dreamfactory.cardgame.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class SpellCard implements Card {
         if (abilities != null) this.abilities.addAll(abilities);
     }
 
-    public void effect(Engine engine) {
+    public void effect(Player player) {
     }
 
     @Override

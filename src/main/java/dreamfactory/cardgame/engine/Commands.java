@@ -1,6 +1,5 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.cards.Ability;
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.MinionCard;
@@ -13,6 +12,7 @@ public class Commands {
     private Scanner scanner = new Scanner(System.in);
     private String command;
     private CommandStrings commandStrings = new CommandStrings();
+    private AttackSequence attackSequence = new AttackSequence();
 
     public void chooseGameType() {
         printer(commandStrings.intro()
@@ -74,100 +74,17 @@ public class Commands {
     }
 
     public void attack(Player activePlayer, Player passivePlayer) {
-        if (!activePlayer.hasMinions()) {
-            printer("No minions!" + commandStrings.getSeparator());
-            command = "b";
-            return;
-        }
-
-        int attackingIndex = chooseAttacker(activePlayer);
-        if (notValidAttackableIndex(attackingIndex)) return;
-
-        Attackable attacker = activePlayer.getMinion(attackingIndex);
-        //TODO: uvalit da moze i player, ne smao minion...
-        //TODO: refactorat u AttackSequence class
-
-        int defendingIndex = chooseTarget(attacker, passivePlayer);
-        if (notValidAttackableIndex(defendingIndex)) return;
-        if (!tauntTarget(passivePlayer, defendingIndex)) {
-            printer(commandStrings.notTauntTarget());
-            return;
-        }
-
-        attackTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
-    }
-
-    private int chooseAttacker(Player player) {
-        int index;
-        printer(commandStrings.chooseAttackable(player));
-        scanNextCommand();
-
-        try {
-            index = Integer.parseInt(command);
-        } catch (Exception ex) {
-            return -1;
-        }
-
-        if (!validAttacker(player.getMinion(index))){
-            return -1;
-        }
-
-        return index;
-    }
-
-    private int chooseTarget(Attackable attacker, Player defendingPlayer) {
-        int index;
-        printer(commandStrings.availableTargetsFor(attacker));
-        printer(commandStrings.listTargetsOf(defendingPlayer));
-        scanNextCommand();
-
-        try {
-            index = Integer.parseInt(command);
-        } catch (Exception ex) {
-            return -1;
-        }
-
-        if (!((defendingPlayer.getMinion(index)!= null)
-                || (index == getPlayerIndex(defendingPlayer))) ) {
-            return -1;
-        }
-
-        return index;
-    }
-
-    private boolean tauntTarget(Player defendingPlayer, int index) {
-        if (!defendingPlayer.hasTauntMinion()) {
-            return true;
-        } else if (index == getPlayerIndex(defendingPlayer)){
-            return false;
-        } else if (!defendingPlayer.getMinion(index).hasAbilities()) {
-            return false;
-        } else if (!defendingPlayer.getMinion(index).hasAbility(Ability.TAUNT)) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean notValidAttackableIndex(int index) {
-        if (index == -1) {
-            printer(commandStrings.invalidIndex());
-            return true;
-        }
-        return false;
-    }
-
-    private boolean validAttacker (Attackable attacker) {
-        return (attacker != null && attacker.canAttack());
+        attackSequence.startAttack(activePlayer, passivePlayer);
     }
 
     public boolean attackTarget(Player attackingPlayer, Player defendingPlayer,
-                              int attackingIndex, int defendingIndex) {
+                                int attackingIndex, int defendingIndex) {
 
         if (defendingIndex == getPlayerIndex(defendingPlayer)){
             attackPlayerTarget(attackingPlayer.getMinion(attackingIndex), defendingPlayer);
             return true;
         } else if (defendingPlayer.getMinion(defendingIndex) != null){
-            attackMinionTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
+            attackSequence.attackMinionTarget(attackingPlayer, defendingPlayer, attackingIndex, defendingIndex);
             return true;
         }
         return false;
@@ -181,35 +98,14 @@ public class Commands {
             printer(commandStrings.attackableDead(defendingPlayer));
             scanner.nextLine();
             command = "exit";
-        }
-    }
-
-    private void attackMinionTarget(Player activePlayer, Player passivePlayer,
-                                    int attackingIndex, int defendingIndex) {
-
-        Attackable attacker = activePlayer.getMinion(attackingIndex);
-        MinionCard defendingMinion = passivePlayer.getMinion(defendingIndex);
-        attacker.attack(defendingMinion);
-
-        printer(commandStrings.didDamageTo(attacker, defendingMinion));
-        printer(commandStrings.didDamageTo(defendingMinion, attacker));
-
-        if (attacker.isDead()) {
-            activePlayer.killMinion(attackingIndex);
-            printer(commandStrings.attackableDead(attacker));
-        }
-
-        if (defendingMinion.isDead()) {
-            passivePlayer.killMinion(defendingIndex);
-            printer(commandStrings.attackableDead(defendingMinion));
-        }
+        }//TODO: attacksequenceclass, ali i da bude drukcije za server...
     }
 
     public void scanNextCommand() {
         command = scanner.nextLine();
     }
 
-    public void printer(String input) {
+    public static void printer(String input) {
         System.out.println(input);
     }
 
@@ -220,4 +116,110 @@ public class Commands {
     public String getCommand() {
         return command;
     }
+
+    private class AttackSequence {
+        private void startAttack(Player activePlayer, Player passivePlayer) {
+            if (!activePlayer.hasMinions()) {
+                printer("No minions!" + commandStrings.getSeparator());
+                command = "b";
+                return;
+            }
+
+            int attackingIndex = chooseAttacker(activePlayer);
+            if (notValidAttackableIndex(attackingIndex)) return;
+
+            Attackable attacker = activePlayer.getMinion(attackingIndex);
+            //TODO: uvalit da moze i player, ne smao minion...
+            //TODO: refactorat u AttackSequence class negdi vani mozda
+
+            int defendingIndex = chooseTarget(attacker, passivePlayer);
+            if (notValidAttackableIndex(defendingIndex)) return;
+
+            if (!tauntTarget(passivePlayer, defendingIndex)) {
+                printer(commandStrings.notTauntTarget());
+                return;
+            }
+
+            attackTarget(activePlayer, passivePlayer, attackingIndex, defendingIndex);
+        }
+
+        private boolean notValidAttackableIndex(int index) {
+            if (index == -1) {
+                printer(commandStrings.invalidIndex());
+                return true;
+            }
+            return false;
+        }
+
+        private boolean tauntTarget(Player defendingPlayer, int index) {
+            return !defendingPlayer.hasTauntMinion()
+                    || index != defendingPlayer.getNumberOfMinions()
+                    && defendingPlayer.getMinion(index).hasAbilities()
+                    && defendingPlayer.getMinion(index).hasAbility(Ability.TAUNT);
+        }
+
+        private int chooseAttacker(Player player) {
+            int index;
+            printer(commandStrings.chooseAttackable(player));
+            scanNextCommand();
+
+            try {
+                index = Integer.parseInt(command);
+            } catch (Exception ex) {
+                return -1;
+            }
+
+            if (!validAttacker(player.getMinion(index))){
+                return -1;
+            }
+
+            return index;
+        }
+
+        private boolean validAttacker (Attackable attacker) {
+            return (attacker != null && attacker.canAttack());
+        }
+
+        private int chooseTarget(Attackable attacker, Player defendingPlayer) {
+            int index;
+            printer(commandStrings.availableTargetsFor(attacker));
+            printer(commandStrings.listTargetsOf(defendingPlayer));
+            scanNextCommand();
+
+            try {
+                index = Integer.parseInt(command);
+            } catch (Exception ex) {
+                return -1;
+            }
+
+            if (!((defendingPlayer.getMinion(index)!= null)
+                    || (index == getPlayerIndex(defendingPlayer))) ) {
+                return -1;
+            }
+
+            return index;
+        }
+
+        private void attackMinionTarget(Player activePlayer, Player passivePlayer,
+                                        int attackingIndex, int defendingIndex) {
+
+            Attackable attacker = activePlayer.getMinion(attackingIndex);
+            MinionCard defendingMinion = passivePlayer.getMinion(defendingIndex);
+            attacker.attack(defendingMinion);
+
+            printer(commandStrings.didDamageTo(attacker, defendingMinion));
+            printer(commandStrings.didDamageTo(defendingMinion, attacker));
+
+            if (attacker.isDead()) {
+                activePlayer.killMinion(attackingIndex);
+                printer(commandStrings.attackableDead(attacker));
+            }
+
+            if (defendingMinion.isDead()) {
+                passivePlayer.killMinion(defendingIndex);
+                printer(commandStrings.attackableDead(defendingMinion));
+            }
+        }
+    }
+
 }

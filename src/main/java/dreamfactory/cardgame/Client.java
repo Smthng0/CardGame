@@ -1,6 +1,9 @@
 package dreamfactory.cardgame;
 
-import dreamfactory.cardgame.api.*;
+import dreamfactory.cardgame.api.ClientCommands;
+import dreamfactory.cardgame.api.ClientCreateGame;
+import dreamfactory.cardgame.api.GameStatus;
+import dreamfactory.cardgame.player.Players;
 import dreamfactory.cardgame.api.actions.Action;
 
 import java.util.List;

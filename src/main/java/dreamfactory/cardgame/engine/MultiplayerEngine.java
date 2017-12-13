@@ -1,13 +1,12 @@
 package dreamfactory.cardgame.engine;
 
-import dreamfactory.cardgame.GameStarter;
+import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.api.FeignFactory;
 import dreamfactory.cardgame.api.GameStatus;
-import dreamfactory.cardgame.api.Players;
+import dreamfactory.cardgame.player.Players;
 import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
-import dreamfactory.cardgame.Client;
 import dreamfactory.cardgame.player.Player;
 
 import java.util.ArrayList;
@@ -18,12 +17,13 @@ public class MultiplayerEngine extends Engine {
     private Client client;
     private Commands oldCommands = new Commands();
     public Commands serverCommands = new ServerCommands();
+    //TODO: tu trebam nesto pametnije s commandovima
 
     public void createClient() {
-        commands.printer("\nEnter Player Name: \n");
+        Commands.printer("\nEnter Player Name: \n");
         commands.scanNextCommand();
         String playerName = commands.getCommand();
-        commands.printer("\nEnter IP address of server: (must enter correct address)\n");
+        Commands.printer("\nEnter IP address of server: (must enter correct address)\n");
         commands.scanNextCommand();
         FeignFactory feign = new FeignFactory(commands.getCommand());
         client = new Client(playerName,
@@ -35,7 +35,7 @@ public class MultiplayerEngine extends Engine {
     @Override
     public void initializeGame(Players players, String host) {
         commands = new MultiplayerCommands(client);
-        commands.printer("Starting MultiPlayer Session...");
+        Commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
 
@@ -63,7 +63,7 @@ public class MultiplayerEngine extends Engine {
     @Override
     protected void startTurn() {
         if (myTurn.equals(client.getStatus())) {
-            commands.printer("\nIt's your turn!\n");
+            Commands.printer("\nIt's your turn!\n");
             super.startTurn();
         } else {
             endTurn();
@@ -73,13 +73,13 @@ public class MultiplayerEngine extends Engine {
     @Override
     public void endTurn() {
         if (myTurn.equals(client.getStatus())) {
-            commands.printer("It's your opponents turn!");
+            Commands.printer("It's your opponents turn!");
             client.endTurn();
             endTurnSequence();
             startTurnSequence();
         }
 
-        commands.printer("Waiting for your opponent to end turn...");
+        Commands.printer("Waiting for your opponent to end turn...");
         waitForTurn();
     }
 
@@ -98,7 +98,7 @@ public class MultiplayerEngine extends Engine {
                 actionList.clear();
 
                 if (activePlayer.isDead() || passivePlayer.isDead()) {
-                    commands.printer("atm, it exits game for the looser...");
+                    Commands.printer("atm, it exits game for the looser...");
                     commands.scanNextCommand();
                     System.exit(0);
                 }
@@ -113,12 +113,12 @@ public class MultiplayerEngine extends Engine {
     private void doActionsOfOpponent(Player activePlayer,
                                      Player passivePlayer, Action action) {
         if (action instanceof Attack) {
-            commands.printer("\nOpponent just attacked: \n");
+            Commands.printer("\nOpponent just attacked: \n");
             oldCommands.attackTarget(activePlayer, passivePlayer,
                     ((Attack) action).getAttackingIndex(),
                     ((Attack) action).getDefendingIndex());
         } else if (action instanceof PlayCard) {
-            commands.printer("\nOpponent just played a card: \n" +
+            Commands.printer("\nOpponent just played a card: \n" +
                     new CommandStrings()
                     .cardPlayedCheck(activePlayer.playCard(
                             ((PlayCard) action).getIndex()),
