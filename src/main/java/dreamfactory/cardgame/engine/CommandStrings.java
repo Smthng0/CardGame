@@ -10,9 +10,9 @@ public class CommandStrings {
     private static final String RETURN = "(B)ack" + SPLITTER +
             "(E)nd Turn" + SPLITTER + "E(x)it Game" + SEPARATOR;
 
-    public String intro(String version) {
+    public String intro() {
         return "\n'Unnamed CardGame'™ by Frane\n"
-                + "Version: " + version
+                + "Version: 1.01 alpha"
                 + "\nUse at your own risk! :)" + SEPARATOR;
         //TODO:version info
     }

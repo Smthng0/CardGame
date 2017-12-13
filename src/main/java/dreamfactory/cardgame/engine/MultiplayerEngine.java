@@ -98,7 +98,9 @@ public class MultiplayerEngine extends Engine {
                 actionList.clear();
 
                 if (activePlayer.isDead() || passivePlayer.isDead()) {
-                    GameStarter.main(null);
+                    commands.printer("atm, it exits game for the looser...");
+                    commands.scanNextCommand();
+                    System.exit(0);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

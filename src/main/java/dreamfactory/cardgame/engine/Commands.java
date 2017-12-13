@@ -15,7 +15,7 @@ public class Commands {
     private CommandStrings commandStrings = new CommandStrings();
 
     public void chooseGameType() {
-        printer(commandStrings.intro("1.0 alpha")
+        printer(commandStrings.intro()
                 + commandStrings.chooseGameType());
     }
 

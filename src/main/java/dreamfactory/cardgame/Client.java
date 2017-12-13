@@ -30,12 +30,14 @@ public class Client {
         if ((getStatus().equals(GameStatus.PREPARING))
                 || (getStatus().equals(GameStatus.READY_TO_START))
                 || (getStatus().equals(GameStatus.PLAYER1_TURN))) {
+            System.out.println("\nWaiting for other player...");
             do {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                System.out.print(".");
                 players = gameReady();
             } while (players == null);
         }

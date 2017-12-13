@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GameController {
     private List<Action> actionList = new ArrayList<>();
-    private Players players = new Players();
+    private Players players;
     public GameStatus gameState = GameStatus.NO_GAME;
     private MultiplayerEngine engine = new MultiplayerEngine();
 
@@ -89,6 +89,10 @@ public class GameController {
     }
 
     public Player createPlayer(String playerName) {
+        if (gameState.equals(GameStatus.NO_GAME)){
+            players = new Players();
+        }
+
         if(playersExist()){
             return null;
         }
