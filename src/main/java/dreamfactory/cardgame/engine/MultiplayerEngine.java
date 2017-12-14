@@ -8,7 +8,9 @@ import dreamfactory.cardgame.api.actions.Action;
 import dreamfactory.cardgame.api.actions.Attack;
 import dreamfactory.cardgame.api.actions.PlayCard;
 import dreamfactory.cardgame.player.Player;
+import feign.RetryableException;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +27,20 @@ public class MultiplayerEngine extends Engine {
         String playerName = commands.getCommand();
         Commands.printer("\nEnter IP address of server: (must enter correct address)\n");
         commands.scanNextCommand();
-        FeignFactory feign = new FeignFactory(commands.getCommand());
-        client = new Client(playerName,
-                feign.clientCreateGameBuilder(),
-                feign.clientCommandsBuilder());
-        initializeGame(client.initializeClient(), playerName);
+        boolean gameStarted = false;
+        do {
+            try {
+                FeignFactory feign = new FeignFactory(commands.getCommand());
+                client = new Client(playerName,
+                        feign.clientCreateGameBuilder(),
+                        feign.clientCommandsBuilder());
+                initializeGame(client.initializeClient(), playerName);
+                gameStarted = true;
+            } catch (RetryableException ex){
+                Commands.printer("\nWrong IP address! Enter correct IP address (or E(x)it): \n");
+            }
+        } while (!gameStarted
+                || !new CommandChecker().checkIfExitGame(commands.getCommand()));
     }
 
     @Override
