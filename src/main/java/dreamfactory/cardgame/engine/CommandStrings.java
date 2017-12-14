@@ -13,7 +13,7 @@ public class CommandStrings {
 
     public String intro() {
         return "\n'Unnamed CardGame'™ by Frane\n"
-                + "Version: 1.01 alpha"
+                + "Version: 1.02 alpha"
                 + "\nUse at your own risk! :)" + SEPARATOR;
         //TODO:version info
     }
