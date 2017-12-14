@@ -15,21 +15,22 @@ public class AbilityMinionGenerator {
         minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 
-        minion = new MinionCard("Mini Mantis",3,2,4);
+        minion = new MinionCard("Mantis",2,2,2);
         minion.addAbility(Ability.EXTRA_ATTACK);
         minionList.add(minion);
 
-        minion = new MinionCard("Porcupine",4,6,2);
+        minion = new MinionCard("Porcupine",3,4,2);
         minion.addAbility(Ability.BLOCK);
         minionList.add(minion);
 
-        minion = new MinionCard("Mantis",5,3,4);
-        minion.addAbility(Ability.EXTRA_ATTACK);
+        minion = new MinionCard("Puddle Jumpitor",3,4,2);
         minion.addAbility(Ability.HASTE);
         minionList.add(minion);
 
-        minion = new MinionCard("Puddle Jumpitor",6,7,3);
+        minion = new MinionCard("MantiPineJumper",6,4,3);
+        minion.addAbility(Ability.EXTRA_ATTACK);
         minion.addAbility(Ability.HASTE);
+        minion.addAbility(Ability.BLOCK);
         minionList.add(minion);
 
         return minionList;

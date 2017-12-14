@@ -1,10 +1,10 @@
-0,Bug,1,1
-1,Frog,1,2
+1,Bug,2,2
+1,Mini Turtle,1,2
+2,Frog,2,3
 2,Wolf,3,2
-2,Turtle,2,3
-3,Bigger Wolf,5,2
-4,Frogger,3,6
-5,Bigger Turtle,4,7
-6,Monkey,6,7
-7,Froginator,6,9
-8,Scary Stuff,10,7
+3,Turtle,3,3
+3,Bigger Wolf,4,3
+4,Frogger,4,5
+4,Bigger Turtle,3,5
+5,Monkey,6,5
+6,Froginator,6,7
