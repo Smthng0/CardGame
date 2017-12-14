@@ -41,7 +41,7 @@ public class SpellCardTest {
         SpellCard spellCard = new SpellCard("The Coin", 0, null);
         spellCard.addAbility(Ability.ADD_MANA);
 
-        assertEquals("       The Coin, Mana Cost:  0, Abilities: ADD_MANA\n", spellCard.asString());
+        assertEquals("       The Coin, Mana Cost:  0, Spell Card!, Abilities: ADD_MANA\n", spellCard.asString());
     }
 
 }
