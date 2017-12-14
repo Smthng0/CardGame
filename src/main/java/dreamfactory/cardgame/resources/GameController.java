@@ -43,6 +43,7 @@ public class GameController {
 
         players.setPlayer2(player);
         gameState = GameStatus.PREPARING;
+        players.getPlayer2().startsSecond();
         return player;
     }
 

@@ -49,7 +49,8 @@ public class MultiplayerEngine extends Engine {
         Commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
-        passivePlayer.startsSecond();
+        turnCounter = 2;
+        commands.introPrint(activePlayer, passivePlayer);
 
         if (host.equals(players.getPlayer1().getPlayerName())) {
             this.myTurn = GameStatus.PLAYER1_TURN;
@@ -57,17 +58,16 @@ public class MultiplayerEngine extends Engine {
 
         if (host.equals(players.getPlayer2().getPlayerName())) {
             this.myTurn = GameStatus.PLAYER2_TURN;
+            commands.startOfTurnPrint(activePlayer, turnCounter);
+            commands.checkStatusPrint(activePlayer, passivePlayer);
         }
 
-        turnCounter = 2;
-        commands.introPrint(activePlayer, passivePlayer);
         startTurn();
     }
 
     public void initializeServer(Players players) {
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
-        passivePlayer.startsSecond();
         turnCounter = 2;
         commands = new ServerCommands();
         startTurnSequence();
@@ -86,7 +86,7 @@ public class MultiplayerEngine extends Engine {
     @Override
     public void endTurn() {
         if (myTurn.equals(client.getStatus())) {
-            Commands.printer("It's your opponents turn!");
+            Commands.printer("It's your opponents turn!\n");
             client.endTurn();
             endTurnSequence();
             startTurnSequence();

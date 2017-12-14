@@ -1,7 +1,7 @@
 package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.*;
-import dreamfactory.cardgame.cards.spells.TheCoin;
+import dreamfactory.cardgame.cards.spells.ManaCookie;
 
 public class Player extends Attackable {
     private String playerName;
@@ -24,7 +24,7 @@ public class Player extends Attackable {
     }
 
     public void startsSecond() {
-        hand.addCard(new TheCoin());
+        hand.addCard(new ManaCookie());
     }
 
     public boolean equipWeapon(WeaponCard weapon) {

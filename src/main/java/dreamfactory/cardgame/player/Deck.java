@@ -2,7 +2,8 @@ package dreamfactory.cardgame.player;
 
 import dreamfactory.cardgame.cards.Card;
 import dreamfactory.cardgame.cards.spells.Blockers;
-import dreamfactory.cardgame.cards.spells.TheCoin;
+import dreamfactory.cardgame.cards.spells.ManaCake;
+import dreamfactory.cardgame.cards.spells.ManaCookie;
 import dreamfactory.cardgame.io.AbilityMinionGenerator;
 import dreamfactory.cardgame.io.PlainMinionLoader;
 
@@ -52,10 +53,9 @@ public class Deck {
         List<Card> minionSpellList = new ArrayList<>();
         minionSpellList.addAll(PlainMinionLoader.loadMinionsFromCSV());
         minionSpellList.addAll(AbilityMinionGenerator.createMinions());
-        minionSpellList.add(new TheCoin());
+        minionSpellList.add(new ManaCookie());
         minionSpellList.add(new Blockers());
-        minionSpellList.add(new TheCoin());
-        minionSpellList.add(new Blockers());
+        minionSpellList.add(new ManaCake());
 
         return new Deck(minionSpellList);
     }

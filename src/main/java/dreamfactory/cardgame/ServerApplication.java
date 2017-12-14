@@ -27,5 +27,4 @@ public class ServerApplication extends Application<ServerConfiguration>{
         environment.jersey().register(serverCommands);
     }
 
-
 }
