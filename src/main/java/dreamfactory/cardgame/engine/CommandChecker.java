@@ -36,10 +36,11 @@ public class CommandChecker {
     }
 
     public boolean checkIfViewBoards(String command) {
-        return ((command.equalsIgnoreCase("View boards"))
+        return ((command.equalsIgnoreCase("View Hand"))
                 || (command.equalsIgnoreCase("View"))
-                || (command.equalsIgnoreCase("V"))
-                || (command.equalsIgnoreCase("Boards")));
+                || (command.equalsIgnoreCase("Board"))
+                || (command.equalsIgnoreCase("View Board"))
+                || (command.equalsIgnoreCase("V")));
     }
 
     public boolean checkIfEndTurn (String command) {
@@ -52,7 +53,6 @@ public class CommandChecker {
     public boolean checkIfExitGame (String command) {
         return ((command.equalsIgnoreCase("Exit Game"))
                 || (command.equalsIgnoreCase("Exit"))
-                || (command.equalsIgnoreCase("Game"))
                 || (command.equalsIgnoreCase("X")));
     }
 

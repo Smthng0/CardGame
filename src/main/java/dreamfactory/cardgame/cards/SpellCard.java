@@ -22,7 +22,8 @@ public class SpellCard implements Card {
         if (abilities != null) this.abilities.addAll(abilities);
     }
 
-    public void effect(Player player) {
+    public boolean effect(Player player) {
+        return true;
     }
 
     @Override
@@ -43,6 +44,7 @@ public class SpellCard implements Card {
     @Override
     public String asString() {
         return basicInfoAsString()
+                + ", Spell Card!"
                 + abilitiesAsString()
                 + "\n";
     }

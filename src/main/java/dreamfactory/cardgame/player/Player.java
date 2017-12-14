@@ -1,9 +1,6 @@
 package dreamfactory.cardgame.player;
 
-import dreamfactory.cardgame.cards.Ability;
-import dreamfactory.cardgame.cards.Card;
-import dreamfactory.cardgame.cards.MinionCard;
-import dreamfactory.cardgame.cards.WeaponCard;
+import dreamfactory.cardgame.cards.*;
 import dreamfactory.cardgame.cards.spells.TheCoin;
 
 public class Player extends Attackable {
@@ -104,13 +101,33 @@ public class Player extends Attackable {
         return manaPool;
     }
 
+    public String viewManaPool() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < getManaPool(); i++) {
+            result.append("");
+        }
+        return result.toString();
+    }
+
     public void setManaPool(int manaPool) {
         this.manaPool = manaPool;
+    }
+
+    public String viewRemainingMana() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < getRemainingMana(); i++) {
+            result.append("•");
+        }
+        if (result.length() == 0) {
+            return "No mana!";
+        }
+        return result.toString();
     }
 
     public int getRemainingMana() {
         return remainingMana;
     }
+
 
     public void setRemainingMana(int remainingMana) {
         this.remainingMana = remainingMana;
@@ -151,13 +168,11 @@ public class Player extends Attackable {
         if (!checkMana(card)) return false;
 
         if (card instanceof MinionCard){
-            if (!board.summonMinion((MinionCard)card)) {
-                return false;
-            }
+            return board.summonMinion((MinionCard) card);
         } else if (card instanceof WeaponCard) {
-            if (!equipWeapon((WeaponCard)card)) {
-                return false;
-            }
+            return equipWeapon((WeaponCard) card);
+        } else if (card instanceof SpellCard) {
+            return ((SpellCard) card).effect(this);
         }
 
         return true;
@@ -187,6 +202,14 @@ public class Player extends Attackable {
 
     public String viewHand() {
         return hand.asString();
+    }
+
+    public String viewPlayableCards() {
+        return hand.asStringPlayable(remainingMana);
+    }
+
+    public boolean hasPlayableCards() {
+        return hand.hasPlayableCards(remainingMana);
     }
 
     public String viewBoard() {
@@ -227,6 +250,10 @@ public class Player extends Attackable {
 
     public boolean hasTauntMinion() {
         return board.hasTauntMinion();
+    }
+
+    public boolean hasAttackableMinion() {
+        return board.hasAttackableMinion();
     }
 
     public String getPlayerName() {

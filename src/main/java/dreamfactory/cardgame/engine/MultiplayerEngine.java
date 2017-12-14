@@ -22,10 +22,10 @@ public class MultiplayerEngine extends Engine {
     //TODO: tu trebam nesto pametnije s commandovima
 
     public void createClient() {
-        Commands.printer("\nEnter Player Name: \n");
+        Commands.printer("Enter Player Name (to 15 chars):");
         commands.scanNextCommand();
         String playerName = commands.getCommand();
-        Commands.printer("\nEnter IP address of server: (must enter correct address)\n");
+        Commands.printer("Enter IP address of server: (must enter correct address)");
         commands.scanNextCommand();
         boolean gameStarted = false;
         do {
@@ -49,6 +49,7 @@ public class MultiplayerEngine extends Engine {
         Commands.printer("Starting MultiPlayer Session...");
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
+        passivePlayer.startsSecond();
 
         if (host.equals(players.getPlayer1().getPlayerName())) {
             this.myTurn = GameStatus.PLAYER1_TURN;
@@ -66,6 +67,7 @@ public class MultiplayerEngine extends Engine {
     public void initializeServer(Players players) {
         activePlayer = players.getPlayer1();
         passivePlayer = players.getPlayer2();
+        passivePlayer.startsSecond();
         turnCounter = 2;
         commands = new ServerCommands();
         startTurnSequence();
@@ -133,7 +135,7 @@ public class MultiplayerEngine extends Engine {
                     new CommandStrings()
                     .cardPlayedCheck(activePlayer.playCard(
                             ((PlayCard) action).getIndex()),
-                            activePlayer.getRemainingMana()));
+                            activePlayer));
         }
     }
 

@@ -13,6 +13,7 @@ public class Commands {
     private String command;
     private CommandStrings commandStrings = new CommandStrings();
     private AttackSequence attackSequence = new AttackSequence();
+    private static final int MANA_LIMIT = 8;
 
     public void chooseGameType() {
         printer(commandStrings.intro()
@@ -23,11 +24,13 @@ public class Commands {
         printer(commandStrings.gameStart(activePlayer, passivePlayer));
     }
 
-    public void startOfTurnPrint(Player player, int turnCounter, Card card){
-        printer(commandStrings.startOfTurn(player, turnCounter));
+    public void startOfTurnPrint(Player player, int turnCounter){
+        printer("\n" + commandStrings.startOfTurn(player, turnCounter));
+    }
+
+    public void drawCardPrint(Player player, Card card) {
         if (card == null) {
             printer(commandStrings.noMoreCards(player));
-            return;
         }
         printer(commandStrings.playerDraws(player, card));
     }
@@ -40,24 +43,34 @@ public class Commands {
         printer(commandStrings.availableActions());
     }
 
-    public void viewBoardsPrint(Player activePlayer, Player passivePlayer) {
+    public void viewGamePrint(Player activePlayer, Player passivePlayer) {
+        printer(commandStrings.viewHand(activePlayer));
         printer(commandStrings.viewBoards(activePlayer, passivePlayer));
     }
 
     public void incrementManaPool(Player player) {
+        if (player.getManaPool() == MANA_LIMIT) {
+            return;
+        }
         player.setManaPool(player.getManaPool()+1);
         player.setRemainingMana(player.getManaPool());
     }
 
     public void playCard(Player player) {
-        printer(commandStrings.availableCards(player));
+        if (!player.hasPlayableCards()) {
+            printer("No playable cards!" + commandStrings.getSeparator());
+            command = "b";
+            return;
+        }
+
+        printer(commandStrings.viewPlayableCards(player));
         Card card = chooseCard(player);
 
         if (new CommandChecker().checkIfReturn(command)) {
             return;
         }
 
-        printer(commandStrings.cardPlayedCheck(card, player.getRemainingMana()));
+        printer(commandStrings.cardPlayedCheck(card, player));
     }
 
     protected Card chooseCard(Player player){
@@ -74,6 +87,12 @@ public class Commands {
     }
 
     public void attack(Player activePlayer, Player passivePlayer) {
+        if (!activePlayer.hasAttackableMinion()) {
+            printer("No Minions that can attack!\n");
+            command = "b";
+            return;
+        }
+
         attackSequence.startAttack(activePlayer, passivePlayer);
     }
 
@@ -119,12 +138,6 @@ public class Commands {
 
     private class AttackSequence {
         private void startAttack(Player activePlayer, Player passivePlayer) {
-            if (!activePlayer.hasMinions()) {
-                printer("No minions!" + commandStrings.getSeparator());
-                command = "b";
-                return;
-            }
-
             int attackingIndex = chooseAttacker(activePlayer);
             if (notValidAttackableIndex(attackingIndex)) return;
 
@@ -160,6 +173,9 @@ public class Commands {
 
         private int chooseAttacker(Player player) {
             int index;
+
+
+
             printer(commandStrings.chooseAttackable(player));
             scanNextCommand();
 

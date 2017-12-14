@@ -77,6 +77,15 @@ public class Board {
         return result.toString();
     }
 
+    public boolean hasAttackableMinion() {
+        for (MinionCard minion : backingBoard) {
+            if (minion.canAttack()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String asStringWithTaunt() {
         if (!hasTauntMinion()) {
             return "No taunt minion!";

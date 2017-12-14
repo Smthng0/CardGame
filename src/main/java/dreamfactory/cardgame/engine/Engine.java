@@ -19,17 +19,19 @@ public class Engine {
     }
 
     private void createPlayers() {
-        Commands.printer("Enter first player name: ");
+        Commands.printer("Enter first player name (to 15 chars):");
         commands.scanNextCommand();
         activePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
-        Commands.printer("Enter second player name: ");
+        Commands.printer("Enter second player name (to 15 chars):");
         commands.scanNextCommand();
         passivePlayer = new Player(commands.getCommand(), Deck.getConstructedDeck());
         turnCounter = 2;
     }
 
     protected void startTurn() {
-        commands.startOfTurnPrint(activePlayer, turnCounter, startTurnSequence());
+        commands.startOfTurnPrint(activePlayer, turnCounter);
+        Card card = startTurnSequence();
+        commands.drawCardPrint(activePlayer, card);
         chooseAction();
     }
 
@@ -74,7 +76,7 @@ public class Engine {
             }
 
             if (commandChecker.checkIfViewBoards(commands.getCommand())) {
-                commands.viewBoardsPrint(activePlayer, passivePlayer);
+                commands.viewGamePrint(activePlayer, passivePlayer);
             }
 
             if (commandChecker.checkIfEndTurn(commands.getCommand())) {

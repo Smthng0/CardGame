@@ -47,6 +47,30 @@ public class Hand {
         return result.toString();
     }
 
+    public String asStringPlayable(int availableMana) {
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (Card card : backingHand) {
+            if (card.getManaCost() <= availableMana) {
+                result.append(index)
+                        .append(". ")
+                        .append(card.asString());
+            }
+            index++;
+        }
+
+        return result.toString();
+    }
+
+    public boolean hasPlayableCards(int availableMana) {
+        for (Card card : backingHand) {
+            if (card.getManaCost() <= availableMana) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void sortByManaCost() {
         backingHand.sort(Comparator.comparing(Card::getManaCost));
     }

@@ -1,12 +1,13 @@
 package dreamfactory.cardgame.engine;
 
 import dreamfactory.cardgame.cards.Card;
+import dreamfactory.cardgame.cards.SpellCard;
 import dreamfactory.cardgame.player.Attackable;
 import dreamfactory.cardgame.player.Player;
 
 public class CommandStrings {
     private static final String SPLITTER = "  |  ";
-    private static final String SEPARATOR = "\n----------------------------------------\n";
+    private static final String SEPARATOR = "\n---------------------------------------------\n";
     private static final String RETURN = "(B)ack" + SPLITTER +
             "(E)nd Turn" + SPLITTER + "E(x)it Game" + SEPARATOR;
 
@@ -28,7 +29,7 @@ public class CommandStrings {
     public String gameStart(Player player1, Player player2) {
         return ("\n" + "****************************************\n"
                 + "\\\\**..  " + player1.getPlayerName()
-                + "  vs  " + player2.getPlayerName() + "  ..**//\n")
+                + "  vs  " + player2.getPlayerName() + "  ..**//")
                 + SEPARATOR;
     }
 
@@ -39,9 +40,16 @@ public class CommandStrings {
     }
 
     public String playerDraws(Player player, Card card) {
+        String className;
+        if (card instanceof SpellCard) {
+            className = "SpellCard";
+        } else {
+            className = card.getClass().getSimpleName();
+        }
+
         return  (player.getPlayerName())
                 + (" drew a ")
-                + (card.getClass().getSimpleName())
+                + className
                 + (" :    ")
                 + card.asString();
     }
@@ -65,7 +73,7 @@ public class CommandStrings {
                 SPLITTER +
                 "(C)heck Status" +
                 SPLITTER +
-                "(V)iew Boards" +
+                "(V)iew Hand & Board" +
                 SPLITTER +
                 "(E)nd Turn" +
                 SPLITTER +
@@ -73,25 +81,28 @@ public class CommandStrings {
                 SEPARATOR;
     }
 
-    public String availableCards(Player player) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("\nAvailable cards: \n")
-                .append(player.viewHand())
-                .append("\nAvailable mana: ")
-                .append(player.getRemainingMana())
-                .append(SEPARATOR)
-                .append(RETURN);
+    public String viewPlayableCards(Player player) {
+        return "\nPlayable cards:\n" +
+                player.viewPlayableCards() +
+                "\nAvailable Mana: " +
+                player.viewRemainingMana() +
+                SEPARATOR + RETURN;
 
-        return builder.toString();
     }
 
-    public String cardPlayedCheck(Card card, int mana) {
+    public String viewHand(Player player) {
+        return "\nCards in Hand: \n" +
+                player.viewHand() +
+                SEPARATOR;
+    }
+
+    public String cardPlayedCheck(Card card, Player player) {
         if (card == null) {
             return "Card not played! (no such card, not enough mana or board full!)\n";
         }
 
-        return card.getTitle() + " played successfully!\n" +
-                "Remaining mana: " + mana + SEPARATOR;
+        return card.asString() + "--> Played successfully!" + SPLITTER +
+                "Remaining mana: " + player.viewRemainingMana() + SEPARATOR;
     }
 
     public String chooseAttackable(Player player) {
@@ -108,32 +119,21 @@ public class CommandStrings {
     }
 
     public String checkStatus(Player player1, Player player2) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Player ")
-                .append(player1.getPlayerName())
-                .append("'s status: ")
-                .append(SEPARATOR).append("Your health: ")
-                .append(player1.getHealth())
-                .append(SPLITTER).append("Your mana pool: ")
-                .append(player1.getManaPool())
-                .append(SPLITTER).append("Your remaining mana: ")
-                .append(player1.getRemainingMana())
-                .append(SPLITTER).append("Your hand size: ")
-                .append(player1.getNumberOfCards())
-                .append(SPLITTER).append("Number of summoned minions: ")
-                .append(player1.getNumberOfMinions())
-                .append(SEPARATOR)
-                .append("Enemy player health: ")
-                .append(player2.getHealth())
-                .append(SPLITTER).append("Enemy mana pool: ")
-                .append(player2.getManaPool())
-                .append(SPLITTER).append("Enemy hand size: ")
-                .append(player2.getNumberOfCards())
-                .append(SPLITTER).append("Number of enemy summoned minions: ")
-                .append(player2.getNumberOfMinions())
-                .append(SEPARATOR);
-
-        return builder.toString();
+        return String.format("Player %-15s: Health: %2s" + SPLITTER +
+                        "Hand Size: %2s" + SPLITTER +
+                        "Summoned Minions: %1s" + SPLITTER +
+                        "Mana Pool: %8s" + SPLITTER +
+                        "Remaining Mana: %s" + SEPARATOR +
+                        "Player %-15s: Health: %2s" + SPLITTER +
+                        "Hand Size: %2s" + SPLITTER +
+                        "Summoned Minions: %1s" + SPLITTER +
+                        "Mana Pool: %8s\n",
+                player1.getPlayerName(), player1.getHealth(),
+                player1.getNumberOfCards(), player1.getNumberOfMinions(),
+                player1.viewManaPool(), player1.viewRemainingMana(),
+                player2.getPlayerName(), player2.getHealth(),
+                player2.getNumberOfCards(), player2.getNumberOfMinions(),
+                player2.viewManaPool());
     }
 
     public String getSeparator(){
